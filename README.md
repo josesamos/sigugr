@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sigugr
+# sigugr <a href="https://josesamos.github.io/sigugr/"><img src="man/figures/logo.png" align="right" height="139" alt="sigugr website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->

@@ -1,11 +1,12 @@
 Type: Package
 Package: sigugr
-Title: What the Package Does (Title Case)
+Title: Geographic Information Systems at the University of Granada
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line) Use four
-    spaces when indenting paragraphs within the Description.
+Authors@R: 
+    person("Jose", "Samos", , "jsamos@ugr.es", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0002-4457-3439"))
+Description: Functions to help carry out Geographic Information Systems 
+    practices at the University of Granada.
 License: MIT + file LICENSE
 Imports: 
     sf,
@@ -14,4 +15,6 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-GB
 LazyData: true
+URL: https://josesamos.github.io/sigugr/
