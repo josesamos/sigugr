@@ -2,6 +2,8 @@
 #'
 #' We must ensure that the layer to be cut has the correct encoding.
 #'
+#' Project the result to the CRS of the clipping polygon.
+#'
 #' @param vector A `sf` vector layer.
 #' @param polygon A `sf` polygon layer.
 #'
@@ -10,7 +12,7 @@
 #' @family transformation functions
 #'
 #' @examples
-#'
+#' #
 #'
 #' @export
 clip_vector <- function(vector, polygon) {

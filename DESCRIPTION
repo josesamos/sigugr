@@ -18,3 +18,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 URL: https://josesamos.github.io/sigugr/
+RoxygenNote: 7.2.3
