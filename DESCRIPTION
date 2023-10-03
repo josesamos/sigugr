@@ -5,9 +5,10 @@ Version: 0.1.0
 Authors@R: 
     person("Jose", "Samos", , "jsamos@ugr.es", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-4457-3439"))
-Description: Functions to help carry out Geographic Information Systems 
+Description: Functions to help carry out Geographic Information Systems
     practices at the University of Granada.
 License: MIT + file LICENSE
+URL: https://josesamos.github.io/sigugr/
 Imports: 
     sf,
     snakecase,
@@ -18,5 +19,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
-URL: https://josesamos.github.io/sigugr/
 RoxygenNote: 7.2.3
