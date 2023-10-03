@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `sigugr` is to group help functions for carrying out
+The goal of `sigugr` is to group support functions for carrying out
 *Geographic Information Systems* practices at the *University of
 Granada*.
 
@@ -25,6 +25,6 @@ devtools::install_github("josesamos/sigugr")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-# library(sigugr)
+library(sigugr)
 ## basic example code
 ```
