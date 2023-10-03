@@ -10,6 +10,7 @@ Description: Functions to help carry out Geographic Information Systems
 License: MIT + file LICENSE
 Imports: 
     sf,
+    snakecase,
     terra
 Suggests: 
     testthat (>= 3.0.0)

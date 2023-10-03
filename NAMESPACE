@@ -2,3 +2,4 @@
 
 export(clip_raster)
 export(clip_vector)
+export(compose_raster)
