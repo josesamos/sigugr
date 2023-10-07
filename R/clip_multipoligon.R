@@ -24,18 +24,10 @@
 #' @export
 clip_multipoligon <- function(vector, polygon) {
   tryCatch({
-<<<<<<< HEAD
     v <- sf::st_cast(vector, to = "MULTIPOLYGON")
     clip_vector(v, polygon)
   },
   error = function(e) {
-=======
-    v <- sf::st_cast(vector, "MULTIPOLYGON")
-    clip_vector(v, polygon)
-  },
-  error = function(e) {
-    print("alternativa")
->>>>>>> 14aa6d6c9cc8f3a6320acca04aa55af9e08db0bb
     f <- tempfile(fileext = ".gpkg")
     g <- tempfile(fileext = ".gpkg")
     sf::st_write(vector, f, quiet = TRUE)
