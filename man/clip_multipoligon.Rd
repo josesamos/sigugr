@@ -34,6 +34,7 @@ Project the result to the CRS of the clipping polygon.
 \seealso{
 Other transformation functions: 
 \code{\link{clip_raster}()},
-\code{\link{clip_vector}()}
+\code{\link{clip_vector}()},
+\code{\link{copy_styles_layer}()}
 }
 \concept{transformation functions}

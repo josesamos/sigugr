@@ -18,5 +18,6 @@
 clip_vector <- function(vector, polygon) {
   s <- sf::st_transform(polygon, sf::st_crs(vector))
   r <- sf::st_intersection(vector, s)
-  sf::st_transform(r, sf::st_crs(polygon))
+  res <- sf::st_transform(r, sf::st_crs(polygon))
+  res[names(vector)]
 }
