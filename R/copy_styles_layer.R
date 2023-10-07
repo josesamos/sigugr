@@ -30,5 +30,11 @@ copy_styles_layer <- function(from, to) {
     my_style$f_table_name[i] <- layers$name[i]
     gsub(style$f_table_name, layers$name[i], my_style$styleSLD[i], fixed = TRUE)
   }
-  sf::st_write(obj = my_style, dsn = to, layer = layer, quiet = TRUE)
+  sf::st_write(
+    obj = my_style,
+    dsn = to,
+    layer = layer,
+    append = FALSE,
+    quiet = TRUE
+  )
 }
