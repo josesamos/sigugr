@@ -19,4 +19,3 @@ A string vector.
 \description{
 Aggregate rasters in a folder
 }
-\keyword{internal}

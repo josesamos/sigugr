@@ -8,7 +8,7 @@
 #'
 #' @return A string vector.
 #'
-#' @keywords internal
+#' @export
 aggregate_raster <- function(dir, out_dir, factor = 100) {
   lf <-
     list.files(
