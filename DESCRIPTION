@@ -11,6 +11,7 @@ License: MIT + file LICENSE
 URL: https://josesamos.github.io/sigugr/
 Imports: 
     gdalUtilities,
+    rpostgis,
     sf,
     snakecase,
     terra

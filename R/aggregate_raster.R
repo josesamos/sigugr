@@ -32,3 +32,25 @@ aggregate_raster <- function(dir, out_dir, factor = 100) {
   }
   lf
 }
+
+
+#' Get nexus
+#'
+#' Given a name, if it ends in "/" the nexus is the empty string, otherwise it
+#' is "/".
+#'
+#' @param name A string.
+#'
+#' @return A string.
+#'
+#' @keywords internal
+get_nexus <- function(name) {
+  l <- nchar(name)
+  c <- substr(name, start = l, stop = l)
+  if (c == "/") {
+    nexus <- ""
+  } else {
+    nexus <- "/"
+  }
+  nexus
+}
