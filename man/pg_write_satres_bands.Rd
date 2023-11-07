@@ -11,9 +11,9 @@ pg_write_satres_bands(sr, conn, prefix = NULL, postfix = NULL)
 
 \item{conn}{A connection to a PostGIS database.}
 
-\item{prefix}{A string, table name prefix.}
+\item{prefix}{A string, table name prefix to the resolution names.}
 
-\item{postfix}{A string, table name postfix.}
+\item{postfix}{A string, table name postfix to the resolution names.}
 }
 \value{
 A `satres` object.
@@ -24,5 +24,9 @@ Save `satres` bands in separate tables in PostGIS
 \examples{
 #
 
+}
+\seealso{
+Other save functions: 
+\code{\link{pg_write_bands}()}
 }
 \concept{save functions}
