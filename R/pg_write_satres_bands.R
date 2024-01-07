@@ -2,8 +2,8 @@
 #'
 #' @param sr A `satres` object.
 #' @param conn A connection to a PostGIS database.
-#' @param prefix A string, table name prefix.
-#' @param postfix A string, table name postfix.
+#' @param prefix A string, table name prefix to the resolution names.
+#' @param postfix A string, table name postfix to the resolution names.
 #'
 #' @return A `satres` object.
 #'
