@@ -28,6 +28,7 @@ Project the result to the CRS of the clipping polygon.
 Other transformation functions: 
 \code{\link{clip_multipoligon}()},
 \code{\link{clip_raster}()},
-\code{\link{copy_styles_layer}()}
+\code{\link{copy_styles_layer}()},
+\code{\link{copy_styles_layer_names}()}
 }
 \concept{transformation functions}

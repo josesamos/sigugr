@@ -25,6 +25,7 @@ The result preserves the CRS of the raster.
 Other transformation functions: 
 \code{\link{clip_multipoligon}()},
 \code{\link{clip_vector}()},
-\code{\link{copy_styles_layer}()}
+\code{\link{copy_styles_layer}()},
+\code{\link{copy_styles_layer_names}()}
 }
 \concept{transformation functions}
