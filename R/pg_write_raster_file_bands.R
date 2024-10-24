@@ -19,12 +19,10 @@ pg_write_raster_file_bands <-
            prefix = NULL,
            postfix = NULL) {
     for (f in file) {
-      name <- basename(f)
-      name <- gsub(".tif", "", name, ignore.case = TRUE)
       r <- terra::rast(f)
       pg_write_bands(r,
                      conn,
-                     prefix = paste0(prefix, name, '_'),
+                     prefix = prefix,
                      postfix = postfix)
     }
     file
