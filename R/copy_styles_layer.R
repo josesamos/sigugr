@@ -38,3 +38,45 @@ copy_styles_layer <- function(from, to) {
     quiet = TRUE
   )
 }
+
+
+#' Copy styles layer from one source `GeoPackage` to a PostGIS database.
+#'
+#' Assigns the first style from the source the given layers in the destination.
+#'
+#' @param from A GeoPackage file name.
+#' @param to A database connection.
+#' @param layers A vector of layer names.
+#'
+#' @return `obj`, invisibly.
+#'
+#' @family transformation functions
+#'
+#' @examples
+#' #
+#'
+#' @export
+copy_styles_layer_names <- function(from, to, layers) {
+  layer <- "layer_styles"
+  style <- sf::st_read(from, layer = layer, quiet = TRUE)
+  style <- style[1, ]
+
+  my_style <- style
+  n <- length(layers)
+  if (n > 1) {
+    for (i in 2:n) {
+      my_style <- rbind(my_style, style)
+    }
+  }
+  for (i in 1:n) {
+    my_style$f_table_name[i] <- layers[i]
+    gsub(style$f_table_name, layers[i], my_style$styleSLD[i], fixed = TRUE)
+  }
+  sf::st_write(
+    obj = my_style,
+    dsn = to,
+    layer = layer,
+    append = FALSE,
+    quiet = TRUE
+  )
+}
