@@ -70,6 +70,7 @@ copy_styles_layer_names <- function(from, to, layers) {
   }
   for (i in 1:n) {
     my_style$f_table_name[i] <- layers[i]
+    my_style$f_table_schema[i] <- 'public'
     gsub(style$f_table_name, layers[i], my_style$styleSLD[i], fixed = TRUE)
   }
   sf::st_write(
