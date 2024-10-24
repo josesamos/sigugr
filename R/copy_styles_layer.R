@@ -74,8 +74,10 @@ copy_styles_layer_names <- function(from, to, layers, database, schema='public')
     my_style$f_table_name[i] <- layers[i]
     my_style$f_table_schema[i] <- schema
     my_style$f_table_catalog[i] <- database
+    my_style$useasdefault[i] <- TRUE
     gsub(style$f_table_name, layers[i], my_style$styleSLD[i], fixed = TRUE)
   }
+
   sf::st_write(
     obj = my_style,
     dsn = to,
