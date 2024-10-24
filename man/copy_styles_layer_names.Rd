@@ -4,7 +4,7 @@
 \alias{copy_styles_layer_names}
 \title{Copy styles layer from one source `GeoPackage` to a PostGIS database.}
 \usage{
-copy_styles_layer_names(from, to, layers)
+copy_styles_layer_names(from, to, layers, database, schema = "public")
 }
 \arguments{
 \item{from}{A GeoPackage file name.}
@@ -12,6 +12,10 @@ copy_styles_layer_names(from, to, layers)
 \item{to}{A database connection.}
 
 \item{layers}{A vector of layer names.}
+
+\item{database}{A string, database name.}
+
+\item{schema}{A string, schema name.}
 }
 \value{
 `obj`, invisibly.

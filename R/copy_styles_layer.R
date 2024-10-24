@@ -47,6 +47,8 @@ copy_styles_layer <- function(from, to) {
 #' @param from A GeoPackage file name.
 #' @param to A database connection.
 #' @param layers A vector of layer names.
+#' @param database A string, database name.
+#' @param schema A string, schema name.
 #'
 #' @return `obj`, invisibly.
 #'
@@ -56,7 +58,7 @@ copy_styles_layer <- function(from, to) {
 #' #
 #'
 #' @export
-copy_styles_layer_names <- function(from, to, layers) {
+copy_styles_layer_names <- function(from, to, layers, database, schema='public') {
   layer <- "layer_styles"
   style <- sf::st_read(from, layer = layer, quiet = TRUE)
   style <- style[1, ]
@@ -70,7 +72,8 @@ copy_styles_layer_names <- function(from, to, layers) {
   }
   for (i in 1:n) {
     my_style$f_table_name[i] <- layers[i]
-    my_style$f_table_schema[i] <- 'public'
+    my_style$f_table_schema[i] <- schema
+    my_style$f_table_catalog[i] <- database
     gsub(style$f_table_name, layers[i], my_style$styleSLD[i], fixed = TRUE)
   }
   sf::st_write(
