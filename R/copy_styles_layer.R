@@ -70,11 +70,16 @@ copy_styles_layer_names <- function(from, to, layers, database, schema='public')
       my_style <- rbind(my_style, style)
     }
   }
+
+  my_style$id <- 1:nrow(my_style)
+  my_style <- my_style[, c("id", names(my_style)[-length(names(my_style))])]
+  names(my_style) <- tolower(names(my_style))
+
   for (i in 1:n) {
     my_style$f_table_name[i] <- layers[i]
     my_style$f_table_schema[i] <- schema
     my_style$f_table_catalog[i] <- database
-    gsub(style$f_table_name, layers[i], my_style$styleSLD[i], fixed = TRUE)
+    gsub(style$f_table_name, layers[i], my_style$stylesld[i], fixed = TRUE)
   }
   my_style$useasdefault <- TRUE
 
