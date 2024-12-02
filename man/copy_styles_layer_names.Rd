@@ -32,6 +32,7 @@ Other transformation functions:
 \code{\link{clip_multipoligon}()},
 \code{\link{clip_raster}()},
 \code{\link{clip_vector}()},
-\code{\link{copy_styles_layer}()}
+\code{\link{copy_styles_layer}()},
+\code{\link{get_layer_categories}()}
 }
 \concept{transformation functions}

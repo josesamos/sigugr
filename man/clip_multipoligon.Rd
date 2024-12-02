@@ -36,6 +36,7 @@ Other transformation functions:
 \code{\link{clip_raster}()},
 \code{\link{clip_vector}()},
 \code{\link{copy_styles_layer}()},
-\code{\link{copy_styles_layer_names}()}
+\code{\link{copy_styles_layer_names}()},
+\code{\link{get_layer_categories}()}
 }
 \concept{transformation functions}
