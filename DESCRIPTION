@@ -11,6 +11,8 @@ Description: Functions to help carry out Geographic Information Systems
     practices at the University of Granada.
 License: MIT + file LICENSE
 URL: https://josesamos.github.io/sigugr/
+Depends: 
+    R (>= 2.10)
 Imports: 
     gdalUtilities,
     rpostgis,
@@ -25,5 +27,3 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 RoxygenNote: 7.3.2
-Depends: 
-    R (>= 2.10)
