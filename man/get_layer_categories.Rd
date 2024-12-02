@@ -4,15 +4,15 @@
 \alias{get_layer_categories}
 \title{Get layer categories from a styles layer from one source `GeoPackage`}
 \usage{
-get_layer_categories(from, values)
+get_layer_categories(from, r_clc)
 }
 \arguments{
 \item{from}{A GeoPackage file name.}
 
-\item{values}{A vector of integers or NULL.}
+\item{r_clc}{A `terra` raster.}
 }
 \value{
-`categories` A data freame of categories.
+`categories` A data frame of categories.
 }
 \description{
 It obtains them from the first defined style.

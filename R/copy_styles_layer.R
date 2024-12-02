@@ -98,9 +98,9 @@ copy_styles_layer_names <- function(from, to, layers, database, schema='public')
 #' It obtains them from the first defined style.
 #'
 #' @param from A GeoPackage file name.
-#' @param values A vector of integers or NULL.
+#' @param r_clc A `terra` raster.
 #'
-#' @return `categories` A data freame of categories.
+#' @return `categories` A data frame of categories.
 #'
 #' @family transformation functions
 #'
@@ -108,7 +108,7 @@ copy_styles_layer_names <- function(from, to, layers, database, schema='public')
 #' #
 #'
 #' @export
-get_layer_categories <- function(from, values) {
+get_layer_categories <- function(from, r_clc) {
   layer <- "layer_styles"
   style <- sf::st_read(from, layer = layer, quiet = TRUE)
   style <- style[1, ]
@@ -133,6 +133,8 @@ get_layer_categories <- function(from, values) {
 
   names(color2) <- name
   color2 <- color2[order(as.numeric(names(color2)))]
+
+  values <- sort(terra::unique(r_clc)[, 1])
 
   if (!is.null(values)) {
     des <- des[id %in% values]
