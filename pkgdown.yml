@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2024-12-13T07:19Z
+articles:
+  sigugr: sigugr.html
+last_built: 2024-12-13T12:22Z
 urls:
   reference: https://josesamos.github.io/sigugr/reference
   article: https://josesamos.github.io/sigugr/articles
