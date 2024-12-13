@@ -22,11 +22,6 @@ The function first transforms the polygon to match the CRS of the raster, then c
 Finally, it applies a mask to retain only the areas within the polygon.
 }
 \examples{
-library(terra)
-library(sf)
-r <- rast(system.file("ex/logo.tif", package="terra"))
-p <- st_as_sf(st_sfc(st_polygon(list(rbind(c(5, 5), c(5, 60), c(60, 60), c(60, 5), c(5, 5)))), crs = st_crs(r)))
-result <- clip_raster(r, p)
-plot(result)
+#
 
 }

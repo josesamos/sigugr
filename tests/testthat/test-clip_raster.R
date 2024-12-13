@@ -1,4 +1,4 @@
-source_gpkg <- system.file("extdata", "lanjaron.gpkg", package = "sigugr")
+source_gpkg <- system.file("extdata", "sigugr.gpkg", package = "sigugr")
 p <-sf::st_read(source_gpkg, layer = 'lanjaron', quiet = TRUE)
 
 source_tif <- system.file("extdata", "sat.tif", package = "sigugr")
