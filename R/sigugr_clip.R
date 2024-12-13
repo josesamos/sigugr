@@ -22,20 +22,7 @@
 #'
 #' @export
 clip_vector <- function(vector, polygon) {
-  crs_polygon <- sf::st_crs(polygon)
-  if (sf::st_crs(vector) != crs_polygon) {
-    polygon <- sf::st_transform(polygon, sf::st_crs(vector))
-  }
-  # avoid warning attribute variables are assumed to be spatially constant...
-  sf::st_agr(vector) = "constant"
-  sf::st_agr(polygon) = "constant"
-  # closed: the edges of the polygon are considered as part of the polygon
-  res <- sf::st_intersection(vector, polygon, model = "closed")
-  res <- res[names(vector)]
-  if (sf::st_crs(vector) != crs_polygon) {
-    res <- sf::st_transform(res, crs_polygon)
-  }
-  res
+  clc:::clip_vector(vector, polygon)
 }
 
 
@@ -70,16 +57,6 @@ clip_vector <- function(vector, polygon) {
 #'
 #' @export
 clip_multipoligon <- function(vector, polygon) {
-  tryCatch({
-    v <- sf::st_cast(vector, "MULTIPOLYGON")
-    clip_vector(v, polygon)
-  }, error = function(e) {
-    f <- tempfile(fileext = ".gpkg")
-    sf::st_write(vector, f, quiet = TRUE)
-    g <- tempfile(fileext = ".gpkg")
-    gdalUtilities::ogr2ogr(f, g, f = "GPKG", nlt = "MULTIPOLYGON")
-    v <- sf::st_read(g, quiet = TRUE)
-    clip_vector(v, polygon)
-  })
+  clc::safe_clip_multipoligon(vector, polygon)
 }
 

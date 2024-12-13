@@ -1,8 +1,8 @@
 ---
-title: "Geospatial Data Processing and Integration"
+title: "Geographic Data Processing and Integration"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Geospatial Data Processing and Integration}
+  %\VignetteIndexEntry{Geographic Data Processing and Integration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
