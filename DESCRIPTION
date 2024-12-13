@@ -17,12 +17,15 @@ Depends:
 Imports: 
     gdalUtilities,
     rpostgis,
+    RPostgres,
     sf,
     snakecase,
     terra,
     xml2
 Suggests: 
     knitr,
+    mockery,
+    purrr,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: 
