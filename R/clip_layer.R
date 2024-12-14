@@ -16,10 +16,10 @@
 #' clc <- sf::st_read(gpkg_path, layer = "clc", quiet = TRUE)
 #' lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron", quiet = TRUE)
 #'
-#' clc_clipped <- clip_vector(clc, lanjaron)
+#' clc_clipped <- clip_layer(clc, lanjaron)
 #'
 #' @export
-clip_vector <- function(vector, polygon) {
+clip_layer <- function(vector, polygon) {
   crs_polygon <- sf::st_crs(polygon)
   if (sf::st_crs(vector) != crs_polygon) {
     polygon <- sf::st_transform(polygon, sf::st_crs(vector))
@@ -41,7 +41,7 @@ clip_vector <- function(vector, polygon) {
 #'
 #' This function clips a `MULTIPOLYGON` vector layer using a polygon layer, handling specific
 #' issues that might arise with geometries encoded incorrectly or containing unknown WKB types.
-#' It serves as a fallback when the `clip_vector()` function fails due to errors like
+#' It serves as a fallback when the `clip_layer()` function fails due to errors like
 #' `ParseException: Unknown WKB type 12`, which is associated with *MULTIPOLYGON* types.
 #'
 #' The function ensures that the input layer is correctly encoded as `MULTIPOLYGON` and
@@ -68,14 +68,14 @@ clip_vector <- function(vector, polygon) {
 clip_multipoligon <- function(vector, polygon) {
   tryCatch({
     v <- sf::st_cast(vector, "MULTIPOLYGON")
-    clip_vector(v, polygon)
+    clip_layer(v, polygon)
   }, error = function(e) {
     f <- tempfile(fileext = ".gpkg")
     sf::st_write(vector, f, quiet = TRUE)
     g <- tempfile(fileext = ".gpkg")
     gdalUtilities::ogr2ogr(f, g, f = "GPKG", nlt = "MULTIPOLYGON")
     v <- sf::st_read(g, quiet = TRUE)
-    clip_vector(v, polygon)
+    clip_layer(v, polygon)
   })
 }
 

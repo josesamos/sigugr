@@ -17,11 +17,14 @@ Depends:
 Imports: 
     clc,
     gdalUtilities,
+    httr,
+    jsonlite,
     rpostgis,
     sf,
     snakecase,
     terra
 Suggests: 
+    httptest2,
     knitr,
     mockery,
     purrr,
