@@ -14,3 +14,11 @@ test_that("generate_bounding_box creates a valid bounding box layer", {
   generated_bbox <- sf::st_bbox(bbox_layer)
   expect_equal(original_bbox, generated_bbox)
 })
+
+test_that("generate_bbox throws an error when the input layer is not an sf object", {
+  # Create a non-sf object (e.g., a data.frame)
+  non_sf_layer <- data.frame(x = 1:5, y = 6:10)
+
+  # Expect error when passing a non-sf object to the function
+  expect_error(generate_bbox(non_sf_layer), "Input layer must be an sf object.")
+})
