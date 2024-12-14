@@ -2,26 +2,45 @@
 % Please edit documentation in R/pg_write_bands.R
 \name{pg_write_bands}
 \alias{pg_write_bands}
-\title{Save raster bands in separate tables in PostGIS}
+\title{Write Raster Bands to PostGIS}
 \usage{
-pg_write_bands(sr, conn, prefix = NULL, postfix = NULL)
+pg_write_bands(sr, conn, schema = "public", prefix = NULL, postfix = NULL)
 }
 \arguments{
-\item{sr}{A `SpatRaster` object.}
+\item{sr}{A `terra::SpatRaster` object containing the raster bands to write.}
 
-\item{conn}{A connection to a PostGIS database.}
+\item{conn}{A database connection object to a PostGIS database (e.g., from `RPostgres::dbConnect`).}
 
-\item{prefix}{A string, table name prefix to the band name.}
+\item{schema}{A string specifying the schema in the PostGIS database where
+the raster layers will be stored. Default is `"public"`.}
 
-\item{postfix}{A string, table name postfix to the band name.}
+\item{prefix}{A string to prepend to each layer name. Default is `NULL`.}
+
+\item{postfix}{A string to append to each layer name. Default is `NULL`.}
 }
 \value{
-A `SpatRaster` object.
+The input `terra::SpatRaster` object, returned invisibly.
 }
 \description{
-Save raster bands in separate tables in PostGIS
+Writes each band of a raster (`terra::SpatRaster`) to a specified schema in a
+PostGIS database. Each band is written as a separate table in the database.
+}
+\details{
+Transforms the table name according to the Snake Case convention.
 }
 \examples{
-#
+\dontrun{
+conn <- DBI::dbConnect(
+  RPostgres::Postgres(),
+  dbname = "mydb",
+  host = "localhost",
+  user = "user",
+  password = "password"
+)
+
+sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
+pg_write_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+DBI::dbDisconnect(conn)
+}
 
 }
