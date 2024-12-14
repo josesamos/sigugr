@@ -28,3 +28,10 @@ r <- terra::rast(source_tif)
 result <- clip_raster(r, p)
 
 }
+\seealso{
+Other clip functions: 
+\code{\link{clip_layer}()},
+\code{\link{clip_multipoligon}()},
+\code{\link{generate_bbox}()}
+}
+\concept{clip functions}

@@ -31,8 +31,9 @@ gs_publish_layer(
 name if not provided.}
 }
 \value{
-Integer. Returns `0` on success or `1` on failure. Prints a message
-  describing the result.
+An integer indicating the status of the operation:
+  - `0`: The layer was published successfully.
+  - `1`: An error occurred during the publishing process.
 }
 \description{
 Publishes a vector layer to GeoServer using the REST API. Returns a status code
@@ -51,3 +52,9 @@ gs_publish_layer(
 )
 }
 }
+\seealso{
+Other publish to GeoServer: 
+\code{\link{gs_publish_bands}()},
+\code{\link{gs_publish_raster}()}
+}
+\concept{publish to GeoServer}

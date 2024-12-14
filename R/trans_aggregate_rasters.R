@@ -12,6 +12,8 @@
 #'
 #' @return A character vector with the paths to the processed raster files.
 #'
+#' @family transform raster functions
+#'
 #' @examples
 #' temp_dir <- tempdir()
 #' input_dir <- system.file("extdata", "mdt", package = "sigugr")

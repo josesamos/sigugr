@@ -10,6 +10,8 @@
 #' @return An `sf` object containing the features of the input `vector` that intersect with the `polygon`.
 #' The output will be in the CRS of the `polygon`, and it will retain all attributes of the input `vector`.
 #'
+#' @family clip functions
+#'
 #' @examples
 #' gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")
 #'
@@ -55,6 +57,8 @@ clip_layer <- function(vector, polygon) {
 #' @param polygon A `sf` polygon layer used as the clipping geometry.
 #'
 #' @return A `sf` vector layer with the clipped geometries.
+#'
+#' @family clip functions
 #'
 #' @examples
 #' gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")

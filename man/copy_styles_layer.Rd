@@ -33,3 +33,9 @@ dest_gpkg <- "destination.gpkg"
 copy_styles_layer(from = source_gpkg, to = dest_gpkg)
 }
 }
+\seealso{
+Other styles functions: 
+\code{\link{copy_styles_layer_names}()},
+\code{\link{get_layer_categories}()}
+}
+\concept{styles functions}

@@ -9,6 +9,7 @@
 #'   Otherwise, it returns "/".
 #'
 #' @keywords internal
+#' @noRd
 get_nexus <- function(name) {
   if (endsWith(name, "/")) {
     ""
@@ -29,6 +30,7 @@ get_nexus <- function(name) {
 #' If no matching files are found, an empty character vector is returned.
 #'
 #' @keywords internal
+#' @noRd
 list_dir_rasters <- function(dir) {
   lf <- list.files(
     path = dir,

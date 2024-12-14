@@ -13,6 +13,8 @@
 #' @param prefix A string to prepend to each layer name. Default is `NULL`.
 #' @param postfix A string to append to each layer name. Default is `NULL`.
 #'
+#' @family write to PostGIS
+#'
 #' @return Invisibly returns a character vector of the names of the tables written to PostGIS.
 #'
 #' @examples

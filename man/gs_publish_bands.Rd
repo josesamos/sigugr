@@ -53,3 +53,9 @@ gs_publish_bands(
 )
 }
 }
+\seealso{
+Other publish to GeoServer: 
+\code{\link{gs_publish_layer}()},
+\code{\link{gs_publish_raster}()}
+}
+\concept{publish to GeoServer}

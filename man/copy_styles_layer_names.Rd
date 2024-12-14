@@ -57,3 +57,9 @@ copy_styles_layer_names(
 DBI::dbDisconnect(conn)
 }
 }
+\seealso{
+Other styles functions: 
+\code{\link{copy_styles_layer}()},
+\code{\link{get_layer_categories}()}
+}
+\concept{styles functions}

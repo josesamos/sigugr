@@ -46,3 +46,9 @@ DBI::dbDisconnect(conn)
 }
 
 }
+\seealso{
+Other write to PostGIS: 
+\code{\link{pg_write_layers}()},
+\code{\link{pg_write_raster}()}
+}
+\concept{write to PostGIS}

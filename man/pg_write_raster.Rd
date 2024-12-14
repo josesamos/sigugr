@@ -44,3 +44,9 @@ DBI::dbDisconnect(conn)
 }
 
 }
+\seealso{
+Other write to PostGIS: 
+\code{\link{pg_write_bands}()},
+\code{\link{pg_write_layers}()}
+}
+\concept{write to PostGIS}

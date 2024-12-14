@@ -8,6 +8,8 @@
 #'
 #' @return A `terra` raster clipped to the extent of the polygon.
 #'
+#' @family clip functions
+#'
 #' @examples
 #' source_gpkg <- system.file("extdata", "sigugr.gpkg", package = "sigugr")
 #' p <-sf::st_read(source_gpkg, layer = 'lanjaron', quiet = TRUE)
@@ -26,7 +28,10 @@ clip_raster <- function(raster, polygon) {
     stop("The input 'polygon' must be an 'sf' polygon object.")
   }
 
-  s <- sf::st_transform(polygon, terra::crs(raster))
-  r <- terra::crop(raster, s)
-  terra::mask(r, s)
+  if (sf::st_crs(polygon)$wkt != terra::crs(raster)) {
+    polygon <- sf::st_transform(polygon, terra::crs(raster))
+  }
+
+  r <- terra::crop(raster, polygon)
+  terra::mask(r, polygon)
 }

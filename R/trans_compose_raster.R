@@ -13,6 +13,8 @@
 #'
 #' @return A `SpatRaster` object from the `terra` package.
 #'
+#' @family transform raster functions
+#'
 #' @examples
 #' input_dir <- system.file("extdata", "mdt", package = "sigugr")
 #'

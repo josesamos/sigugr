@@ -29,3 +29,10 @@ lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron", quiet = TRUE)
 clc_clipped <- clip_layer(clc, lanjaron)
 
 }
+\seealso{
+Other clip functions: 
+\code{\link{clip_multipoligon}()},
+\code{\link{clip_raster}()},
+\code{\link{generate_bbox}()}
+}
+\concept{clip functions}

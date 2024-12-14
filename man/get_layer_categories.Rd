@@ -40,3 +40,9 @@ r_clc <- terra::rast("clc_raster.tif")
 categories <- get_layer_categories(from = gpkg_path, r_clc = r_clc)
 }
 }
+\seealso{
+Other styles functions: 
+\code{\link{copy_styles_layer}()},
+\code{\link{copy_styles_layer_names}()}
+}
+\concept{styles functions}

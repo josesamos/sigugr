@@ -21,6 +21,8 @@
 #'   - `0`: The band was published successfully.
 #'   - `1`: An error occurred during the publishing process.
 #'
+#' @family publish to GeoServer
+#'
 #' @examples
 #' \dontrun{
 #' geoserver_url <- "http://localhost:8080/geoserver"

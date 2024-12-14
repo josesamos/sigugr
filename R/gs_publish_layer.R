@@ -13,8 +13,11 @@
 #' @param title A string, an optional title for the layer. Defaults to the layer
 #'   name if not provided.
 #'
-#' @return Integer. Returns `0` on success or `1` on failure. Prints a message
-#'   describing the result.
+#' @return An integer indicating the status of the operation:
+#'   - `0`: The layer was published successfully.
+#'   - `1`: An error occurred during the publishing process.
+#'
+#' @family publish to GeoServer
 #'
 #' @examples
 #' \dontrun{

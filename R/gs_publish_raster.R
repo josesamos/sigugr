@@ -13,6 +13,8 @@
 #'   - `0`: The raster was published successfully.
 #'   - `1`: An error occurred during the publishing process.
 #'
+#' @family publish to GeoServer
+#'
 #' @details
 #' The function uses the GeoServer REST API to upload a GeoTIFF raster file to a specified workspace and data store.
 #' The raster is sent using an HTTP `PUT` request to the GeoServer endpoint, and the response is checked for success.

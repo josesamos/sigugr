@@ -14,6 +14,8 @@
 #'
 #' @return Invisibly returns a character vector of the names of the tables written to PostGIS.
 #'
+#' @family write to PostGIS
+#'
 #' @examples
 #' \dontrun{
 #' conn <- DBI::dbConnect(
