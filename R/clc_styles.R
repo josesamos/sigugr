@@ -10,9 +10,6 @@
 #'
 #' @return The updated `layer_styles` table, returned invisibly.
 #'
-#' @family independent functions
-#' @seealso \code{\link{copy_styles_layer_names}}
-#'
 #' @details
 #' The function reads the first style from the `layer_styles` table in the source
 #' GeoPackage or PostGIS database. This style is then applied to all layers in the
@@ -49,9 +46,6 @@ copy_styles_layer <- function(from, to) {
 #'   the layers reside. Default is `"public"`.
 #'
 #' @return The updated style object (`obj`), returned invisibly.
-#'
-#' @family independent functions
-#' @seealso \code{\link{copy_styles_layer}}
 #'
 #' @details
 #' The function reads the first style from the `layer_styles` table in the source
@@ -102,8 +96,6 @@ copy_styles_layer_names <- function(from, to, layers, database, schema = 'public
 #'   - `id`: The category ID (integer).
 #'   - `description`: The description of the category (character).
 #'   - `color`: The color associated with the category in hexadecimal format (character).
-#'
-#' @family independent functions
 #'
 #' @details
 #' The function retrieves the style definitions from the `layer_styles` table in

@@ -2,26 +2,29 @@
 % Please edit documentation in R/clip_raster.R
 \name{clip_raster}
 \alias{clip_raster}
-\title{Clip a raster layer based on a polygon}
+\title{Clip a raster based on a polygon}
 \usage{
 clip_raster(raster, polygon)
 }
 \arguments{
-\item{raster}{A `terra` raster layer to be clipped.}
+\item{raster}{A `terra` raster to be clipped.}
 
 \item{polygon}{A `sf` polygon layer used for clipping.}
 }
 \value{
-A `terra` raster layer clipped to the extent of the polygon.
+A `terra` raster clipped to the extent of the polygon.
 }
 \description{
-This function clips a raster layer using a polygon, preserving the coordinate reference system (CRS) of the raster.
-}
-\details{
-The function first transforms the polygon to match the CRS of the raster, then crops the raster to the extent of the polygon.
-Finally, it applies a mask to retain only the areas within the polygon.
+This function clips a raster using a polygon, preserving the coordinate
+reference system (CRS) of the raster.
 }
 \examples{
-#
+source_gpkg <- system.file("extdata", "sigugr.gpkg", package = "sigugr")
+p <-sf::st_read(source_gpkg, layer = 'lanjaron', quiet = TRUE)
+
+source_tif <- system.file("extdata", "sat.tif", package = "sigugr")
+r <- terra::rast(source_tif)
+
+result <- clip_raster(r, p)
 
 }

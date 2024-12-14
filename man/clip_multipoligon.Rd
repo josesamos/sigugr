@@ -31,8 +31,8 @@ This solution is inspired by a discussion on handling WKB type errors in R:
 \examples{
 gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")
 
-clc <- sf::st_read(gpkg_path, layer = "clc")
-lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron")
+clc <- sf::st_read(gpkg_path, layer = "clc", quiet = TRUE)
+lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron", quiet = TRUE)
 
 clc_clipped <- clip_multipoligon(clc, lanjaron)
 

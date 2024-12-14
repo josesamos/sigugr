@@ -1,37 +1,47 @@
-#' Compose a raster layer from multiple files
+
+#' Compose a Raster Layer from Multiple Files
 #'
-#' The folder name or vector of folder names that contain the files is indicated.
+#' Combines multiple raster files into a single virtual raster layer (VRT).
+#' It accepts one or more folder names containing raster files and creates a
+#' virtual raster file.
+#' If no output file name is provided, a temporary file is used.
 #'
-#' We can also indicate the name (with the path and without the extension) of the
-#' virtual raster file; if none is indicated, a temporary one is used.
+#' @param dir A string or vector of strings representing folder names containing
+#'   raster files.
+#' @param out_file A string specifying the output file name (without extension).
+#'   If `NULL`, a temporary file is used.
 #'
-#' @param dir A string or string vector, folder names.
-#' @param out_file A string, output file name (without extension).
-#'
-#' @return A `terra` raster layer.
-#'
-#' @family generation functions
+#' @return A `SpatRaster` object from the `terra` package.
 #'
 #' @examples
-#' #
+#' input_dir <- system.file("extdata", "mdt", package = "sigugr")
+#'
+#' r <- compose_raster(input_dir)
 #'
 #' @export
 compose_raster <- function(dir, out_file = NULL) {
-  files <- NULL
-  for (d in dir) {
-    lf <-
-      list.files(
-        path = d,
-        pattern = "*.TIF|*.jp2",
-        recursive = TRUE,
-        full.names = TRUE,
-        ignore.case = TRUE
-      )
-    files <- c(files, lf)
+  if (!is.character(dir)) {
+    stop("'dir' must be a string or a vector of strings.")
   }
+
+  files <- unlist(lapply(dir, function(d) {
+    list.files(
+      path = d,
+      pattern = "\\.(tif|jp2)$",
+      recursive = TRUE,
+      full.names = TRUE,
+      ignore.case = TRUE
+    )
+  }))
+
+  if (length(files) == 0) {
+    stop("No raster files found in the specified directories.")
+  }
+
   if (is.null(out_file)) {
-    out_file <-
-      paste0(tempdir(), '/', snakecase::to_snake_case(paste0(Sys.time())))
+    out_file <- paste0(tempdir(), '/', snakecase::to_snake_case(paste0(Sys.time())))
   }
-  terra::vrt(files, paste0(out_file, ".vrt"), overwrite = TRUE)
+
+  vrt <- terra::vrt(files, paste0(out_file, ".vrt"), overwrite = TRUE)
+  return(vrt)
 }

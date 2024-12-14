@@ -7,8 +7,6 @@
 #'
 #' @return A string vector, raster file names.
 #'
-#' @family save functions
-#'
 #' @examples
 #' #
 #'

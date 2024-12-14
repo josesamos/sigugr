@@ -10,19 +10,30 @@
 #' @return An `sf` object containing the features of the input `vector` that intersect with the `polygon`.
 #' The output will be in the CRS of the `polygon`, and it will retain all attributes of the input `vector`.
 #'
-#' @family independent functions
-#'
 #' @examples
 #' gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")
 #'
-#' clc <- sf::st_read(gpkg_path, layer = "clc")
-#' lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron")
+#' clc <- sf::st_read(gpkg_path, layer = "clc", quiet = TRUE)
+#' lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron", quiet = TRUE)
 #'
 #' clc_clipped <- clip_vector(clc, lanjaron)
 #'
 #' @export
 clip_vector <- function(vector, polygon) {
-  clc:::clip_vector(vector, polygon)
+  crs_polygon <- sf::st_crs(polygon)
+  if (sf::st_crs(vector) != crs_polygon) {
+    polygon <- sf::st_transform(polygon, sf::st_crs(vector))
+  }
+  # avoid warning attribute variables are assumed to be spatially constant...
+  sf::st_agr(vector) = "constant"
+  sf::st_agr(polygon) = "constant"
+  # closed: the edges of the polygon are considered as part of the polygon
+  res <- sf::st_intersection(vector, polygon, model = "closed")
+  res <- res[names(vector)]
+  if (sf::st_crs(vector) != crs_polygon) {
+    res <- sf::st_transform(res, crs_polygon)
+  }
+  res
 }
 
 
@@ -45,13 +56,11 @@ clip_vector <- function(vector, polygon) {
 #'
 #' @return A `sf` vector layer with the clipped geometries.
 #'
-#' @family independent functions
-#'
 #' @examples
 #' gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")
 #'
-#' clc <- sf::st_read(gpkg_path, layer = "clc")
-#' lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron")
+#' clc <- sf::st_read(gpkg_path, layer = "clc", quiet = TRUE)
+#' lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron", quiet = TRUE)
 #'
 #' clc_clipped <- clip_multipoligon(clc, lanjaron)
 #'

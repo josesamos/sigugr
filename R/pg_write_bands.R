@@ -7,8 +7,6 @@
 #'
 #' @return A `SpatRaster` object.
 #'
-#' @family save functions
-#'
 #' @examples
 #' #
 #'

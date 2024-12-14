@@ -7,8 +7,6 @@
 #'
 #' @return A `satres` object.
 #'
-#' @family save functions
-#'
 #' @examples
 #' #
 #'
