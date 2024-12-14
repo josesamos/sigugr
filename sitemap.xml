@@ -8,18 +8,22 @@
 <url><loc>https://josesamos.github.io/sigugr/index.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/news/index.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/aggregate_rasters.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/clip_layer.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/clip_multipoligon.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/clip_raster.html</loc></url>
-<url><loc>https://josesamos.github.io/sigugr/reference/clip_vector.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/compose_raster.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/copy_styles_layer.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/copy_styles_layer_names.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/generate_bbox.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/get_layer_categories.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/get_nexus.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/gs_publish_bands.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/gs_publish_layer.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/gs_publish_raster.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/index.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/list_dir_rasters.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/pg_write_bands.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/pg_write_layers.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/pg_write_raster.html</loc></url>
 </urlset>
 
