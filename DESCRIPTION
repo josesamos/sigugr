@@ -16,12 +16,11 @@ Depends:
     R (>= 2.10)
 Imports: 
     clc,
+    gdalUtilities,
     rpostgis,
-    RPostgres,
     sf,
     snakecase,
-    terra,
-    xml2
+    terra
 Suggests: 
     knitr,
     mockery,

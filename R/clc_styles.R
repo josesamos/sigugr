@@ -27,8 +27,8 @@
 #' }
 #' @export
 copy_styles_layer <- function(from, to) {
-  style <- read_style_from_source(from)
-  assign_styles_to_layers(style, to)
+  style <- clc:::read_style_from_source(from)
+  clc:::assign_styles_to_layers(style, to)
 }
 
 
@@ -82,8 +82,8 @@ copy_styles_layer <- function(from, to) {
 #' }
 #' @export
 copy_styles_layer_names <- function(from, to, layers, database, schema = 'public') {
-  style <- read_style_from_source(from)
-  assign_styles_to_layers(style, to, database, schema, layers)
+  style <- clc:::read_style_from_source(from)
+  clc:::assign_styles_to_layers(style, to, database, schema, layers)
 }
 
 
@@ -122,10 +122,10 @@ copy_styles_layer_names <- function(from, to, layers, database, schema = 'public
 #' }
 #' @export
 get_layer_categories <- function(from, r_clc) {
-  style <- read_style_from_source(from)
+  style <- clc:::read_style_from_source(from)
   values <- sort(terra::unique(r_clc)[, 1])
 
-  cat <- extract_categories_and_colors(style)
+  cat <- clc:::extract_categories_and_colors(style)
   cat <- cat[cat$id %in% values, ]
   cat
 }

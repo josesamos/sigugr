@@ -57,6 +57,16 @@ clip_vector <- function(vector, polygon) {
 #'
 #' @export
 clip_multipoligon <- function(vector, polygon) {
-  clc::safe_clip_multipoligon(vector, polygon)
+  tryCatch({
+    v <- sf::st_cast(vector, "MULTIPOLYGON")
+    clip_vector(v, polygon)
+  }, error = function(e) {
+    f <- tempfile(fileext = ".gpkg")
+    sf::st_write(vector, f, quiet = TRUE)
+    g <- tempfile(fileext = ".gpkg")
+    gdalUtilities::ogr2ogr(f, g, f = "GPKG", nlt = "MULTIPOLYGON")
+    v <- sf::st_read(g, quiet = TRUE)
+    clip_vector(v, polygon)
+  })
 }
 
