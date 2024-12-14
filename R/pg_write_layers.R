@@ -19,14 +19,14 @@
 #' \dontrun{
 #' conn <- DBI::dbConnect(RPostgres::Postgres(), dbname = "mydb")
 #' gpkg_file <- "example.gpkg"
-#' pg_write_gpkg_layers(
+#' pg_write_layers(
 #'   gpkg_file, conn, schema = "my_schema", prefix = "pre_", postfix = "_post"
 #' )
 #' DBI::dbDisconnect(conn)
 #' }
 #'
 #' @export
-pg_write_gpkg_layers <- function(gpkg,
+pg_write_layers <- function(gpkg,
                                  conn,
                                  schema = "public",
                                  prefix = NULL,
@@ -41,7 +41,7 @@ pg_write_gpkg_layers <- function(gpkg,
   layers_info <- sf::st_layers(gpkg)
   layers <- layers_info$name[layers_info$geomtype != ""]
 
-  if (length(layers) == 0) {
+  if (is.na(layers)) {
     stop("No layers with valid geometries found in the GeoPackage.")
   }
 
