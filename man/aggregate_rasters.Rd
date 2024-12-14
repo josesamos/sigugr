@@ -2,13 +2,12 @@
 % Please edit documentation in R/aggregate_rasters.R
 \name{aggregate_rasters}
 \alias{aggregate_rasters}
-\title{Aggregate rasters in a folder}
+\title{Aggregate Rasters in a Folder}
 \usage{
 aggregate_rasters(dir, out_dir, factor = 2)
 }
 \arguments{
-\item{dir}{A string or vector of strings specifying the input folder(s)
-containing raster files.}
+\item{dir}{A string specifying the input folder containing raster files.}
 
 \item{out_dir}{A string specifying the output folder where the aggregated
 rasters will be saved.}

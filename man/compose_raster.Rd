@@ -2,27 +2,29 @@
 % Please edit documentation in R/compose_raster.R
 \name{compose_raster}
 \alias{compose_raster}
-\title{Compose a raster layer from multiple files}
+\title{Compose a Raster Layer from Multiple Files}
 \usage{
 compose_raster(dir, out_file = NULL)
 }
 \arguments{
-\item{dir}{A string or string vector, folder names.}
+\item{dir}{A string or vector of strings representing folder names containing
+raster files.}
 
-\item{out_file}{A string, output file name (without extension).}
+\item{out_file}{A string specifying the output file name (without extension).
+If `NULL`, a temporary file is used.}
 }
 \value{
-A `terra` raster layer.
+A `SpatRaster` object from the `terra` package.
 }
 \description{
-The folder name or vector of folder names that contain the files is indicated.
-}
-\details{
-We can also indicate the name (with the path and without the extension) of the
-virtual raster file; if none is indicated, a temporary one is used.
+Combines multiple raster files into a single virtual raster layer (VRT).
+It accepts one or more folder names containing raster files and creates a
+virtual raster file.
+If no output file name is provided, a temporary file is used.
 }
 \examples{
-#
+input_dir <- system.file("extdata", "mdt", package = "sigugr")
+
+r <- compose_raster(input_dir)
 
 }
-\concept{generation functions}

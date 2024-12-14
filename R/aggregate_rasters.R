@@ -5,8 +5,7 @@
 #'
 #' If the output folder does not exist, it creates it.
 #'
-#' @param dir A string or vector of strings specifying the input folder(s)
-#'   containing raster files.
+#' @param dir A string specifying the input folder containing raster files.
 #' @param out_dir A string specifying the output folder where the aggregated
 #'   rasters will be saved.
 #' @param factor An integer specifying the aggregation factor (default is 2).
@@ -21,13 +20,7 @@
 #'
 #' @export
 aggregate_rasters <- function(dir, out_dir, factor = 2) {
-  lf <- list.files(
-    path = dir,
-    pattern = "\\.(tif|jp2)$",
-    recursive = TRUE,
-    full.names = TRUE,
-    ignore.case = TRUE
-  )
+  lf <- list_dir_rasters(dir)
 
   if (!dir.exists(out_dir)) {
     dir.create(out_dir, recursive = TRUE)
@@ -47,21 +40,3 @@ aggregate_rasters <- function(dir, out_dir, factor = 2) {
   lf
 }
 
-#' Get nexus
-#'
-#' Determines the appropriate path separator based on whether a folder path
-#' ends with a trailing slash or not.
-#'
-#' @param name A string representing a folder path.
-#'
-#' @return A string. If the input ends with "/", it returns an empty string.
-#'   Otherwise, it returns "/".
-#'
-#' @keywords internal
-get_nexus <- function(name) {
-  if (endsWith(name, "/")) {
-    ""
-  } else {
-    "/"
-  }
-}

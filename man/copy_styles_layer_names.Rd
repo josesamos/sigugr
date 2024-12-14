@@ -57,13 +57,3 @@ copy_styles_layer_names(
 DBI::dbDisconnect(conn)
 }
 }
-\seealso{
-\code{\link{copy_styles_layer}}
-
-Other independent functions: 
-\code{\link{clip_multipoligon}()},
-\code{\link{clip_vector}()},
-\code{\link{copy_styles_layer}()},
-\code{\link{get_layer_categories}()}
-}
-\concept{independent functions}

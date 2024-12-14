@@ -25,9 +25,3 @@ Save raster file bands in separate tables in PostGIS
 #
 
 }
-\seealso{
-Other save functions: 
-\code{\link{pg_write_bands}()},
-\code{\link{pg_write_satres_bands}()}
-}
-\concept{save functions}

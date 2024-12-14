@@ -33,13 +33,3 @@ dest_gpkg <- "destination.gpkg"
 copy_styles_layer(from = source_gpkg, to = dest_gpkg)
 }
 }
-\seealso{
-\code{\link{copy_styles_layer_names}}
-
-Other independent functions: 
-\code{\link{clip_multipoligon}()},
-\code{\link{clip_vector}()},
-\code{\link{copy_styles_layer_names}()},
-\code{\link{get_layer_categories}()}
-}
-\concept{independent functions}

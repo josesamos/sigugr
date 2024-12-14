@@ -7,8 +7,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-4457-3439")),
     person("Universidad de Granada", role = "cph")
   )
-Description: Streamlines geographic data transformation and integration, 
-    simplifying data preparation and enhancing interoperability across 
+Description: Streamlines geographic data transformation and integration,
+    simplifying data preparation and enhancing interoperability across
     formats and coordinate systems.
 License: MIT + file LICENSE
 URL: https://josesamos.github.io/sigugr/

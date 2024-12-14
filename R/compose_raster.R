@@ -24,15 +24,7 @@ compose_raster <- function(dir, out_file = NULL) {
     stop("'dir' must be a string or a vector of strings.")
   }
 
-  files <- unlist(lapply(dir, function(d) {
-    list.files(
-      path = d,
-      pattern = "\\.(tif|jp2)$",
-      recursive = TRUE,
-      full.names = TRUE,
-      ignore.case = TRUE
-    )
-  }))
+  files <- unlist(lapply(dir, list_dir_rasters))
 
   if (length(files) == 0) {
     stop("No raster files found in the specified directories.")

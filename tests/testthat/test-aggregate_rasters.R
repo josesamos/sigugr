@@ -24,9 +24,3 @@ test_that("aggregate_rasters processes raster files correctly", {
   }
 })
 
-test_that("get_nexus handles paths correctly", {
-  expect_equal(get_nexus("output/"), "")
-  expect_equal(get_nexus("output"), "/")
-  expect_equal(get_nexus("/path/to/folder/"), "")
-  expect_equal(get_nexus("/path/to/folder"), "/")
-})

@@ -29,11 +29,3 @@ lanjaron <- sf::st_read(gpkg_path, layer = "lanjaron", quiet = TRUE)
 clc_clipped <- clip_vector(clc, lanjaron)
 
 }
-\seealso{
-Other independent functions: 
-\code{\link{clip_multipoligon}()},
-\code{\link{copy_styles_layer}()},
-\code{\link{copy_styles_layer_names}()},
-\code{\link{get_layer_categories}()}
-}
-\concept{independent functions}
