@@ -31,3 +31,24 @@ test_that("compose_raster combines rasters into a VRT", {
   unlink(temp_dir1, recursive = TRUE)
   unlink(temp_dir2, recursive = TRUE)
 })
+
+
+test_that("compose_raster handles missing or empty directories correctly", {
+  # Caso: 'dir' no es válido
+  expect_error(
+    compose_raster(NULL),
+    "'dir' must be a string or a vector of strings."
+  )
+
+  expect_error(
+    compose_raster(123),
+    "'dir' must be a string or a vector of strings."
+  )
+
+  # Caso: Directorio válido pero sin rásters
+  empty_dir <- withr::local_tempdir()
+  expect_error(
+    compose_raster(empty_dir),
+    "No raster files found in the specified directories."
+  )
+})

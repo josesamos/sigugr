@@ -19,7 +19,7 @@ the raster layers will be stored. Default is `"public"`.}
 \item{postfix}{A string to append to each layer name. Default is `NULL`.}
 }
 \value{
-The input `terra::SpatRaster` object, returned invisibly.
+Invisibly returns a character vector of the names of the tables written to PostGIS.
 }
 \description{
 Writes each band of a raster (`terra::SpatRaster`) to a specified schema in a
@@ -39,7 +39,9 @@ conn <- DBI::dbConnect(
 )
 
 sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
-pg_write_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+
+tables <- pg_write_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+
 DBI::dbDisconnect(conn)
 }
 

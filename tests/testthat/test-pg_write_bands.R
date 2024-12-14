@@ -25,8 +25,7 @@ test_that("pg_write_bands writes raster bands to PostGIS correctly", {
   expect_equal(calls[[3]][[2]], c("test_schema", "pre_band_3_post"))
 
   # Check the return value
-  expect_s4_class(result, "SpatRaster")
-  expect_equal(result, sr)
+  expect_equal(result, c("pre_band_1_post", "pre_band_2_post", "pre_band_3_post"))
 })
 
 test_that("pg_write_bands handles invalid inputs", {

@@ -13,7 +13,7 @@
 #' @param prefix A string to prepend to each layer name. Default is `NULL`.
 #' @param postfix A string to append to each layer name. Default is `NULL`.
 #'
-#' @return The input `terra::SpatRaster` object, returned invisibly.
+#' @return Invisibly returns a character vector of the names of the tables written to PostGIS.
 #'
 #' @examples
 #' \dontrun{
@@ -26,7 +26,9 @@
 #' )
 #'
 #' sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
-#' pg_write_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+#'
+#' tables <- pg_write_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+#'
 #' DBI::dbDisconnect(conn)
 #' }
 #'
@@ -41,14 +43,14 @@ pg_write_bands <- function(sr, conn, schema = "public", prefix = NULL, postfix =
   prefix <- as.character(prefix)
   postfix <- as.character(postfix)
 
-  # Iterate over bands
+  tables <- NULL
   for (band_name in names(sr)) {
     r <- sr[[band_name]]
-    layer <- paste0(prefix, band_name, postfix)
-    layer <- snakecase::to_snake_case(layer)
-
-    rpostgis::pgWriteRast(conn, c(schema, layer), raster = r)
+    table_name <- paste0(prefix, band_name, postfix)
+    table_name <- snakecase::to_snake_case(table_name)
+    tables <- c(tables, table_name)
+    rpostgis::pgWriteRast(conn, c(schema, table_name), raster = r)
   }
 
-  invisible(sr)
+  invisible(tables)
 }

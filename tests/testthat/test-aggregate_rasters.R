@@ -24,3 +24,31 @@ test_that("aggregate_rasters processes raster files correctly", {
   }
 })
 
+test_that("aggregate_rasters creates the output directory if it does not exist", {
+  input_dir <- file.path(tempdir(), "test_rasters_input")
+  dir.create(input_dir, showWarnings = FALSE)
+
+  r1 <- terra::rast(nrows = 10, ncols = 10, vals = runif(100))
+  input_file <- file.path(input_dir, "raster1.tif")
+  terra::writeRaster(r1, input_file, overwrite = TRUE)
+
+  # Output directory (must not exist at startup)
+  output_dir <- file.path(tempdir(), "test_rasters_output")
+  expect_false(dir.exists(output_dir)) # Confirmar que no existe
+
+  aggregate_rasters(input_dir, output_dir, factor = 2)
+
+  expect_true(dir.exists(output_dir))
+
+  output_file <- file.path(output_dir, "raster1.TIF")
+  expect_true(file.exists(output_file))
+
+  r_aggregated <- terra::rast(output_file)
+  expect_equal(ncol(r_aggregated), 5) # Original (10) dividido por factor (2)
+  expect_equal(nrow(r_aggregated), 5)
+
+  # Limpieza
+  unlink(input_dir, recursive = TRUE)
+  unlink(output_dir, recursive = TRUE)
+})
+
