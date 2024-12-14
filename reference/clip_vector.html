@@ -77,22 +77,8 @@ The output will be in the CRS of the `polygon`, and it will retain all attribute
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">gpkg_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"clc.gpkg"</span>, package <span class="op">=</span> <span class="st">"clc"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">clc</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">gpkg_path</span>, layer <span class="op">=</span> <span class="st">"clc"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `clc' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/runner/work/_temp/Library/clc/extdata/clc.gpkg' using driver `GPKG'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 136 features and 2 fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 453250.3 ymin: 4081013 xmax: 465080 ymax: 4099648</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: ETRS89 / UTM zone 30N</span>
-<span class="r-in"><span><span class="va">lanjaron</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">gpkg_path</span>, layer <span class="op">=</span> <span class="st">"lanjaron"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lanjaron' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/runner/work/_temp/Library/clc/extdata/clc.gpkg' using driver `GPKG'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1 feature and 4 fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 453250.3 ymin: 4081013 xmax: 465080 ymax: 4099648</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: ETRS89 / UTM zone 30N</span>
+<span class="r-in"><span><span class="va">clc</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">gpkg_path</span>, layer <span class="op">=</span> <span class="st">"clc"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lanjaron</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">gpkg_path</span>, layer <span class="op">=</span> <span class="st">"lanjaron"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">clc_clipped</span> <span class="op">&lt;-</span> <span class="fu">clip_vector</span><span class="op">(</span><span class="va">clc</span>, <span class="va">lanjaron</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
