@@ -1,15 +1,15 @@
 Type: Package
 Package: sigugr
-Title: Geographic Data Processing and Integration
+Title: Workflow for Geographic Data
 Version: 0.1.0
 Authors@R: c(
     person("Jose", "Samos", , "jsamos@ugr.es", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4457-3439")),
     person("Universidad de Granada", role = "cph")
   )
-Description: Streamlines geographic data transformation and integration,
-    simplifying data preparation and enhancing interoperability across
-    formats and coordinate systems.
+Description: Streamlines geographic data transformation, storage and publication,
+    simplifying data preparation and enhancing interoperability across formats and
+    platforms.
 License: MIT + file LICENSE
 URL: https://josesamos.github.io/sigugr/
 Depends: 
