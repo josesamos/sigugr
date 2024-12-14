@@ -6,6 +6,7 @@
 \usage{
 pg_write_layers(
   gpkg,
+  layers = NULL,
   conn,
   schema = "public",
   prefix = NULL,
@@ -16,6 +17,9 @@ pg_write_layers(
 }
 \arguments{
 \item{gpkg}{A string, the path to the GeoPackage file.}
+
+\item{layers}{A string vector, the name of the layers to transfer. If NULL,
+all vector layers are transferred.}
 
 \item{conn}{A PostGIS database connection object created with [RPostgres::dbConnect()].}
 
@@ -33,7 +37,7 @@ pg_write_layers(
 Invisibly returns a character vector of the names of the tables written to PostGIS.
 }
 \description{
-Transfers all vector layers with valid geometries from a GeoPackage file
+Transfers vector layers with valid geometries from a GeoPackage file
 to a specified PostGIS database schema. Optionally allows setting a custom
 geometry column name, adding prefixes or postfixes to the table names, and
 renaming the layer fields to follow the Snake Case convention.
@@ -42,8 +46,9 @@ renaming the layer fields to follow the Snake Case convention.
 \dontrun{
 conn <- DBI::dbConnect(RPostgres::Postgres(), dbname = "mydb")
 gpkg_file <- "example.gpkg"
+layers <- NULL
 pg_write_layers(
-  gpkg_file, conn, schema = "my_schema", prefix = "pre_", postfix = "_post"
+  gpkg_file, layers, conn, schema = "my_schema", prefix = "pre_", postfix = "_post"
 )
 DBI::dbDisconnect(conn)
 }
