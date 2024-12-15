@@ -63,8 +63,9 @@ name if not provided.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class `geoserver` or NULL if an error occurred.</p>
-    </div>
+    <p>An integer:</p><ul><li><p><code>0</code> if the operation was successful or if the layer already exists.</p></li>
+<li><p><code>1</code> if an error occurred.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Prints an appropriate message indicating success or failure.</p>
@@ -73,15 +74,35 @@ name if not provided.</p></dd>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other publish to GeoServer:
 <code><a href="geoserver.html">geoserver</a>()</code>,
-<code><a href="gs_publish_bands.html">gs_publish_bands</a>()</code>,
-<code><a href="gs_publish_raster.html">gs_publish_raster</a>()</code>,
-<code><a href="register_datastore_geopackage.html">register_datastore_geopackage</a>()</code>,
+<code><a href="publish_bands.html">publish_bands</a>()</code>,
+<code><a href="publish_raster.html">publish_raster</a>()</code>,
 <code><a href="register_datastore_postgis.html">register_datastore_postgis</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoserver.html">geoserver</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  url <span class="op">=</span> <span class="st">"http://localhost:8080/geoserver"</span>,</span></span>
+<span class="r-in"><span>  user <span class="op">=</span> <span class="st">"admin"</span>,</span></span>
+<span class="r-in"><span>  password <span class="op">=</span> <span class="st">"geoserver"</span>,</span></span>
+<span class="r-in"><span>  workspace <span class="op">=</span> <span class="st">"sigugr_test"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="va">gso</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="register_datastore_postgis.html">register_datastore_postgis</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"sigugr-postgis"</span>,</span></span>
+<span class="r-in"><span>    db_name <span class="op">=</span> <span class="st">'sigugr_example'</span>,</span></span>
+<span class="r-in"><span>    host <span class="op">=</span> <span class="st">'localhost'</span>,</span></span>
+<span class="r-in"><span>    port <span class="op">=</span> <span class="fl">5432</span>,</span></span>
+<span class="r-in"><span>    db_user <span class="op">=</span> <span class="st">'user'</span>,</span></span>
+<span class="r-in"><span>    db_password <span class="op">=</span> <span class="st">'password'</span>,</span></span>
+<span class="r-in"><span>    schema <span class="op">=</span> <span class="st">"public"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gso</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">publish_layer</span><span class="op">(</span>layer <span class="op">=</span> <span class="st">'sigugr_layer'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

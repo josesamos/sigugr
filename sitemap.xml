@@ -17,14 +17,13 @@
 <url><loc>https://josesamos.github.io/sigugr/reference/generate_bbox.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/geoserver.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/get_layer_categories.html</loc></url>
-<url><loc>https://josesamos.github.io/sigugr/reference/gs_publish_bands.html</loc></url>
-<url><loc>https://josesamos.github.io/sigugr/reference/gs_publish_raster.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/index.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/pg_write_bands.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/pg_write_layers.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/pg_write_raster.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/publish_bands.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/publish_layer.html</loc></url>
-<url><loc>https://josesamos.github.io/sigugr/reference/register_datastore_geopackage.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/publish_raster.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/register_datastore_postgis.html</loc></url>
 </urlset>
 
