@@ -64,20 +64,6 @@ register_datastore_postgis.geoserver <- function(gso,
                                                  db_user,
                                                  db_password,
                                                  schema = "public") {
-  gso$datastore <- datastore
-
-  # Define URLs
-  datastore_url <- paste0(gso$url, "/rest/workspaces/", gso$workspace, "/datastores")
-  datastore_check_url <- paste0(datastore_url, "/", datastore)
-
-  # Check if the datastore already exists
-  check_response <- httr::GET(url = datastore_check_url, httr::authenticate(gso$user, gso$password))
-
-  if (httr::status_code(check_response) == 200) {
-    message("Datastore already exists.")
-    return(gso)
-  }
-
   # Prepare the body for datastore creation
   datastore_body <- jsonlite::toJSON(list(
     dataStore = list(
@@ -95,21 +81,5 @@ register_datastore_postgis.geoserver <- function(gso,
     )
   ), auto_unbox = TRUE)
 
-  # Register the PostGIS database
-  response <- httr::POST(
-    url = datastore_url,
-    httr::authenticate(gso$user, gso$password),
-    body = datastore_body,
-    encode = "json",
-    httr::content_type_json()
-  )
-
-  if (httr::status_code(response) == 201) {
-    message("PostGIS database successfully registered as a datastore!")
-    return(gso)
-  } else {
-    message("Error registering the PostGIS database: ",
-            httr::content(response, "text"))
-    return(NULL)
-  }
+  register_datastore(gso, datastore, datastore_body)
 }

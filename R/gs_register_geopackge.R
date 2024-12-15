@@ -8,7 +8,7 @@
 #'
 #' In any case, prints an appropriate message.
 #'
-#' @param An object of class `geoserver`.
+#' @param gso An object of class `geoserver` containing GeoServer connection details.
 #' @param datastore A character string. The name of the datastore to be created.
 #' @param geopackage A character string specifying the full file path to the GeoPackage
 #'   file. The default is `NULL`, which assumes the datastore has already been registered.
@@ -40,18 +40,9 @@ register_datastore_geopackage <- function(gso, datastore, geopackage)
 #' @rdname register_datastore_geopackage
 #' @export
 register_datastore_geopackage.geoserver <- function(gso, datastore, geopackage = NULL) {
-  gso$datastore <- datastore
-
-  # Define URLs
-  datastore_url <- paste0(gso$url, "/rest/workspaces/", gso$workspace, "/datastores")
-  datastore_check_url <- paste0(datastore_url, "/", datastore)
-
-  # Check if the datastore already exists
-  check_response <- httr::GET(url = datastore_check_url, httr::authenticate(gso$user, gso$password))
-
-  if (httr::status_code(check_response) == 200) {
-    message("Datastore already exists.")
-    return(gso)
+  # Check if geopackage file exists
+  if (!file.exists(geopackage)) {
+    stop("The provided GeoPackage file path does not exist.")
   }
 
   # Prepare the body for datastore creation
@@ -65,21 +56,5 @@ register_datastore_geopackage.geoserver <- function(gso, datastore, geopackage =
     )
   ), auto_unbox = TRUE)
 
-  # Register the GeoPackage
-  response <- httr::POST(
-    url = datastore_url,
-    httr::authenticate(gso$user, gso$password),
-    body = datastore_body,
-    encode = "json",
-    httr::content_type_json()
-  )
-
-  if (httr::status_code(response) == 201) {
-    message("GeoPackage successfully registered as a datastore!")
-    return(gso)
-  } else {
-    message("Error registering the GeoPackage: ",
-            httr::content(response, "text"))
-    return(NULL)
-  }
+  register_datastore(gso, datastore, datastore_body)
 }

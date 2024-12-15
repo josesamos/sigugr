@@ -1,6 +1,6 @@
 #' Publish a Raster to GeoServer
 #'
-#' This function publishes a GeoTIFF raster file to a specified workspace and data store on a GeoServer instance.
+#' This function publishes a GeoTIFF raster file to a workspace and data store on a GeoServer instance.
 #'
 #' @param geoserver_url A character string specifying the base URL of the GeoServer instance (e.g., "http://localhost:8080/geoserver").
 #' @param user A character string for the GeoServer username with publish permissions.

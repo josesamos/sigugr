@@ -18,7 +18,11 @@ publish_layer(gso, layer, title)
 name if not provided.}
 }
 \value{
-An object of class `geoserver` or NULL if an error occurred.
+An integer:
+\itemize{
+  \item \code{0} if the operation was successful or if the layer already exists.
+  \item \code{1} if an error occurred.
+}
 }
 \description{
 Publishes a vector layer to GeoServer using the REST API.
@@ -36,6 +40,7 @@ Other publish to GeoServer:
 \code{\link{gs_publish_bands}()},
 \code{\link{gs_publish_raster}()},
 \code{\link{register_datastore_geopackage}()},
-\code{\link{register_datastore_postgis}()}
+\code{\link{register_datastore_postgis}()},
+\code{\link{register_datastore_tiff}()}
 }
 \concept{publish to GeoServer}

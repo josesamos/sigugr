@@ -10,7 +10,11 @@
 #' @param title A string, an optional title for the layer. Defaults to the layer
 #'   name if not provided.
 #'
-#' @return An object of class `geoserver` or NULL if an error occurred.
+#' @return An integer:
+#' \itemize{
+#'   \item \code{0} if the operation was successful or if the layer already exists.
+#'   \item \code{1} if an error occurred.
+#' }
 #'
 #' @family publish to GeoServer
 #'
@@ -30,8 +34,8 @@ publish_layer.geoserver <- function(gso, layer, title = NULL) {
   }
 
   # Define URLs
-  layer_url <- paste0(url, "/rest/layers/", gso$workspace, ":", layer)
-  featuretype_url <- paste0(url,
+  layer_url <- paste0(gso$url, "/rest/layers/", gso$workspace, ":", layer)
+  featuretype_url <- paste0(gso$url,
                             "/rest/workspaces/",
                             gso$workspace,
                             "/datastores/",
@@ -46,7 +50,7 @@ publish_layer.geoserver <- function(gso, layer, title = NULL) {
 
   if (httr::status_code(check_response) == 200) {
     message("Layer already exists.")
-    return(gso)
+    return(0)
   }
 
   # Prepare layer configuration as JSON
@@ -69,10 +73,10 @@ publish_layer.geoserver <- function(gso, layer, title = NULL) {
   # Check the HTTP response status
   if (httr::status_code(response) == 201) {
     message("Layer published successfully.")
-    return(gso)
+    return(0)
   } else {
     error_message <- httr::content(response, "text", encoding = "UTF-8")
     message("Failed to publish layer. Error: ", error_message)
-    return(NULL)
+    return(1)
   }
 }

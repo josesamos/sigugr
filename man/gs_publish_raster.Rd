@@ -25,7 +25,7 @@ An integer indicating the status of the operation:
   - `1`: An error occurred during the publishing process.
 }
 \description{
-This function publishes a GeoTIFF raster file to a specified workspace and data store on a GeoServer instance.
+This function publishes a GeoTIFF raster file to a workspace and data store on a GeoServer instance.
 }
 \details{
 The function uses the GeoServer REST API to upload a GeoTIFF raster file to a specified workspace and data store.
@@ -58,6 +58,7 @@ Other publish to GeoServer:
 \code{\link{gs_publish_bands}()},
 \code{\link{publish_layer}()},
 \code{\link{register_datastore_geopackage}()},
-\code{\link{register_datastore_postgis}()}
+\code{\link{register_datastore_postgis}()},
+\code{\link{register_datastore_tiff}()}
 }
 \concept{publish to GeoServer}
