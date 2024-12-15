@@ -55,7 +55,10 @@ gs_publish_bands(
 }
 \seealso{
 Other publish to GeoServer: 
-\code{\link{gs_publish_layer}()},
-\code{\link{gs_publish_raster}()}
+\code{\link{geoserver}()},
+\code{\link{gs_publish_raster}()},
+\code{\link{publish_layer}()},
+\code{\link{register_datastore_geopackage}()},
+\code{\link{register_datastore_postgis}()}
 }
 \concept{publish to GeoServer}

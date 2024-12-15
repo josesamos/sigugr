@@ -1,70 +1,66 @@
 
-#' Publish a layer to GeoServer
+#' Publish a Vector Layer to GeoServer
 #'
-#' Publishes a vector layer to GeoServer using the REST API. Returns a status code
-#' and prints an appropriate message indicating success or failure.
+#' Publishes a vector layer to GeoServer using the REST API.
 #'
-#' @param geoserver_url A string, the base URL of the GeoServer instance.
-#' @param user A string, GeoServer username.
-#' @param password A string, GeoServer password.
-#' @param workspace A string, the name of the GeoServer workspace.
-#' @param data_store A string, the name of the data store where the layer resides.
-#' @param layer_name A string, the name of the layer to publish.
+#' Prints an appropriate message indicating success or failure.
+#'
+#' @param gso An object of class `geoserver` containing GeoServer connection details.
+#' @param layer A string, the name of the layer to publish.
 #' @param title A string, an optional title for the layer. Defaults to the layer
 #'   name if not provided.
 #'
-#' @return An integer indicating the status of the operation:
-#'   - `0`: The layer was published successfully.
-#'   - `1`: An error occurred during the publishing process.
+#' @return An object of class `geoserver` or NULL if an error occurred.
 #'
 #' @family publish to GeoServer
 #'
 #' @examples
 #' \dontrun{
-#' gs_publish_layer(
-#'   geoserver_url = "http://my-geoserver.com/geoserver",
-#'   user = "admin",
-#'   password = "mypassword",
-#'   workspace = "my_workspace",
-#'   data_store = "my_datastore",
-#'   layer_name = "my_layer",
-#'   title = "My Layer Title"
-#' )
 #' }
 #' @export
-gs_publish_layer <- function(geoserver_url,
-                             user,
-                             password,
-                             workspace,
-                             data_store,
-                             layer_name,
-                             title = NULL) {
+publish_layer <- function(gso, layer, title)
+  UseMethod("publish_layer")
+
+
+#' @rdname publish_layer
+#' @export
+publish_layer.geoserver <- function(gso, layer, title = NULL) {
   if (is.null(title)) {
-    title <- layer_name
+    title <- layer
+  }
+
+  # Define URLs
+  layer_url <- paste0(url, "/rest/layers/", gso$workspace, ":", layer)
+  featuretype_url <- paste0(url,
+                            "/rest/workspaces/",
+                            gso$workspace,
+                            "/datastores/",
+                            gso$datastore,
+                            "/featuretypes")
+
+  # Check if the layer already exists
+  check_response <- httr::GET(
+    url = layer_url,
+    httr::authenticate(gso$user, gso$password)
+  )
+
+  if (httr::status_code(check_response) == 200) {
+    message("Layer already exists.")
+    return(gso)
   }
 
   # Prepare layer configuration as JSON
   layer_config <- list(featureType = list(
-    name = layer_name,
-    nativeName = layer_name,
+    name = layer,
+    nativeName = layer,
     title = title
   ))
   layer_config_json <- jsonlite::toJSON(layer_config, auto_unbox = TRUE)
 
-  # Construct the GeoServer REST API URL
-  url <- paste0(
-    geoserver_url,
-    "/rest/workspaces/",
-    workspace,
-    "/datastores/",
-    data_store,
-    "/featuretypes"
-  )
-
   # Send POST request to GeoServer
   response <- httr::POST(
-    url,
-    httr::authenticate(user, password),
+    featuretype_url,
+    httr::authenticate(gso$user, gso$password),
     httr::add_headers("Content-Type" = "application/json"),
     body = layer_config_json,
     encode = "json"
@@ -73,10 +69,10 @@ gs_publish_layer <- function(geoserver_url,
   # Check the HTTP response status
   if (httr::status_code(response) == 201) {
     message("Layer published successfully.")
-    return(0)
+    return(gso)
   } else {
     error_message <- httr::content(response, "text", encoding = "UTF-8")
     message("Failed to publish layer. Error: ", error_message)
-    return(1)
+    return(NULL)
   }
 }
