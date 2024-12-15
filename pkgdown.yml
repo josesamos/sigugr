@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   sigugr: sigugr.html
-last_built: 2024-12-14T22:18Z
+last_built: 2024-12-15T07:26Z
 urls:
   reference: https://josesamos.github.io/sigugr/reference
   article: https://josesamos.github.io/sigugr/articles
