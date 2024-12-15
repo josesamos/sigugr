@@ -50,27 +50,21 @@ geoserver <- function(url, user, password, workspace) {
 #' @keywords internal
 #' @noRd
 check_and_create_workspace <- function(gso) {
-
   # Define the REST API endpoints
   query_url <- paste0(gso$url, "/rest/workspaces/", gso$workspace)
   create_url <- paste0(gso$url, "/rest/workspaces")
 
   # Check if the workspace exists
-  response_get <- httr::GET(
-    url = query_url,
-    httr::authenticate(gso$user, gso$password),
-    httr::content_type_json()
-  )
+  response_get <- httr::GET(url = query_url,
+                            httr::authenticate(gso$user, gso$password),
+                            httr::content_type_json())
 
   if (httr::status_code(response_get) == 200) {
     message("The workspace already exists.")
     return(gso)
   } else if (httr::status_code(response_get) == 404) {
     # Prepare the body for workspace creation
-    workspace_body <- jsonlite::toJSON(
-      list(workspace = list(name = gso$workspace)),
-      auto_unbox = TRUE
-    )
+    workspace_body <- jsonlite::toJSON(list(workspace = list(name = gso$workspace)), auto_unbox = TRUE)
 
     # Create the workspace
     response_post <- httr::POST(
@@ -85,11 +79,14 @@ check_and_create_workspace <- function(gso) {
       message("Workspace successfully created!")
       return(gso)
     } else {
-      message("Error creating the workspace: ", httr::content(response_post, "text"))
+      message("Error creating the workspace: ",
+              httr::content(response_post, "text"))
       return(NULL)
     }
   } else {
-    message("Error checking the workspace: ", httr::content(response_get, "text"))
+    message("Error checking the workspace: ",
+            httr::content(response_get, "text"))
     return(NULL)
   }
 }
+

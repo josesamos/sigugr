@@ -1,63 +1,68 @@
 #' Publish a Raster to GeoServer
 #'
-#' This function publishes a GeoTIFF raster file to a workspace and data store on a GeoServer instance.
+#' This function publishes a GeoTIFF raster file to a workspace and data store on a
+#' GeoServer instance.
 #'
-#' @param geoserver_url A character string specifying the base URL of the GeoServer instance (e.g., "http://localhost:8080/geoserver").
-#' @param user A character string for the GeoServer username with publish permissions.
-#' @param password A character string for the GeoServer password corresponding to the specified user.
-#' @param workspace A character string specifying the target workspace where the raster will be published.
-#' @param data_store A character string specifying the name of the target data store in GeoServer.
-#' @param raster A character string specifying the file path to the GeoTIFF raster file to be uploaded.
+#' @param gso An object of class `geoserver` containing GeoServer connection details.
+#' @param raster A character string specifying the file path to the GeoTIFF raster file
+#'   to be uploaded.
+#' @param layer A string, the name of the layer to publish. If it is `NULL`, which is
+#'   the default value, the layer name is derived from the filename.
 #'
-#' @return An integer indicating the status of the operation:
-#'   - `0`: The raster was published successfully.
-#'   - `1`: An error occurred during the publishing process.
+#' @return An integer:
+#' \itemize{
+#'   \item \code{0} if the operation was successful or if the layer already exists.
+#'   \item \code{1} if an error occurred.
+#' }
 #'
 #' @family publish to GeoServer
 #'
-#' @details
-#' The function uses the GeoServer REST API to upload a GeoTIFF raster file to a specified workspace and data store.
-#' The raster is sent using an HTTP `PUT` request to the GeoServer endpoint, and the response is checked for success.
-#' A message is printed to indicate whether the operation succeeded or failed, and any error messages from GeoServer are displayed.
 #'
 #' @examples
 #' \dontrun{
-#' # Publish a raster to GeoServer
-#' geoserver_url <- "http://localhost:8080/geoserver"
-#' user <- "admin"
-#' password <- "geoserver"
-#' workspace <- "example_workspace"
-#' data_store <- "example_datastore"
-#' raster <- "path/to/raster.tif"
-#'
-#' gs_publish_raster(
-#'   geoserver_url = geoserver_url,
-#'   user = user,
-#'   password = password,
-#'   workspace = workspace,
-#'   data_store = data_store,
-#'   raster = raster
+#' gso <- geoserver(
+#'   url = "http://localhost:8080/geoserver",
+#'   user = "admin",
+#'   password = "geoserver",
+#'   workspace = "sigugr_test"
 #' )
+#'
+#' source_tif <- system.file("extdata/sat.tif", package = "sigugr")
+#'
+#' gso |>
+#'   publish_raster(source_tif, "sat-tiff")
 #' }
 #' @export
-gs_publish_raster <- function(geoserver_url,
-                              user,
-                              password,
-                              workspace,
-                              data_store,
-                              raster) {
+#' @export
+publish_raster <- function(gso, raster, layer)
+  UseMethod("publish_raster")
+
+
+#' @rdname publish_raster
+#' @export
+publish_raster.geoserver <- function(gso, raster, layer = NULL) {
+
+  # Check if the raster file exists
+  if (!file.exists(raster)) {
+    stop("The specified raster file does not exist: ", raster)
+  }
+
+  if (is.null(layer)) {
+    layer <- tools::file_path_sans_ext(basename(raster))
+  }
+
   url <- paste0(
-    geoserver_url,
+    gso$url,
     "/rest/workspaces/",
-    workspace,
+    gso$workspace,
     "/coveragestores/",
-    data_store,
+    layer,
     "/file.geotiff"
   )
 
   response <- httr::PUT(
     url,
-    httr::authenticate(user, password),
+    httr::authenticate(gso$user, gso$password),
     httr::add_headers("Content-Type" = "image/tiff"),
     body = httr::upload_file(raster)
   )

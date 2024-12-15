@@ -20,6 +20,27 @@
 #'
 #' @examples
 #' \dontrun{
+#' gso <- geoserver(
+#'   url = "http://localhost:8080/geoserver",
+#'   user = "admin",
+#'   password = "geoserver",
+#'   workspace = "sigugr_test"
+#' )
+#'
+#' gso <- gso |>
+#'   register_datastore_postgis(
+#'     "sigugr-postgis",
+#'     db_name = 'sigugr_example',
+#'     host = 'localhost',
+#'     port = 5432,
+#'     db_user = 'user',
+#'     db_password = 'password',
+#'     schema = "public"
+#'   )
+#'
+#' gso |>
+#'   publish_layer(layer = 'sigugr_layer')
+#'
 #' }
 #' @export
 publish_layer <- function(gso, layer, title)

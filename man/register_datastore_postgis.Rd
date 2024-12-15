@@ -82,10 +82,8 @@ gso <- gso |>
 \seealso{
 Other publish to GeoServer: 
 \code{\link{geoserver}()},
-\code{\link{gs_publish_bands}()},
-\code{\link{gs_publish_raster}()},
+\code{\link{publish_bands}()},
 \code{\link{publish_layer}()},
-\code{\link{register_datastore_geopackage}()},
-\code{\link{register_datastore_tiff}()}
+\code{\link{publish_raster}()}
 }
 \concept{publish to GeoServer}
