@@ -21,7 +21,14 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/josesamos/sigugr/graph/badge.svg)](https://app.codecov.io/gh/josesamos/sigugr)
 <!-- badges: end -->
 
-The goal of sigugr is to ...
+The workflow for geographic data typically involves:  
+
+- **Data acquisition**: Many datasets are sourced from web downloads.  
+- **Data transformation**: This includes tasks such as raster composition, resolution adjustments, clipping, and style management.  
+- **Data storage**: Storing the processed data in databases, such as PostGIS.  
+- **Data publication**: Making the data accessible via platforms like GeoServer.  
+
+The goal of the `sigugr` package is to provide a comprehensive set of functions that simplify the processes of transforming, storing, and publishing geographic data.
 
 ## Installation
 
