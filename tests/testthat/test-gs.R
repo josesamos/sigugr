@@ -115,3 +115,80 @@ test_that("check_and_create_workspace works when workspace does not exist (404) 
   mockery::expect_called(mock_post_201, 1)
 })
 
+test_that("check_and_create_workspace handles error when workspace creation fails (POST != 201)", {
+  gso <- list(
+    url = "http://example.com/geoserver",
+    user = "admin",
+    password = "password",
+    workspace = "sigugr_test",
+    datastore = "datastore"
+  )
+  class(gso) <- "geoserver"
+
+  # Mock GET response to simulate 404 (workspace does not exist)
+  mock_get_404 <- mockery::mock(
+    structure(list(status_code = 404), class = "response")
+  )
+
+  # Mock POST response to simulate 500 (creation error)
+  mock_post_error <- mockery::mock(
+    structure(
+      list(
+        status_code = 500,
+        content = charToRaw("Internal Server Error") # Provide content in raw format
+      ),
+      class = "response"
+    )
+  )
+
+  # Stub the functions
+  mockery::stub(check_and_create_workspace, "httr::GET", mock_get_404)
+  mockery::stub(check_and_create_workspace, "httr::POST", mock_post_error)
+
+  # Test expectations
+  expect_message(
+    result <- check_and_create_workspace(gso),
+    regexp = "^Error creating the workspace"
+  )
+  expect_null(result)
+
+  # Ensure mocks were called the expected number of times
+  mockery::expect_called(mock_get_404, 1)
+  mockery::expect_called(mock_post_error, 1)
+})
+
+
+test_that("check_and_create_workspace handles error when workspace check fails (GET != 200 or 404)", {
+  gso <- list(
+    url = "http://example.com/geoserver",
+    user = "admin",
+    password = "password",
+    workspace = "sigugr_test",
+    datastore = "datastore"
+  )
+  class(gso) <- "geoserver"
+
+  # Mock GET response to simulate error (status 500)
+  mock_get_error <- mockery::mock(
+    structure(
+      list(
+        status_code = 500,
+        content = charToRaw("Internal Server Error") # Provide content as raw binary
+      ),
+      class = "response"
+    )
+  )
+
+  # Stub the GET request
+  mockery::stub(check_and_create_workspace, "httr::GET", mock_get_error)
+
+  # Test expectations
+  expect_message(
+    result <- check_and_create_workspace(gso),
+    regexp = "^Error checking the workspace"
+  )
+  expect_null(result)
+
+  # Ensure the GET mock was called once
+  mockery::expect_called(mock_get_error, 1)
+})
