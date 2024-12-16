@@ -41,7 +41,7 @@ reference system (CRS) of the raster.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clip_raster</span><span class="op">(</span><span class="va">raster</span>, <span class="va">polygon</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clip_raster</span><span class="op">(</span><span class="va">raster</span>, <span class="va">polygon</span>, keep_crs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -54,6 +54,11 @@ reference system (CRS) of the raster.</p>
 
 <dt id="arg-polygon">polygon<a class="anchor" aria-label="anchor" href="#arg-polygon"></a></dt>
 <dd><p>A `sf` polygon layer used for clipping.</p></dd>
+
+
+<dt id="arg-keep-crs">keep_crs<a class="anchor" aria-label="anchor" href="#arg-keep-crs"></a></dt>
+<dd><p>Logical. If `TRUE`, retains the original CRS of the raster.
+If `FALSE`, transforms the raster to the polygon CRS. Default is `TRUE`.</p></dd>
 
 </dl></div>
     <div class="section level2">
