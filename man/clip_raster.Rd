@@ -4,12 +4,15 @@
 \alias{clip_raster}
 \title{Clip a raster based on a polygon}
 \usage{
-clip_raster(raster, polygon)
+clip_raster(raster, polygon, keep_crs = TRUE)
 }
 \arguments{
 \item{raster}{A `terra` raster to be clipped.}
 
 \item{polygon}{A `sf` polygon layer used for clipping.}
+
+\item{keep_crs}{Logical. If `TRUE`, retains the original CRS of the raster.
+If `FALSE`, transforms the raster to the polygon CRS. Default is `TRUE`.}
 }
 \value{
 A `terra` raster clipped to the extent of the polygon.

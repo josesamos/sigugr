@@ -41,3 +41,37 @@ list_dir_rasters <- function(dir) {
   )
   lf
 }
+
+
+#' Get a project crs
+#'
+#' @param layer A `sf` object.
+#'
+#' @return An integer, CRS code.
+#'
+#' @keywords internal
+#' @noRd
+get_projected_crs <- function(layer) {
+  # Check if the CRS is geographic (degrees)
+  if (sf::st_is_longlat(layer)) {
+    # Calculate the centroid of the layer
+    centroid <- sf::st_centroid(sf::st_union(layer))
+    coords <- sf::st_coordinates(centroid)
+    lon <- coords[1]
+    lat <- coords[2]
+
+    # Determine the UTM zone based on longitude
+    utm_zone <- floor((lon + 180) / 6) + 1
+
+    # Select EPSG code for the appropriate UTM zone
+    epsg_utm <- if (lat >= 0) {
+      32600 + utm_zone  # Northern Hemisphere
+    } else {
+      32700 + utm_zone  # Southern Hemisphere
+    }
+    crs <- epsg_utm
+  } else {
+    crs <- sf::st_crs(layer)$epsg
+  }
+  crs
+}
