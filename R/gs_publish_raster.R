@@ -69,11 +69,11 @@ publish_raster.geoserver <- function(gso, raster, layer = NULL) {
 
   # Check the HTTP response status
   if (httr::status_code(response) == 201) {
-    message("Raster published successfully.")
+    message(sprintf("Raster %s published successfully.", layer))
     return(0)
   } else {
     error_message <- httr::content(response, "text", encoding = "UTF-8")
-    message("Failed to publish raster. Error: ", error_message)
+    message(sprintf("Failed to publish raster %s. Error: ", layer), error_message)
     return(1)
   }
 }

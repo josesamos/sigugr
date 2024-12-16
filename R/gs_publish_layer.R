@@ -70,7 +70,7 @@ publish_layer.geoserver <- function(gso, layer, title = NULL) {
   )
 
   if (httr::status_code(check_response) == 200) {
-    message("Layer already exists.")
+    message(sprintf("Layer %s already exists.", layer))
     return(0)
   }
 
@@ -93,11 +93,11 @@ publish_layer.geoserver <- function(gso, layer, title = NULL) {
 
   # Check the HTTP response status
   if (httr::status_code(response) == 201) {
-    message("Layer published successfully.")
+    message(sprintf("Layer %s published successfully.", layer))
     return(0)
   } else {
     error_message <- httr::content(response, "text", encoding = "UTF-8")
-    message("Failed to publish layer. Error: ", error_message)
+    message(sprintf("Failed to publish layer %s. Error: ", layer), error_message)
     return(1)
   }
 }

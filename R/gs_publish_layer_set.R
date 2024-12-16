@@ -11,7 +11,7 @@
 #' Prints an appropriate messages indicating success or failure.
 #'
 #' @param gso An object of class `geoserver` containing GeoServer connection details.
-#' @param source A valid connection to a PostGIS database (`DBI` connection object).
+#' @param source A valid connection to a PostGIS database (`RPostgres` connection object).
 #' @param layers An optional character vector of layer names to check and publish.
 #'   If `NULL` (default), all vector geometry layers in the source will be published.
 #'
@@ -43,48 +43,45 @@
 #'     schema = "public"
 #'   )
 #'
-#' source <- DBI::dbConnect(
+#' source <- RPostgres::dbConnect(
 #'   RPostgres::Postgres(),
-#'   dbname = "mydb",
-#'   host = "localhost",
-#'   port = 5432,
-#'   user = "user",
-#'   password = "password"
+#'   dbname = 'mydb',
+#'   host = 'localhost',
+#'   port = '5432',
+#'   user = 'user',
+#'   password = 'password'
 #' )
 #'
 #' gso |>
-#'   gs_publish_layer_set(source)
+#'   publish_layer_set(source)
 #'
 #' }
 #' @export
-gs_publish_layer_set <- function(gso, source, layers)
-  UseMethod("gs_publish_layer_set")
+publish_layer_set <- function(gso, source, layers)
+  UseMethod("publish_layer_set")
 
 
-#' @rdname gs_publish_layer_set
+#' @rdname publish_layer_set
 #' @export
-gs_publish_layer_set.geoserver <- function(gso, source, layers = NULL) {
+publish_layer_set.geoserver <- function(gso, source, layers = NULL) {
 
   # Retrieve all vector layers if `layers` is NULL
   if (is.null(layers)) {
     message("Fetching all vector layers from the database...")
-    db_layers <- sf::st_layers(source)$name
+    query <- "SELECT DISTINCT f_table_name FROM geometry_columns"
+    res <- suppressWarnings(sf::st_read(source, query = query))
+    db_layers <- res[[1]]
   } else {
     db_layers <- layers
   }
 
   # Process each layer
   for (layer in db_layers) {
-    # Check if the layer can be read as vector geometry
-    sf_object <- sf::st_read(source, layer = layer, quiet = TRUE)
-    if (inherits(sf_object, "sf")) {
-      # Publish the layer
-      result <- publish_layer(gso, layer)
+    result <- publish_layer(gso, layer)
 
-      if (result != 0) {
-        message("Not all available layers have been published.")
-        return(result)
-      }
+    if (result != 0) {
+      message("Not all available layers have been published.")
+      return(result)
     }
   }
   return(0)
