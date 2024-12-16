@@ -1,3 +1,31 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+
+# Test for invalid SpatRaster input
+test_that("pg_write_raster throws an error if sr is not SpatRaster", {
+  expect_error(
+    pg_write_raster("not_a_raster", conn, table_name = "invalid_table"),
+    "`sr` must be a terra::SpatRaster object."
+  )
+})
+
+
+test_that("pg_write_raster works correctly with mock database connection", {
+  # Mock database connection and functions
+  conn <- mockery::mock()
+  mock_pgWriteRast <- mockery::mock(NULL)
+
+  # Patch rpostgis::pgWriteRast with the mock function
+  mockery::stub(pg_write_raster, "rpostgis::pgWriteRast", mock_pgWriteRast)
+
+  # Create a sample SpatRaster object
+  rast <- terra::rast(ncol = 10, nrow = 10, xmin = 0, xmax = 10, ymin = 0, ymax = 10)
+  terra::values(rast) <- runif(terra::ncell(rast))
+
+  # Define table name
+  table_name <- "TestTable"
+
+  # Test pg_write_raster
+  expect_no_error(pg_write_raster(rast, conn, table_name = table_name))
+
+  # Verify pgWriteRast was called with correct arguments
+  mockery::expect_called(mock_pgWriteRast, 1)
 })
