@@ -2,7 +2,7 @@
 % Please edit documentation in R/store_bands.R
 \name{store_bands}
 \alias{store_bands}
-\title{Write Raster Bands to PostGIS}
+\title{Store Raster Bands to PostGIS}
 \usage{
 store_bands(sr, conn, schema = "public", prefix = NULL, postfix = NULL)
 }
@@ -22,7 +22,7 @@ the raster layers will be stored. Default is `"public"`.}
 Invisibly returns a character vector of the names of the tables written to PostGIS.
 }
 \description{
-Writes each band of a raster (`terra::SpatRaster`) to a specified schema in a
+Stores each band of a raster (`terra::SpatRaster`) to a specified schema in a
 PostGIS database. Each band is written as a separate table in the database.
 }
 \details{
@@ -48,7 +48,7 @@ DBI::dbDisconnect(conn)
 }
 \seealso{
 Other write to PostGIS: 
-\code{\link{pg_write_raster}()},
-\code{\link{store_layers}()}
+\code{\link{store_layers}()},
+\code{\link{store_raster}()}
 }
 \concept{write to PostGIS}

@@ -1,7 +1,7 @@
 
-#' Write Raster to PostGIS
+#' Store Raster to PostGIS
 #'
-#' Writes all bands of a raster (`terra::SpatRaster`) to a specified schema in a
+#' Stores all bands of a raster (`terra::SpatRaster`) to a specified schema in a
 #' PostGIS database. All bands are written in the same table in the database.
 #'
 #' Transforms the table name according to the Snake Case convention.
@@ -28,13 +28,13 @@
 #'
 #' sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
 #'
-#' tables <- pg_write_raster(sr, conn, schema = "geodata", table_name = "example_raster")
+#' tables <- store_raster(sr, conn, schema = "geodata", table_name = "example_raster")
 #'
 #' DBI::dbDisconnect(conn)
 #' }
 #'
 #' @export
-pg_write_raster <- function(sr, conn, schema = "public", table_name) {
+store_raster <- function(sr, conn, schema = "public", table_name) {
   if (!inherits(sr, "SpatRaster"))
     stop("`sr` must be a terra::SpatRaster object.")
 

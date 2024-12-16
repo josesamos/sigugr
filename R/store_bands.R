@@ -1,7 +1,7 @@
 
-#' Write Raster Bands to PostGIS
+#' Store Raster Bands to PostGIS
 #'
-#' Writes each band of a raster (`terra::SpatRaster`) to a specified schema in a
+#' Stores each band of a raster (`terra::SpatRaster`) to a specified schema in a
 #' PostGIS database. Each band is written as a separate table in the database.
 #'
 #' Transforms the table name according to the Snake Case convention.

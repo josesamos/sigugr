@@ -56,7 +56,7 @@ DBI::dbDisconnect(conn)
 }
 \seealso{
 Other write to PostGIS: 
-\code{\link{pg_write_raster}()},
-\code{\link{store_bands}()}
+\code{\link{store_bands}()},
+\code{\link{store_raster}()}
 }
 \concept{write to PostGIS}
