@@ -135,7 +135,8 @@ test_that("check_and_create_workspace handles error when workspace creation fail
     structure(
       list(
         status_code = 500,
-        content = charToRaw("Internal Server Error") # Provide content in raw format
+        content = charToRaw("Internal Server Error"), # Content as raw binary
+        url = "http://example.com/geoserver/rest/workspaces/sigugr_test" # Include mock URL
       ),
       class = "response"
     )
@@ -158,6 +159,7 @@ test_that("check_and_create_workspace handles error when workspace creation fail
 })
 
 
+
 test_that("check_and_create_workspace handles error when workspace check fails (GET != 200 or 404)", {
   gso <- list(
     url = "http://example.com/geoserver",
@@ -173,7 +175,8 @@ test_that("check_and_create_workspace handles error when workspace check fails (
     structure(
       list(
         status_code = 500,
-        content = charToRaw("Internal Server Error") # Provide content as raw binary
+        content = charToRaw("Internal Server Error"), # Content as raw binary
+        url = "http://example.com/geoserver/rest/workspaces/sigugr_test" # Include mock URL
       ),
       class = "response"
     )
