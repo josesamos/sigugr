@@ -43,14 +43,7 @@
 #' }
 #'
 #' @export
-register_datastore_postgis <- function(gso,
-                                       datastore,
-                                       db_name,
-                                       host,
-                                       port,
-                                       db_user,
-                                       db_password,
-                                       schema)
+register_datastore_postgis <- function(gso, datastore, db_name, host, port, db_user, db_password, schema)
   UseMethod("register_datastore_postgis")
 
 
