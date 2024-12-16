@@ -17,3 +17,71 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(sigugr)
 ```
+
+# Introduction
+
+Geospatial data is at the heart of modern applications, enabling critical analyses, decision-making, and visualizations across various domains, including environmental monitoring, urban planning, and disaster management. Handling geospatial data efficiently involves multiple steps: transforming it to match analysis requirements, storing it in optimized spatial databases, and publishing it for sharing or integration with other systems. This package offers a comprehensive solution to streamline the transformation, storage, and publication of raster and vector geospatial data, with additional capabilities for managing layer styles in GeoServer and PostGIS.
+
+Built upon the powerful **`sf`** and **`terra`** R packages, this toolkit bridges the gap between local geospatial data processing and server-based geographic information system (GIS) platforms like PostGIS and GeoServer. The primary aim is to simplify workflows for users dealing with diverse geospatial data needs, allowing seamless integration of data processing, storage, and publication in R.
+
+
+# Motivation
+
+Geospatial data management often involves disparate tools and platforms, requiring significant manual effort and technical expertise to achieve end-to-end workflows. Users typically encounter challenges such as: 
+
+1. Efficiently transforming raster and vector datasets to fit analytical or cartographic requirements.
+2. Persistently storing geospatial data in robust, queryable spatial databases like PostGIS.
+3. Publishing geospatial layers and their associated styles to server environments, such as GeoServer, for visualization and sharing.
+4. Managing geospatial data with consistency, especially across platforms requiring adherence to specific data formats and schema.
+
+This package was developed to address these challenges by providing a cohesive set of functions that unify the processing, storage, and publication of geospatial data. It enables users to focus on analysis and decision-making rather than the intricacies of data management and integration.
+
+# Structure
+
+The package is divided into three primary modules based on functionality:
+
+## **Geospatial Data Transformation**
+This module provides tools for preparing and manipulating raster and vector data to meet specific requirements:
+
+- **`aggregate_rasters()`**: Aggregates multiple raster files within a folder.
+- **`compose_raster()`**: Composes a single raster layer from multiple raster files.
+- **`generate_bbox()`**: Creates a bounding box as an **`sf`** object.
+- **`clip_raster()`**: Clips raster layers based on polygon geometries.
+- **`clip_layer()`**: Clips a vector layer using a polygon mask.
+- **`clip_multipoligon()`**: Clips multipolygon vector layers with safeguards against common errors.
+
+## **Geospatial Data Storage in PostGIS**
+This module facilitates the storage of geospatial data in a PostGIS database, providing optimized tools for working with both raster and vector data:
+
+- **`store_layers()`**: Stores vector layers with geometries from GeoPackage or **`sf`** objects to PostGIS.
+- **`store_raster()`**: Stores raster datasets to PostGIS.
+- **`store_bands()`**: Stores individual raster bands in PostGIS for advanced analysis.
+
+## **Geospatial Data Publication on GeoServer**
+This module focuses on the publication of geospatial data to GeoServer, allowing integration with web applications or GIS platforms:
+
+- **`geoserver()`**: Manages GeoServer connection objects using an S3 class.
+- **`register_datastore_postgis()`**: Registers PostGIS databases as GeoServer datastores.
+- **`publish_layer()`**: Publishes vector layers to GeoServer.
+- **`publish_layer_set()`**: Publishes a set of vector layers to GeoServer.
+- **`publish_raster()`**: Publishes raster datasets to GeoServer.
+- **`publish_bands()`**: Publishes individual raster bands as separate layers in GeoServer.
+
+## **Style Management**
+This module offers tools for managing layer styles in GeoServer, GeoPackages, and PostGIS:
+
+- **`copy_styles_layer()`**: Copies styles between layers in GeoServer.
+- **`copy_styles_layer_names()`**: Transfers styles to specific layers stored in a PostGIS database.
+- **`get_layer_categories()`**: Extracts layer categories based on raster pixel values.
+
+
+# Conclusions
+
+This package provides a versatile and efficient framework for geospatial data management, covering the entire lifecycle of data from processing to publication. By leveraging widely-used R libraries like **`sf`** and **`terra`**, and integrating with powerful server platforms such as PostGIS and GeoServer, the package enables users to:
+
+- Seamlessly transform raster and vector datasets to suit various analytical and cartographic needs.
+- Store geospatial data persistently in PostGIS for efficient querying and analysis.
+- Publish geospatial data to GeoServer for visualization, sharing, and integration with web GIS systems.
+- Manage and transfer layer styles across different platforms to maintain consistency.
+
+With its intuitive interface and modular design, the package is suitable for researchers, data analysts, and GIS professionals, facilitating robust workflows that bridge local data processing and server-based geospatial systems. By streamlining these processes, it helps users focus on generating insights and creating value from geospatial data.

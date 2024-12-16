@@ -2,7 +2,7 @@
 % Please edit documentation in R/clc_styles.R
 \name{copy_styles_layer}
 \alias{copy_styles_layer}
-\title{Copy Layer Styles from Source to Destination}
+\title{Copy Layer Styles from Source to Destination in GeoPackage}
 \usage{
 copy_styles_layer(from, to)
 }

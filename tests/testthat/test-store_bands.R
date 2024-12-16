@@ -1,4 +1,4 @@
-test_that("pg_write_bands writes raster bands to PostGIS correctly", {
+test_that("store_bands writes raster bands to PostGIS correctly", {
   # Mock connection and raster input
   conn <- mockery::mock()
   sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
@@ -6,10 +6,10 @@ test_that("pg_write_bands writes raster bands to PostGIS correctly", {
 
   # Mock the pgWriteRast function
   mock_pgWriteRast <- mockery::mock()
-  mockery::stub(pg_write_bands, "rpostgis::pgWriteRast", mock_pgWriteRast)
+  mockery::stub(store_bands, "rpostgis::pgWriteRast", mock_pgWriteRast)
 
   # Call the function
-  result <- pg_write_bands(sr, conn, schema = "test_schema", prefix = "pre_", postfix = "_post")
+  result <- store_bands(sr, conn, schema = "test_schema", prefix = "pre_", postfix = "_post")
 
   # Check that pgWriteRast was called the correct number of times
   expect_equal(length(mockery::mock_args(mock_pgWriteRast)), 3)
@@ -28,10 +28,10 @@ test_that("pg_write_bands writes raster bands to PostGIS correctly", {
   expect_equal(result, c("pre_band_1_post", "pre_band_2_post", "pre_band_3_post"))
 })
 
-test_that("pg_write_bands handles invalid inputs", {
+test_that("store_bands handles invalid inputs", {
   # Invalid raster
   expect_error(
-    pg_write_bands(NULL, mockery::mock()),
+    store_bands(NULL, mockery::mock()),
     "`sr` must be a terra::SpatRaster object."
   )
 
@@ -39,7 +39,7 @@ test_that("pg_write_bands handles invalid inputs", {
   sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
   names(sr) <- NULL
   expect_error(
-    pg_write_bands(sr, mockery::mock()),
+    store_bands(sr, mockery::mock()),
     "The SpatRaster object `sr` must have bands with different names."
   )
 })

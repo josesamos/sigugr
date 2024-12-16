@@ -1,4 +1,4 @@
-#' Copy Layer Styles from Source to Destination
+#' Copy Layer Styles from Source to Destination in GeoPackage
 #'
 #' Copies the first style definition from a source (either a GeoPackage file or a
 #' PostGIS connection) and assigns it to all layers in the destination GeoPackage.
@@ -31,7 +31,7 @@ copy_styles_layer <- function(from, to) {
 }
 
 
-#' Copy Styles to Specific Layers in a PostGIS Database
+#' Copy Layer Styles from Source to Specific Layers in PostGIS Database
 #'
 #' Copies the first style definition from a source (either a GeoPackage file or
 #' a PostGIS connection) to the specified layers in a PostGIS database.

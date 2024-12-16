@@ -2,7 +2,7 @@
 % Please edit documentation in R/clc_styles.R
 \name{copy_styles_layer_names}
 \alias{copy_styles_layer_names}
-\title{Copy Styles to Specific Layers in a PostGIS Database}
+\title{Copy Layer Styles from Source to Specific Layers in PostGIS Database}
 \usage{
 copy_styles_layer_names(from, to, layers, database, schema = "public")
 }

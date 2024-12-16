@@ -24,14 +24,14 @@
 #' conn <- DBI::dbConnect(RPostgres::Postgres(), dbname = "mydb")
 #' gpkg_file <- "example.gpkg"
 #' layers <- NULL
-#' pg_write_layers(
+#' store_layers(
 #'   gpkg_file, layers, conn, schema = "my_schema", prefix = "pre_", postfix = "_post"
 #' )
 #' DBI::dbDisconnect(conn)
 #' }
 #'
 #' @export
-pg_write_layers <- function(gpkg,
+store_layers <- function(gpkg,
                             layers = NULL,
                             conn,
                             schema = "public",

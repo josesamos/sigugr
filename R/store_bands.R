@@ -29,13 +29,13 @@
 #'
 #' sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
 #'
-#' tables <- pg_write_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+#' tables <- store_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
 #'
 #' DBI::dbDisconnect(conn)
 #' }
 #'
 #' @export
-pg_write_bands <- function(sr, conn, schema = "public", prefix = NULL, postfix = NULL) {
+store_bands <- function(sr, conn, schema = "public", prefix = NULL, postfix = NULL) {
   if (!inherits(sr, "SpatRaster"))
     stop("`sr` must be a terra::SpatRaster object.")
   if (length(names(sr)) != length(unique(names(sr))))

@@ -1,4 +1,4 @@
-test_that("pg_write_layers modifies field names to Snake Case if specified", {
+test_that("store_layers modifies field names to Snake Case if specified", {
   temp_gpkg <- tempfile(fileext = ".gpkg")
   layer <- sf::st_sf(
     geom = sf::st_sfc(sf::st_point(c(0, 0))),
@@ -11,10 +11,10 @@ test_that("pg_write_layers modifies field names to Snake Case if specified", {
   mock_conn <- mockery::mock(TRUE)
 
   # Stub sf::st_write to intercept calls
-  mockery::stub(pg_write_layers, "sf::st_write", mock_conn)
+  mockery::stub(store_layers, "sf::st_write", mock_conn)
 
   # Ejecutamos la función de prueba
-  result <- pg_write_layers(
+  result <- store_layers(
     gpkg = temp_gpkg,
     conn = "mock_connection",
     schema = "test_schema",
@@ -33,7 +33,7 @@ test_that("pg_write_layers modifies field names to Snake Case if specified", {
   unlink(temp_gpkg)
 })
 
-test_that("pg_write_layers leaves field names unchanged if snake_case_fields is FALSE", {
+test_that("store_layers leaves field names unchanged if snake_case_fields is FALSE", {
   temp_gpkg <- tempfile(fileext = ".gpkg")
   layer <- sf::st_sf(
     geom = sf::st_sfc(sf::st_point(c(0, 0))),
@@ -46,9 +46,9 @@ test_that("pg_write_layers leaves field names unchanged if snake_case_fields is 
   mock_conn <- mockery::mock(TRUE)
 
   # Stub sf::st_write to intercept calls
-  mockery::stub(pg_write_layers, "sf::st_write", mock_conn)
+  mockery::stub(store_layers, "sf::st_write", mock_conn)
 
-  result <- pg_write_layers(
+  result <- store_layers(
     gpkg = temp_gpkg,
     conn = "mock_connection",
     schema = "test_schema",
@@ -67,7 +67,7 @@ test_that("pg_write_layers leaves field names unchanged if snake_case_fields is 
 })
 
 
-test_that("pg_write_layers throws an error if the GeoPackage file does not exist", {
+test_that("store_layers throws an error if the GeoPackage file does not exist", {
   # Define a non-existent GeoPackage file path
   non_existent_gpkg <- tempfile(fileext = ".gpkg")
 
@@ -75,10 +75,10 @@ test_that("pg_write_layers throws an error if the GeoPackage file does not exist
   mock_conn <- mockery::mock(TRUE)
 
   # Stub sf::st_write to intercept calls
-  mockery::stub(pg_write_layers, "sf::st_write", mock_conn)
+  mockery::stub(store_layers, "sf::st_write", mock_conn)
 
   # Expect error when trying to run the function with a non-existent GeoPackage
-  expect_error(pg_write_layers(
+  expect_error(store_layers(
     gpkg = non_existent_gpkg,
     conn = mock_conn,
     schema = "test_schema",
@@ -89,7 +89,7 @@ test_that("pg_write_layers throws an error if the GeoPackage file does not exist
   ), "The GeoPackage file does not exist.")
 })
 
-test_that("pg_write_layers throws an error if there are no valid geometries in the GeoPackage", {
+test_that("store_layers throws an error if there are no valid geometries in the GeoPackage", {
   # Create a temporary GeoPackage with a non-geographical layer
   temp_gpkg <- tempfile(fileext = ".gpkg")
   non_geometric_layer <- data.frame(Field1 = 1:3, Field2 = c("A", "B", "C"))
@@ -99,10 +99,10 @@ test_that("pg_write_layers throws an error if there are no valid geometries in t
   mock_conn <- mockery::mock(TRUE)
 
   # Stub sf::st_write to intercept calls
-  mockery::stub(pg_write_layers, "sf::st_write", mock_conn)
+  mockery::stub(store_layers, "sf::st_write", mock_conn)
 
   # Expect error when trying to run the function with no valid geometries
-  expect_error(pg_write_layers(
+  expect_error(store_layers(
     gpkg = temp_gpkg,
     conn = mock_conn,
     schema = "test_schema",
