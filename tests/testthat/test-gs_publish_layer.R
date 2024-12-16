@@ -78,12 +78,13 @@ test_that("publish_layer.geoserver handles failed publication (error response)",
     structure(list(status_code = 404), class = "response")
   )
 
-  # Mock httr::POST to return 500 with a dummy error message
+  # Mock httr::POST to return 500 with a dummy error message and URL
   mock_post_error <- mockery::mock(
     structure(
       list(
         status_code = 500,
-        content = charToRaw("Internal Server Error")
+        content = charToRaw("Internal Server Error"),
+        url = "http://example.com/geoserver/rest/layers"
       ),
       class = "response"
     )
