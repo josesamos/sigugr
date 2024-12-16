@@ -36,3 +36,36 @@ test_that("list_dir_rasters returns empty vector for empty directories", {
   expect_type(result, "character")  # Result should be a character vector
   expect_length(result, 0)  # Result should be empty
 })
+
+
+test_that("get_projected_crs returns correct UTM CRS for geographic coordinates", {
+  # Create a sample sf object with geographic CRS (WGS84)
+  sample_points <- sf::st_sfc(
+    sf::st_point(c(-77.0369, 38.9072)), # Washington, DC
+    sf::st_point(c(139.6917, 35.6895))  # Tokyo, Japan
+  )
+  sample_sf <- sf::st_sf(geometry = sample_points, crs = 4326)
+
+  # Check UTM EPSG codes
+  expect_equal(get_projected_crs(sample_sf[1, ]), 32618) # Washington, DC (UTM 18N)
+  expect_equal(get_projected_crs(sample_sf[2, ]), 32654) # Tokyo, Japan (UTM 54N)
+})
+
+test_that("get_projected_crs handles Southern Hemisphere correctly", {
+  # Create a point in the Southern Hemisphere
+  point_south <- sf::st_sfc(sf::st_point(c(-58.3816, -34.6037)), crs = 4326) # Buenos Aires
+  sample_sf_south <- sf::st_sf(geometry = point_south)
+
+  # Check UTM EPSG code for Southern Hemisphere
+  expect_equal(get_projected_crs(sample_sf_south), 32721) # Buenos Aires (UTM 21S)
+})
+
+test_that("get_projected_crs returns layer's CRS if already projected", {
+  # Create a projected sf object
+  projected_layer <- sf::st_sfc(sf::st_point(c(500000, 4649776)), crs = 32633) # UTM Zone 33N
+  projected_sf <- sf::st_sf(geometry = projected_layer)
+
+  # Expect the same CRS to be returned
+  expect_equal(get_projected_crs(projected_sf), 32633)
+})
+

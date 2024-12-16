@@ -27,6 +27,10 @@ safe_buffer  <- function(layer, distance) {
 
   pr_crs <- get_projected_crs(layer)
 
+  if (!sf::st_is_valid(layer)) {
+    layer <- sf::st_make_valid(layer)
+  }
+
   if (crs != pr_crs) {
     # Reproject the layer to the projected CRS
     layer <- sf::st_transform(layer, crs = pr_crs)
