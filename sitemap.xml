@@ -18,7 +18,6 @@
 <url><loc>https://josesamos.github.io/sigugr/reference/geoserver.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/get_layer_categories.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/index.html</loc></url>
-<url><loc>https://josesamos.github.io/sigugr/reference/pg_write_raster.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/publish_bands.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/publish_layer.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/publish_layer_set.html</loc></url>
@@ -26,5 +25,6 @@
 <url><loc>https://josesamos.github.io/sigugr/reference/register_datastore_postgis.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/store_bands.html</loc></url>
 <url><loc>https://josesamos.github.io/sigugr/reference/store_layers.html</loc></url>
+<url><loc>https://josesamos.github.io/sigugr/reference/store_raster.html</loc></url>
 </urlset>
 
