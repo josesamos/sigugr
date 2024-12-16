@@ -81,3 +81,36 @@ test_that("publish_bands.geoserver publishes selected bands", {
   expect_equal(result, 0)
   mockery::expect_called(mock_publish_raster, 2)
 })
+
+test_that("publish_bands.geoserver returns error when bands are not published", {
+  # Configurar objeto gso simulado
+  gso <- list(
+    url = "http://example.com/geoserver",
+    user = "admin",
+    password = "password",
+    workspace = "sigugr_test",
+    datastore = "datastore"
+  )
+  class(gso) <- "geoserver"
+
+  # Crear raster de prueba
+  source_tif <- system.file("extdata/sat.tif", package = "sigugr")
+
+  # Mock para publish_raster simulando fallo en publicación
+  mock_publish_raster <- mockery::mock(1) # Simula fallo (1 = error)
+
+  # Sustituir publish_raster por el mock
+  mockery::stub(publish_bands.geoserver, "publish_raster", mock_publish_raster)
+
+  # Ejecutar la función y comprobar el mensaje de error
+  expect_message(
+    result <- publish_bands.geoserver(gso, source_tif),
+    regexp = "Not all available bands have been published\\."
+  )
+
+  # Comprobar que la función devuelve un resultado de error
+  expect_equal(result, 1)
+
+  # Comprobar que publish_raster fue llamado al menos una vez
+  mockery::expect_called(mock_publish_raster, 1)
+})
