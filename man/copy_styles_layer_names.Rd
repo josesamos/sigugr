@@ -23,7 +23,7 @@ to which the style should be applied.}
 the layers reside. Default is `"public"`.}
 }
 \value{
-The updated style object (`obj`), returned invisibly.
+The updated `layer_styles` table, returned invisibly.
 }
 \description{
 Copies the first style definition from a source (either a GeoPackage file or

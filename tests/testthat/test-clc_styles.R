@@ -34,3 +34,16 @@ test_that("get_layer_categories extracts categories correctly from GeoPackage", 
 })
 
 
+test_that("copy_styles copies styles from GeoPackage to GeoPackage", {
+  # Crear un GeoPackage válido como fuente
+  source_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
+  dest_gpkg <- tempfile(fileext = ".gpkg")
+  sf::st_write(sf::st_sf(geometry = sf::st_sfc()), dest_gpkg, quiet = TRUE)
+
+  copy_styles(from = source_gpkg, to = dest_gpkg)
+
+  # Verify the styles have been copied
+  dest_styles <- sf::st_read(dest_gpkg, layer = "layer_styles", quiet = TRUE)
+  expect_gt(nrow(dest_styles), 0)
+})
+

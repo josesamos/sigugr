@@ -1,3 +1,70 @@
+#' Copy Styles from a Source to a Destination
+#'
+#' This function copies layer styles from a source (GeoPackage or PostGIS database)
+#' to a destination (GeoPackage or PostGIS database). The source and destination
+#' can be specified flexibly, and the function supports copying styles to multiple
+#' layers in the destination.
+#'
+#' @param from A data source for the input style. This can be:
+#'   - A string representing the path to a GeoPackage file.
+#'   - A `DBI` database connection object to a PostGIS database, created using [RPostgres::dbConnect()].
+#' @param from_layer Character (optional). Name of the layer in the source to copy the style from.
+#' If not provided, the function will use the first layer in the source with a defined style.
+#' @param to A data destination for the output styles. This can be:
+#'   - A string representing the path to a GeoPackage file.
+#'   - A `DBI` database connection object to a PostGIS database, created using [RPostgres::dbConnect()].
+#' @param database Character (optional). Name of the destination PostGIS database
+#'   (required if the destination is a PostGIS connection object).
+#' @param schema Character. Schema in the destination PostGIS database where the styles will be applied.
+#'   Default is "public".
+#' @param to_layers Character vector (optional). Names of the layers in the destination where the style
+#'   will be applied. If not provided, the style will be applied to all layers in the destination.
+#'
+#' @return The updated `layer_styles` table, returned invisibly.
+#'
+#' @details
+#' - If `from_layer` is not provided, the function attempts to use the first layer with a defined style
+#'     in the source.
+#' - If `to_layers` is not provided, the style is copied to all layers in the destination.
+#' - When the destination is a PostGIS database, both the `database` and `schema` parameters must be specified.
+#'
+#' @examples
+#' \dontrun{
+#' # Ex1
+#' source_gpkg <- "source.gpkg"
+#' dest_gpkg <- "destination.gpkg"
+#'
+#' copy_styles(from = source_gpkg, to = dest_gpkg)
+#'
+#' # Ex2
+#' source_gpkg <- "source.gpkg"
+#' conn <- DBI::dbConnect(
+#'   RPostgres::Postgres(),
+#'   dbname = "mydb",
+#'   host = "localhost",
+#'   user = "user",
+#'   password = "password"
+#' )
+#' layers_to_style <- c("layer1", "layer2")
+#'
+#' copy_styles(
+#'   from = source_gpkg,
+#'   to = conn,
+#'   database = "mydb",
+#'   schema = "public"
+#'   to_layers = layers_to_style,
+#' )
+#'
+#' DBI::dbDisconnect(conn)
+#'
+#' }
+#' @export
+copy_styles <- function(from, from_layer = NULL, to, database = NULL, schema = 'public', to_layers = NULL) {
+  style <- clc:::read_style_from_source(from, from_layer)
+  clc:::assign_styles_to_layers(style, to, database, schema, to_layers)
+}
+
+
 #' Copy Layer Styles from Source to Destination in GeoPackage
 #'
 #' Copies the first style definition from a source (either a GeoPackage file or a
@@ -26,8 +93,7 @@
 #' }
 #' @export
 copy_styles_layer <- function(from, to) {
-  style <- clc:::read_style_from_source(from)
-  clc:::assign_styles_to_layers(style, to)
+  copy_styles(from = from, to = to)
 }
 
 
@@ -47,7 +113,7 @@ copy_styles_layer <- function(from, to) {
 #' @param schema A string specifying the schema in the PostGIS database where
 #'   the layers reside. Default is `"public"`.
 #'
-#' @return The updated style object (`obj`), returned invisibly.
+#' @return The updated `layer_styles` table, returned invisibly.
 #'
 #' @family styles functions
 #'
@@ -80,8 +146,7 @@ copy_styles_layer <- function(from, to) {
 #' }
 #' @export
 copy_styles_layer_names <- function(from, to, layers, database, schema = 'public') {
-  style <- clc:::read_style_from_source(from)
-  clc:::assign_styles_to_layers(style, to, database, schema, layers)
+  copy_styles(from = from, to = to, database = database, schema = schema, to_layers = layers)
 }
 
 
