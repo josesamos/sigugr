@@ -66,7 +66,178 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/sigugr/">sigugr</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>Geospatial data is at the heart of modern applications, enabling
+critical analyses, decision-making, and visualizations across various
+domains, including environmental monitoring, urban planning, and
+disaster management. Handling geospatial data efficiently involves
+multiple steps: transforming it to match analysis requirements, storing
+it in optimized spatial databases, and publishing it for sharing or
+integration with other systems. This package offers a comprehensive
+solution to streamline the transformation, storage, and publication of
+raster and vector geospatial data, with additional capabilities for
+managing layer styles in GeoServer and PostGIS.</p>
+<p>Built upon the powerful <strong><code>sf</code></strong> and
+<strong><code>terra</code></strong> R packages, this toolkit bridges the
+gap between local geospatial data processing and server-based geographic
+information system (GIS) platforms like PostGIS and GeoServer. The
+primary aim is to simplify workflows for users dealing with diverse
+geospatial data needs, allowing seamless integration of data processing,
+storage, and publication in R.</p>
+</div>
+<div class="section level2">
+<h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h2>
+<p>Geospatial data management often involves disparate tools and
+platforms, requiring significant manual effort and technical expertise
+to achieve end-to-end workflows. Users typically encounter challenges
+such as:</p>
+<ol style="list-style-type: decimal">
+<li>Efficiently transforming raster and vector datasets to fit
+analytical or cartographic requirements.</li>
+<li>Persistently storing geospatial data in robust, queryable spatial
+databases like PostGIS.</li>
+<li>Publishing geospatial layers and their associated styles to server
+environments, such as GeoServer, for visualization and sharing.</li>
+<li>Managing geospatial data with consistency, especially across
+platforms requiring adherence to specific data formats and schema.</li>
+</ol>
+<p>This package was developed to address these challenges by providing a
+cohesive set of functions that unify the processing, storage, and
+publication of geospatial data. It enables users to focus on analysis
+and decision-making rather than the intricacies of data management and
+integration.</p>
+</div>
+<div class="section level2">
+<h2 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a>
+</h2>
+<p>The package is divided into three primary modules based on
+functionality:</p>
+<div class="section level3">
+<h3 id="geospatial-data-transformation">
+<strong>Geospatial Data Transformation</strong><a class="anchor" aria-label="anchor" href="#geospatial-data-transformation"></a>
+</h3>
+<p>This module provides tools for preparing and manipulating raster and
+vector data to meet specific requirements:</p>
+<ul>
+<li>
+<strong><code><a href="../reference/aggregate_rasters.html">aggregate_rasters()</a></code></strong>: Aggregates
+multiple raster files within a folder.</li>
+<li>
+<strong><code><a href="../reference/compose_raster.html">compose_raster()</a></code></strong>: Composes a single
+raster layer from multiple raster files.</li>
+<li>
+<strong><code><a href="../reference/generate_bbox.html">generate_bbox()</a></code></strong>: Creates a bounding
+box as an <strong><code>sf</code></strong> object.</li>
+<li>
+<strong><code><a href="../reference/clip_raster.html">clip_raster()</a></code></strong>: Clips raster layers
+based on polygon geometries.</li>
+<li>
+<strong><code><a href="../reference/clip_layer.html">clip_layer()</a></code></strong>: Clips a vector layer
+using a polygon mask.</li>
+<li>
+<strong><code><a href="../reference/clip_multipoligon.html">clip_multipoligon()</a></code></strong>: Clips
+multipolygon vector layers with safeguards against common errors.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="geospatial-data-storage-in-postgis">
+<strong>Geospatial Data Storage in PostGIS</strong><a class="anchor" aria-label="anchor" href="#geospatial-data-storage-in-postgis"></a>
+</h3>
+<p>This module facilitates the storage of geospatial data in a PostGIS
+database, providing optimized tools for working with both raster and
+vector data:</p>
+<ul>
+<li>
+<strong><code><a href="../reference/store_layers.html">store_layers()</a></code></strong>: Stores vector layers
+with geometries from GeoPackage or <strong><code>sf</code></strong>
+objects to PostGIS.</li>
+<li>
+<strong><code>store_raster()</code></strong>: Stores raster datasets
+to PostGIS.</li>
+<li>
+<strong><code><a href="../reference/store_bands.html">store_bands()</a></code></strong>: Stores individual
+raster bands in PostGIS for advanced analysis.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="geospatial-data-publication-on-geoserver">
+<strong>Geospatial Data Publication on GeoServer</strong><a class="anchor" aria-label="anchor" href="#geospatial-data-publication-on-geoserver"></a>
+</h3>
+<p>This module focuses on the publication of geospatial data to
+GeoServer, allowing integration with web applications or GIS
+platforms:</p>
+<ul>
+<li>
+<strong><code><a href="../reference/geoserver.html">geoserver()</a></code></strong>: Manages GeoServer
+connection objects using an S3 class.</li>
+<li>
+<strong><code><a href="../reference/register_datastore_postgis.html">register_datastore_postgis()</a></code></strong>:
+Registers PostGIS databases as GeoServer datastores.</li>
+<li>
+<strong><code><a href="../reference/publish_layer.html">publish_layer()</a></code></strong>: Publishes vector
+layers to GeoServer.</li>
+<li>
+<strong><code><a href="../reference/publish_layer_set.html">publish_layer_set()</a></code></strong>: Publishes a set
+of vector layers to GeoServer.</li>
+<li>
+<strong><code><a href="../reference/publish_raster.html">publish_raster()</a></code></strong>: Publishes raster
+datasets to GeoServer.</li>
+<li>
+<strong><code><a href="../reference/publish_bands.html">publish_bands()</a></code></strong>: Publishes individual
+raster bands as separate layers in GeoServer.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="style-management">
+<strong>Style Management</strong><a class="anchor" aria-label="anchor" href="#style-management"></a>
+</h3>
+<p>This module offers tools for managing layer styles in GeoServer,
+GeoPackages, and PostGIS:</p>
+<ul>
+<li>
+<strong><code><a href="../reference/copy_styles_layer.html">copy_styles_layer()</a></code></strong>: Copies styles
+between layers in GeoServer.</li>
+<li>
+<strong><code><a href="../reference/copy_styles_layer_names.html">copy_styles_layer_names()</a></code></strong>: Transfers
+styles to specific layers stored in a PostGIS database.</li>
+<li>
+<strong><code><a href="../reference/get_layer_categories.html">get_layer_categories()</a></code></strong>: Extracts layer
+categories based on raster pixel values.</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="conclusions">Conclusions<a class="anchor" aria-label="anchor" href="#conclusions"></a>
+</h2>
+<p>This package provides a versatile and efficient framework for
+geospatial data management, covering the entire lifecycle of data from
+processing to publication. By leveraging widely-used R libraries like
+<strong><code>sf</code></strong> and
+<strong><code>terra</code></strong>, and integrating with powerful
+server platforms such as PostGIS and GeoServer, the package enables
+users to:</p>
+<ul>
+<li>Seamlessly transform raster and vector datasets to suit various
+analytical and cartographic needs.</li>
+<li>Store geospatial data persistently in PostGIS for efficient querying
+and analysis.</li>
+<li>Publish geospatial data to GeoServer for visualization, sharing, and
+integration with web GIS systems.</li>
+<li>Manage and transfer layer styles across different platforms to
+maintain consistency.</li>
+</ul>
+<p>With its intuitive interface and modular design, the package is
+suitable for researchers, data analysts, and GIS professionals,
+facilitating robust workflows that bridge local data processing and
+server-based geospatial systems. By streamlining these processes, it
+helps users focus on generating insights and creating value from
+geospatial data.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
