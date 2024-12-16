@@ -82,6 +82,7 @@ publish_bands.geoserver <- function(gso, raster, bands = NULL) {
     unlink(temp_file)
 
     if (result != 0) {
+      message("Not all available bands have been published.")
       return(result)
     }
   }

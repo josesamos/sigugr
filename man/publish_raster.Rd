@@ -47,6 +47,7 @@ gso |>
 \seealso{
 Other publish to GeoServer: 
 \code{\link{geoserver}()},
+\code{\link{gs_publish_layer_set}()},
 \code{\link{publish_bands}()},
 \code{\link{publish_layer}()},
 \code{\link{register_datastore_postgis}()}
