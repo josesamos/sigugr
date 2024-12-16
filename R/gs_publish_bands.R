@@ -53,11 +53,11 @@ publish_bands.geoserver <- function(gso, raster, bands = NULL) {
   if (is.null(bands)) {
     # If no bands are specified, process all bands
     bands <- seq_len(terra::nlyr(sr))
-    names(bands) <- names(sr) %||% paste0("Band_", seq_len(terra::nlyr(sr)))
+    names(bands) <- if (!is.null(names(sr))) names(sr) else paste0("Band_", seq_len(terra::nlyr(sr)))
   } else {
     # If bands are unnamed, use the names from the raster or generate defaults
     if (is.null(names(bands))) {
-      names(bands) <- names(sr)[bands] %||% paste0("Band_", bands)
+      names(bands) <- if (!is.null(names(sr))) names(sr)[bands] else paste0("Band_", bands)
     }
   }
 
