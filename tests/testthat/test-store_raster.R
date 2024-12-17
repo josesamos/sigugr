@@ -1,31 +1,62 @@
+test_that("store_raster correctly stores a raster file to PostGIS", {
+  # Define un archivo raster temporal simulado
+  temp_raster <- tempfile(fileext = ".tif")
+  terra::writeRaster(terra::rast(nrows = 10, ncols = 10, nlyrs = 1, vals = runif(100)),
+                     filename = temp_raster, overwrite = TRUE)
 
-# Test for invalid SpatRaster input
-test_that("store_raster throws an error if sr is not SpatRaster", {
-  expect_error(
-    store_raster("not_a_raster", conn, table_name = "invalid_table"),
-    "`sr` must be a terra::SpatRaster object."
-  )
-})
-
-
-test_that("store_raster works correctly with mock database connection", {
-  # Mock database connection and functions
-  conn <- mockery::mock()
+  # Mock para rpostgis::pgWriteRast
   mock_pgWriteRast <- mockery::mock(NULL)
 
-  # Patch rpostgis::pgWriteRast with the mock function
-  mockery::stub(store_raster, "rpostgis::pgWriteRast", mock_pgWriteRast)
+  # Mock para la conexión DB
+  mock_conn <- mockery::mock("DB Connection")
 
-  # Create a sample SpatRaster object
-  rast <- terra::rast(ncol = 10, nrow = 10, xmin = 0, xmax = 10, ymin = 0, ymax = 10)
-  terra::values(rast) <- runif(terra::ncell(rast))
+  # Stub rpostgis::pgWriteRast
+  mockery::stub(sigugr::store_raster, "rpostgis::pgWriteRast", mock_pgWriteRast)
 
-  # Define table name
-  table_name <- "TestTable"
+  # Ejecuta la función
+  result <- sigugr::store_raster(temp_raster, conn = mock_conn, schema = "test_schema", table_name = "test_raster")
 
-  # Test store_raster
-  expect_no_error(store_raster(rast, conn, table_name = table_name))
+  # Comprobaciones
+  expect_equal(result, "test_raster")  # El nombre de la tabla debe coincidir
+  mockery::expect_called(mock_pgWriteRast, 1)  # Asegura que se llamó 1 vez
+})
 
-  # Verify pgWriteRast was called with correct arguments
+test_that("store_raster derives table name from raster file when table_name is NULL", {
+  # Define un archivo raster temporal
+  temp_raster <- tempfile(fileext = ".tif")
+  terra::writeRaster(terra::rast(nrows = 10, ncols = 10, nlyrs = 1, vals = runif(100)),
+                     filename = temp_raster, overwrite = TRUE)
+
+  # Mock para rpostgis::pgWriteRast
+  mock_pgWriteRast <- mockery::mock(NULL)
+
+  # Mock de la conexión
+  mock_conn <- mockery::mock("DB Connection")
+
+  # Stub para rpostgis::pgWriteRast
+  mockery::stub(sigugr::store_raster, "rpostgis::pgWriteRast", mock_pgWriteRast)
+
+  # Ejecuta sin proporcionar un table_name
+  result <- sigugr::store_raster(temp_raster, conn = mock_conn, schema = "test_schema")
+
+  # Deriva el nombre del archivo sin extensión y lo convierte a snake_case
+  expected_table_name <- snakecase::to_snake_case(tools::file_path_sans_ext(basename(temp_raster)))
+
+  # Comprobaciones
+  expect_equal(result, expected_table_name)
   mockery::expect_called(mock_pgWriteRast, 1)
+})
+
+test_that("store_raster stops if the raster file does not exist", {
+  # Define una ruta inexistente
+  non_existent_raster <- "fake/path/to/nonexistent.tif"
+
+  # Mock para conexión
+  mock_conn <- mockery::mock("DB Connection")
+
+  # Verifica que se lanza un error si el archivo no existe
+  expect_error(
+    sigugr::store_raster(non_existent_raster, conn = mock_conn),
+    "The specified raster file does not exist"
+  )
 })

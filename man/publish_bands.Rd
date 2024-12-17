@@ -5,15 +5,19 @@
 \alias{publish_bands.geoserver}
 \title{Publish Bands of a Raster to GeoServer}
 \usage{
-publish_bands(gso, raster, bands = NULL)
+publish_bands(gso, raster, prefix, postfix, bands)
 
-\method{publish_bands}{geoserver}(gso, raster, bands = NULL)
+\method{publish_bands}{geoserver}(gso, raster, prefix = NULL, postfix = NULL, bands = NULL)
 }
 \arguments{
 \item{gso}{An object of class `geoserver` containing GeoServer connection details.}
 
 \item{raster}{A character string specifying the file path to the GeoTIFF raster file
 to be uploaded.}
+
+\item{prefix}{A string to prepend to each layer name. Default is `NULL`.}
+
+\item{postfix}{A string to append to each layer name. Default is `NULL`.}
 
 \item{bands}{A named integer vector, index of the bands to publish with layer names.
 If it is `NULL`, which is the default value, all bands are published using the band

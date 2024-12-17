@@ -22,6 +22,8 @@
 #'
 #' @return The updated `layer_styles` table, returned invisibly.
 #'
+#' @family style functions
+#'
 #' @details
 #' - If `from_layer` is not provided, the function attempts to use the first layer with a defined style
 #'     in the source.
@@ -77,7 +79,7 @@ copy_styles <- function(from, from_layer = NULL, to, database = NULL, schema = '
 #'
 #' @return The updated `layer_styles` table, returned invisibly.
 #'
-#' @family styles functions
+#' @family style functions
 #'
 #' @details
 #' The function reads the first style from the `layer_styles` table in the source
@@ -91,7 +93,8 @@ copy_styles <- function(from, from_layer = NULL, to, database = NULL, schema = '
 #'
 #' copy_styles_layer(from = source_gpkg, to = dest_gpkg)
 #' }
-#' @export
+#' @keywords internal
+#' @noRd
 copy_styles_layer <- function(from, to) {
   copy_styles(from = from, to = to)
 }
@@ -115,7 +118,7 @@ copy_styles_layer <- function(from, to) {
 #'
 #' @return The updated `layer_styles` table, returned invisibly.
 #'
-#' @family styles functions
+#' @family style functions
 #'
 #' @details
 #' The function reads the first style from the `layer_styles` table in the source
@@ -144,7 +147,8 @@ copy_styles_layer <- function(from, to) {
 #'
 #' DBI::dbDisconnect(conn)
 #' }
-#' @export
+#' @keywords internal
+#' @noRd
 copy_styles_layer_names <- function(from, to, layers, database, schema = 'public') {
   copy_styles(from = from, to = to, database = database, schema = schema, to_layers = layers)
 }
@@ -159,14 +163,15 @@ copy_styles_layer_names <- function(from, to, layers, database, schema = 'public
 #' @param from A data origin. This can be:
 #'   - A string representing the path to a GeoPackage file.
 #'   - A `DBI` database connection object to a PostGIS database, created using [RPostgres::dbConnect()].
-#' @param r_clc A `terra` raster object containing the raster values to filter the categories.
+#' @param r_clc A `terra` raster object containing the raster values to filter the categories. If NULL,
+#'   returns all categories.
 #'
 #' @return A data frame containing the filtered categories with the following columns:
 #'   - `id`: The category ID (integer).
 #'   - `description`: The description of the category (character).
 #'   - `color`: The color associated with the category in hexadecimal format (character).
 #'
-#' @family styles functions
+#' @family style functions
 #'
 #' @details
 #' The function retrieves the style definitions from the `layer_styles` table in
@@ -184,11 +189,14 @@ copy_styles_layer_names <- function(from, to, layers, database, schema = 'public
 #' categories <- get_layer_categories(from = gpkg_path, r_clc = r_clc)
 #' }
 #' @export
-get_layer_categories <- function(from, r_clc) {
+get_layer_categories <- function(from, r_clc = NULL) {
   style <- clc:::read_style_from_source(from)
-  values <- sort(terra::unique(r_clc)[, 1])
 
   cat <- clc:::extract_categories_and_colors(style)
-  cat <- cat[cat$id %in% values, ]
+
+  if (!is.null(r_clc)) {
+    values <- sort(terra::unique(r_clc)[, 1])
+    cat <- cat[cat$id %in% values, ]
+  }
   cat
 }

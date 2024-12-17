@@ -80,3 +80,8 @@ DBI::dbDisconnect(conn)
 
 }
 }
+\seealso{
+Other style functions: 
+\code{\link{get_layer_categories}()}
+}
+\concept{style functions}

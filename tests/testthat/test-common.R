@@ -69,3 +69,83 @@ test_that("get_projected_crs returns layer's CRS if already projected", {
   expect_equal(get_projected_crs(projected_sf), 32633)
 })
 
+test_that("name_raster_bands assigns names to all bands when no bands are specified", {
+  # Create a SpatRaster with 3 bands
+  sr <- terra::rast(ncols = 10, nrows = 10, nlyr = 3)
+  names(sr) <- c("red", "green", "blue")
+
+  # Call the function without specifying bands
+  result <- name_raster_bands(sr, prefix = "BAND_", postfix = "_final")
+
+  # Expected result
+  expected <- c(1, 2, 3)
+  names(expected) <- c("BAND_red_final", "BAND_green_final", "BAND_blue_final")
+
+  expect_equal(result, expected)
+})
+
+test_that("name_raster_bands handles unnamed bands and generates default names", {
+  # Create a SpatRaster with unnamed bands
+  sr <- terra::rast(ncols = 10, nrows = 10, nlyr = 3)
+  names(sr) <- NULL
+
+  # Call the function
+  result <- name_raster_bands(sr, prefix = "Layer_", postfix = "_processed")
+
+  # Expected result
+  expected <- c(1, 2, 3)
+  names(expected) <- c("Layer_Band_1_processed", "Layer_Band_2_processed", "Layer_Band_3_processed")
+
+  expect_equal(result, expected)
+})
+
+test_that("name_raster_bands processes only specified bands", {
+  # Create a SpatRaster with 3 bands
+  sr <- terra::rast(ncols = 10, nrows = 10, nlyr = 3)
+  names(sr) <- c("red", "green", "blue")
+
+  # Specify bands 1 and 3
+  result <- name_raster_bands(sr, prefix = "B_", postfix = "_v1", bands = c(1, 3))
+
+  # Expected result
+  expected <- c(1, 3)
+  names(expected) <- c("B_red_v1", "B_blue_v1")
+
+  expect_equal(result, expected)
+})
+
+test_that("name_raster_bands throws an error for out-of-bounds band indices", {
+  # Create a SpatRaster with 3 bands
+  sr <- terra::rast(ncols = 10, nrows = 10, nlyr = 3)
+
+  # Specify invalid band indices
+  expect_error(name_raster_bands(sr, bands = c(1, 4)),
+               "Some band indices are out of bounds.")
+  expect_error(name_raster_bands(sr, bands = c(-1, 2)),
+               "Some band indices are out of bounds.")
+})
+
+test_that("name_raster_bands throws an error for duplicate band names", {
+  # Create a SpatRaster with duplicate band names
+  sr <- terra::rast(ncols = 10, nrows = 10, nlyr = 3)
+  names(sr) <- c("red", "red", "blue")
+
+  # Expect error for duplicate band names
+  expect_error(name_raster_bands(sr),
+               "The raster must have bands with different names.")
+})
+
+test_that("name_raster_bands works with unnamed band indices input", {
+  # Create a SpatRaster with 3 bands
+  sr <- terra::rast(ncols = 10, nrows = 10, nlyr = 3)
+  names(sr) <- c("B1", "B2", "B3")
+
+  # Unnamed indices provided for specific bands
+  result <- name_raster_bands(sr, prefix = "Layer_", bands = c(1, 2))
+
+  # Expected result
+  expected <- c(1, 2)
+  names(expected) <- c("Layer_B1", "Layer_B2")
+
+  expect_equal(result, expected)
+})

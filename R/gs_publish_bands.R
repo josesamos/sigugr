@@ -7,6 +7,8 @@
 #' @param gso An object of class `geoserver` containing GeoServer connection details.
 #' @param raster A character string specifying the file path to the GeoTIFF raster file
 #'   to be uploaded.
+#' @param prefix A string to prepend to each layer name. Default is `NULL`.
+#' @param postfix A string to append to each layer name. Default is `NULL`.
 #' @param bands A named integer vector, index of the bands to publish with layer names.
 #'   If it is `NULL`, which is the default value, all bands are published using the band
 #'   name as the layer name. If unnamed indices are provided, the band name is also used
@@ -35,13 +37,13 @@
 #'   publish_bands(source_tif)
 #' }
 #' @export
-publish_bands <- function(gso, raster, bands = NULL)
+publish_bands <- function(gso, raster, prefix, postfix, bands)
   UseMethod("publish_bands")
 
 
 #' @rdname publish_bands
 #' @export
-publish_bands.geoserver <- function(gso, raster, bands = NULL) {
+publish_bands.geoserver <- function(gso, raster, prefix = NULL, postfix = NULL, bands = NULL) {
 
   # Check if the raster file exists
   if (!file.exists(raster)) {
@@ -50,21 +52,7 @@ publish_bands.geoserver <- function(gso, raster, bands = NULL) {
 
   sr <- terra::rast(raster)
 
-  if (is.null(bands)) {
-    # If no bands are specified, process all bands
-    bands <- seq_len(terra::nlyr(sr))
-    names(bands) <- if (!is.null(names(sr))) names(sr) else paste0("Band_", seq_len(terra::nlyr(sr)))
-  } else {
-    # If bands are unnamed, use the names from the raster or generate defaults
-    if (is.null(names(bands))) {
-      names(bands) <- if (!is.null(names(sr))) names(sr)[bands] else paste0("Band_", bands)
-    }
-  }
-
-  # Check if requested band indices are valid
-  if (any(bands > terra::nlyr(sr) | bands < 1)) {
-    stop("Some band indices are out of bounds. The raster has ", terra::nlyr(sr), " bands.")
-  }
+  bands <- name_raster_bands(sr, prefix = prefix, postfix = postfix, bands = bands)
 
   for (band_name in names(bands)) {
     band_index <- bands[band_name]

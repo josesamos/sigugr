@@ -75,3 +75,52 @@ get_projected_crs <- function(layer) {
   }
   crs
 }
+
+
+#' Name Raster Bands with Prefix and Postfix
+#'
+#' This function assigns names to the bands of a `SpatRaster` object, optionally
+#' adding a prefix and/or postfix to the names. It validates that band indices are
+#' within the valid range and ensures that band names are unique.
+#'
+#' @param sr A `SpatRaster` object created using the `terra` package.
+#' @param prefix A character string to add as a prefix to each band name. Default is NULL.
+#' @param postfix A character string to add as a postfix to each band name. Default is NULL.
+#' @param bands A named integer vector, index of the bands to publish with layer names.
+#'   If it is `NULL`, which is the default value, all bands are published using the band
+#'   name as the layer name. If unnamed indices are provided, the band name is also used
+#'   as the layer name.
+#'
+#' @return A named vector of band indices with updated names.
+#'
+#' @keywords internal
+#' @noRd
+name_raster_bands <- function(sr, prefix = NULL, postfix = NULL, bands = NULL) {
+
+  if (is.null(bands)) {
+    # If no bands are specified, process all bands
+    bands <- seq_len(terra::nlyr(sr))
+    names(bands) <- if (!all(names(sr) == "")) names(sr) else paste0("Band_", seq_len(terra::nlyr(sr)))
+  } else {
+    # Check if requested band indices are valid
+    if (any(bands > terra::nlyr(sr) | bands < 1)) {
+      stop("Some band indices are out of bounds. The raster has ", terra::nlyr(sr), " bands.")
+    }
+
+    # If bands are unnamed, use the names from the raster or generate defaults
+    if (is.null(names(bands))) {
+      names(bands) <- if (!all(names(sr) == "")) names(sr)[bands] else paste0("Band_", bands)
+    }
+  }
+
+  if (length(names(bands)) != length(unique(names(bands))))
+    stop("The raster must have bands with different names.")
+
+  # Default values for prefix and postfix
+  prefix <- as.character(prefix)
+  postfix <- as.character(postfix)
+
+  names(bands) <- paste0(prefix, names(bands), postfix)
+
+  bands
+}

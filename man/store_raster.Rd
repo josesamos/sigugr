@@ -4,24 +4,26 @@
 \alias{store_raster}
 \title{Store Raster to PostGIS}
 \usage{
-store_raster(sr, conn, schema = "public", table_name)
+store_raster(raster, conn, schema = "public", table_name = NULL)
 }
 \arguments{
-\item{sr}{A `terra::SpatRaster` object containing the raster bands to write.}
+\item{raster}{A character string specifying the file path to the GeoTIFF raster file
+to be stored.}
 
 \item{conn}{A database connection object to a PostGIS database (e.g., from `RPostgres::dbConnect`).}
 
 \item{schema}{A string specifying the schema in the PostGIS database where
 the raster layers will be stored. Default is `"public"`.}
 
-\item{table_name}{A string, table name.}
+\item{table_name}{A string, table name. If it is `NULL`, which is the default value,
+the layer name is derived from the filename.}
 }
 \value{
 Invisibly returns a character vector of the names of the tables written to PostGIS.
 }
 \description{
-Stores all bands of a raster (`terra::SpatRaster`) to a specified schema in a
-PostGIS database. All bands are written in the same table in the database.
+Stores all bands of a raster to a specified schema in a PostGIS database.
+All bands are written in the same table in the database.
 }
 \details{
 Transforms the table name according to the Snake Case convention.
@@ -37,8 +39,10 @@ conn <- DBI::dbConnect(
 )
 
 sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
+sr_file <- tempfile(fileext = ".tif")
+terra::writeRaster(sr, sr_file, filetype = "GTiff", overwrite = TRUE)
 
-tables <- store_raster(sr, conn, schema = "geodata", table_name = "example_raster")
+tables <- store_raster(sr_file, conn, schema = "geodata", table_name = "example_raster")
 
 DBI::dbDisconnect(conn)
 }

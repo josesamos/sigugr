@@ -33,6 +33,16 @@ test_that("get_layer_categories extracts categories correctly from GeoPackage", 
   expect_true(all(categories$id %in% raster_values))
 })
 
+test_that("get_layer_categories extracts ALL categories correctly from GeoPackage", {
+  source_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
+
+  categories <- get_layer_categories(from = source_gpkg)
+
+  expect_s3_class(categories, "data.frame")
+
+  expect_true(all(c("id", "description", "color") %in% colnames(categories)))
+})
+
 
 test_that("copy_styles copies styles from GeoPackage to GeoPackage", {
   # Crear un GeoPackage válido como fuente

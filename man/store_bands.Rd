@@ -4,10 +4,18 @@
 \alias{store_bands}
 \title{Store Raster Bands to PostGIS}
 \usage{
-store_bands(sr, conn, schema = "public", prefix = NULL, postfix = NULL)
+store_bands(
+  raster,
+  conn,
+  schema = "public",
+  prefix = NULL,
+  postfix = NULL,
+  bands = NULL
+)
 }
 \arguments{
-\item{sr}{A `terra::SpatRaster` object containing the raster bands to write.}
+\item{raster}{A character string specifying the file path to the GeoTIFF file
+containing the raster bands to be stored.}
 
 \item{conn}{A database connection object to a PostGIS database (e.g., from `RPostgres::dbConnect`).}
 
@@ -17,13 +25,18 @@ the raster layers will be stored. Default is `"public"`.}
 \item{prefix}{A string to prepend to each layer name. Default is `NULL`.}
 
 \item{postfix}{A string to append to each layer name. Default is `NULL`.}
+
+\item{bands}{A named integer vector, index of the bands to store with layer names.
+If it is `NULL`, which is the default value, all bands are stored using the band
+name as the layer name. If unnamed indices are provided, the band name is also used
+as the layer name.}
 }
 \value{
 Invisibly returns a character vector of the names of the tables written to PostGIS.
 }
 \description{
-Stores each band of a raster (`terra::SpatRaster`) to a specified schema in a
-PostGIS database. Each band is written as a separate table in the database.
+Stores each band of a raster to a specified schema in a PostGIS database. Each
+band is written as a separate table in the database.
 }
 \details{
 Transforms the table name according to the Snake Case convention.
@@ -39,8 +52,10 @@ conn <- DBI::dbConnect(
 )
 
 sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
+sr_file <- tempfile(fileext = ".tif")
+terra::writeRaster(sr, sr_file, filetype = "GTiff", overwrite = TRUE)
 
-tables <- store_bands(sr, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
+tables <- store_bands(sr_file, conn, schema = "geodata", prefix = "example_", postfix = "_raster")
 
 DBI::dbDisconnect(conn)
 }

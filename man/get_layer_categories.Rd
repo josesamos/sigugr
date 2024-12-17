@@ -4,14 +4,15 @@
 \alias{get_layer_categories}
 \title{Get Layer Categories Based on Raster Values}
 \usage{
-get_layer_categories(from, r_clc)
+get_layer_categories(from, r_clc = NULL)
 }
 \arguments{
 \item{from}{A data origin. This can be:
 - A string representing the path to a GeoPackage file.
 - A `DBI` database connection object to a PostGIS database, created using [RPostgres::dbConnect()].}
 
-\item{r_clc}{A `terra` raster object containing the raster values to filter the categories.}
+\item{r_clc}{A `terra` raster object containing the raster values to filter the categories. If NULL,
+returns all categories.}
 }
 \value{
 A data frame containing the filtered categories with the following columns:
@@ -41,8 +42,7 @@ categories <- get_layer_categories(from = gpkg_path, r_clc = r_clc)
 }
 }
 \seealso{
-Other styles functions: 
-\code{\link{copy_styles_layer}()},
-\code{\link{copy_styles_layer_names}()}
+Other style functions: 
+\code{\link{copy_styles}()}
 }
-\concept{styles functions}
+\concept{style functions}

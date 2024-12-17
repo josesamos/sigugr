@@ -32,13 +32,13 @@
 #'
 #' @export
 store_layers <- function(gpkg,
-                            layers = NULL,
-                            conn,
-                            schema = "public",
-                            prefix = NULL,
-                            postfix = NULL,
-                            geom_colum = "geom",
-                            snake_case_fields = TRUE) {
+                         layers = NULL,
+                         conn,
+                         schema = "public",
+                         prefix = NULL,
+                         postfix = NULL,
+                         geom_colum = "geom",
+                         snake_case_fields = TRUE) {
   if (!file.exists(gpkg)) {
     stop("The GeoPackage file does not exist.")
   }
