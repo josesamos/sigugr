@@ -14,90 +14,226 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(sigugr)
-```
-
 # Introduction
 
-The geographic data workflow typically involves the following stages:
+Handling geospatial data efficiently involves multiple steps: transforming it to match analysis requirements, storing it in optimized spatial databases, and publishing it for sharing or integration with other systems. This package offers a comprehensive solution to streamline the transformation, storage, and publication of raster and vector geospatial data.
 
-1. **Data Acquisition:** Obtaining geospatial data, often downloaded from the web or other external sources.
+Built upon the powerful `sf` and `terra` R packages, this toolkit bridges the gap between local geospatial data processing and server-based geographic information platforms like PostGIS and GeoServer. The primary aim is to simplify workflows for users dealing with diverse geospatial data needs, allowing seamless transformation and integration of data processing, storage, and publication in R.
 
-2. **Data Transformation:** Processing and adapting the data, including tasks such as:  
-   - Composing raster datasets  
-   - Adjusting spatial resolution  
-   - Cropping datasets to specific areas  
-   - Changing the Coordinate Reference System (CRS)  
-   - Applying styles for visualization  
-
-3. **Data Storage:** Storing processed data in spatial databases such as PostGIS.
-
-4. **Data Publication:** Publishing the data through geospatial servers like GeoServer for broader access and usage.
-
-The `sigugr` package aims to provide a comprehensive set of functions that simplify the transformation, storage, and publication of geospatial data. It streamlines complex geospatial workflows, making data management more efficient and accessible for spatial analysts and developers.
+In this document, the datasets included in the package, as well as other datasets used within it, are presented first. Next, a section is dedicated to each group of functions: transformation, storage, and publication; each section illustrates the functions with examples. The document concludes with a summary of findings.
 
 
+# Datasets
+
+The package includes and uses the following datasets to support the workflows.  
+
+## `sigugr.gpkg`
+
+```{r setup}
+library(sigugr)
+
+sigugr_gpkg <- system.file("extdata", "sigugr.gpkg", package = "sigugr")
+
+sf::st_layers(sigugr_gpkg)
+```
+
+- `lanjaron`: A polygonal vector layer representing the boundaries of the municipality of Lanjarón, located in Granada, Spain. This data was sourced from the [*DERA (Datos Espaciales de Referencia de Andalucía)*](https://www.juntadeandalucia.es/institutodeestadisticaycartografia/dega/datos-espaciales-de-referencia-de-andalucia-dera).  
+- `hydro`: A multilines layer, also obtained from *DERA*, representing the hydrographic network for the municipality of Lanjarón.  
+
+- `poi`: A points layer representing points of interest, sourced from [*OpenStreetMap*](https://www.openstreetmap.org/) and clipped to the specified municipality.
+
+- `block`: A polygon layer representing the building blocks of the considered municipality. The data was sourced from the [*CNIG (Centro Nacional de Información Geográfica)*](https://www.cnig.es/).  
+
+## `sat.tif`
+
+```{r sat}
+sat_tif <- system.file("extdata", "sat.tif", package = "sigugr")
+
+sat <- terra::rast(sat_tif)
+
+cat(paste("-", names(sat), collapse = "\n"))
+```
+
+Satellite bands for the Lanjarón area, downloaded from [*GloVis*](https://glovis.usgs.gov/app?fullscreen=0) (*USGS Global Visualization Viewer*) for *Landsat-8*. These bands were integrated and initially processed using the [`satres`](https://CRAN.R-project.org/package=satres) package. They have been resampled to a coarser resolution to be included in this package. These are the bands displayed as the result of the previous code snippet.
+
+## `mdt`
+
+```{r mdt}
+mdt_dir <- system.file("extdata", "mdt", package = "sigugr")
+
+cat(paste("-", list.files(mdt_dir), collapse = "\n"))
+```
+
+A set of Digital Terrain Model (DTM) files corresponding to the sheets of the *National Topographic Map* of Spain for the Lanjarón area, obtained from the *CNIG*. These files have also been resampled to a coarser resolution to reduce storage requirements.
+
+## `clc.gpkg`
+
+```{r clc}
+clc_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
+
+sf::st_layers(clc_gpkg)
+```
 
 
-Geospatial data is at the heart of modern applications, enabling critical analyses, decision-making, and visualizations across various domains, including environmental monitoring, urban planning, and disaster management. Handling geospatial data efficiently involves multiple steps: transforming it to match analysis requirements, storing it in optimized spatial databases, and publishing it for sharing or integration with other systems. This package offers a comprehensive solution to streamline the transformation, storage, and publication of raster and vector geospatial data, with additional capabilities for managing layer styles in GeoServer and PostGIS.
+This GeoPackage is included in the [`clc`](https://cran.r-project.org/package=clc) package. We will use the `clc` layer: a fragment of CLC data for the Lanjarón area, stored in vector format. This layer includes the associated style definitions, which are embedded within the same GeoPackage (`layer_styles` table.). The data was sourced from the *CNIG*.
 
-Built upon the powerful **`sf`** and **`terra`** R packages, this toolkit bridges the gap between local geospatial data processing and server-based geographic information system (GIS) platforms like PostGIS and GeoServer. The primary aim is to simplify workflows for users dealing with diverse geospatial data needs, allowing seamless integration of data processing, storage, and publication in R.
+# Data Transformation
+
+This module provides tools for preparing and manipulating raster and vector data to meet specific requirements. It includes the following functions, that can be grouped into two categories: clipping and other transformations.
+
+- Clipping:
+  - `generate_bbox()`: Creates a bounding box as an `sf` object.
+  - `clip_raster()`: Clips raster layers based on polygon geometries.
+  - `clip_layer()`: Clips a vector layer using a polygon mask.
+  - `clip_multipoligon()`: Clips multipolygon vector layers with safeguards against common errors.
+- Other transformations:
+  - `aggregate_rasters()`: Aggregates multiple raster files within a folder.
+  - `compose_raster()`: Composes a single raster layer from multiple raster files.
 
 
-# Motivation
+## Other transformations
 
-Geospatial data management often involves disparate tools and platforms, requiring significant manual effort and technical expertise to achieve end-to-end workflows. Users typically encounter challenges such as: 
+We have the set of files that comprise the DTM of the area. The resolution has already been modified once, and we will change it again as shown below. 
 
-1. Efficiently transforming raster and vector datasets to fit analytical or cartographic requirements.
-2. Persistently storing geospatial data in robust, queryable spatial databases like PostGIS.
-3. Publishing geospatial layers and their associated styles to server environments, such as GeoServer, for visualization and sharing.
-4. Managing geospatial data with consistency, especially across platforms requiring adherence to specific data formats and schema.
+```{r aggregate}
+temp_dir <- tempdir()
 
-This package was developed to address these challenges by providing a cohesive set of functions that unify the processing, storage, and publication of geospatial data. It enables users to focus on analysis and decision-making rather than the intricacies of data management and integration.
+result_files <- aggregate_rasters(mdt_dir, temp_dir, factor = 6)
+```
 
-# Structure
+The resulting files will be merged into a raster, which is also displayed below. 
 
-The package is divided into three primary modules based on functionality:
+```{r compose, fig.width=10, fig.height=7, dpi=300, out.width="80%", fig.align='center', fig.cap = "The aggregated and composed raster."}
+r_mdt <- compose_raster(temp_dir)
 
-## **Geospatial Data Transformation**
-This module provides tools for preparing and manipulating raster and vector data to meet specific requirements:
+terra::plot(r_mdt)
+```
 
-- **`aggregate_rasters()`**: Aggregates multiple raster files within a folder.
-- **`compose_raster()`**: Composes a single raster layer from multiple raster files.
-- **`generate_bbox()`**: Creates a bounding box as an **`sf`** object.
-- **`clip_raster()`**: Clips raster layers based on polygon geometries.
-- **`clip_layer()`**: Clips a vector layer using a polygon mask.
-- **`clip_multipoligon()`**: Clips multipolygon vector layers with safeguards against common errors.
+We will continue working with the DTM stored in the package, once it has been composed. When displayed in the following section, the difference in resolution compared to the previous image will be noticeable.
 
-## **Geospatial Data Storage in PostGIS**
-This module facilitates the storage of geospatial data in a PostGIS database, providing optimized tools for working with both raster and vector data:
+```{r compose2}
+mdt <- compose_raster(mdt_dir)
+```
 
-- **`store_layers()`**: Stores vector layers with geometries from GeoPackage or **`sf`** objects to PostGIS.
-- **`store_raster()`**: Stores raster datasets to PostGIS.
-- **`store_bands()`**: Stores individual raster bands in PostGIS for advanced analysis.
 
-## **Geospatial Data Publication on GeoServer**
-This module focuses on the publication of geospatial data to GeoServer, allowing integration with web applications or GIS platforms:
+## Clipping
 
-- **`geoserver()`**: Manages GeoServer connection objects using an S3 class.
-- **`register_datastore_postgis()`**: Registers PostGIS databases as GeoServer datastores.
-- **`publish_layer()`**: Publishes vector layers to GeoServer.
-- **`publish_layer_set()`**: Publishes a set of vector layers to GeoServer.
-- **`publish_raster()`**: Publishes raster datasets to GeoServer.
-- **`publish_bands()`**: Publishes individual raster bands as separate layers in GeoServer.
+One common operation we frequently perform is clipping various layers using a polygon. However, in some cases, we clip them using the minimum enclosing bounding box instead. The function `generate_bbox()` can be used to obtain this bounding box.
 
-## **Style Management**
-This module offers tools for managing layer styles in GeoServer, GeoPackages, and PostGIS:
+```{r bbox, fig.width=10, fig.height=7, dpi=300, out.width="80%", fig.align='center', fig.cap = "Polygon and bounding box."}
+polygon <- sf::st_read(sigugr_gpkg, layer = "lanjaron", quiet = TRUE)
 
-- **`copy_styles_layer()`**: Copies styles between layers in GeoServer.
-- **`copy_styles_layer_names()`**: Transfers styles to specific layers stored in a PostGIS database.
-- **`get_layer_categories()`**: Extracts layer categories based on raster pixel values.
+bbox <- generate_bbox(polygon)
+
+plot(sf::st_geometry(bbox))
+plot(sf::st_geometry(polygon), add = TRUE)
+```
+
+
+We will crop the DTM using the bounding box and then display the result. 
+
+```{r clip, fig.width=10, fig.height=7, dpi=300, out.width="80%", fig.align='center', fig.cap = "Clipped DTM."}
+mdt_bbox <- clip_raster(mdt, bbox, keep_crs = FALSE)
+
+terra::plot(mdt_bbox)
+```
+
+In this case, both layers share the same CRS, but the `keep_crs` parameter allows us to specify whether the resulting raster retains the CRS of the original raster or is reprojected to the CRS of the clipping polygon.
+
+If it becomes necessary to change the raster's CRS, an algorithm is applied to minimize the area being reprojected and to prevent distortions in the result.
+
+To clip a vector layer, we will use the `clc` layer as shown below. The `clip_layer()` function produces a layer with the CRS of the clipping polygon. 
+
+```{r clip-clc, fig.width=10, fig.height=7, dpi=300, out.width="80%", fig.align='center', fig.cap = "Clipped CLC layer."}
+clc <- sf::st_read(clc_gpkg, layer = "clc", quiet = TRUE)
+
+clc_polygon <- clip_layer(clc, polygon)
+
+plot(sf::st_geometry(clc_polygon))
+```
+
+Clipping functions sometimes encounter issues with multipolygon geometries; these have been addressed with the `clip_multipolygon()` function, which performs the same operation as `clip_layer()` but uses more computationally expensive operations to mitigate the aforementioned issues.
+
+To store in databases or publish the layers, they must be saved as files. Therefore, we will save the generated layers for later use.
+
+```{r save}
+mdt_tif <- tempfile(fileext = ".tif")
+terra::writeRaster(mdt_bbox, mdt_tif, overwrite = TRUE)
+
+clc2_gpkg <- tempfile(fileext = ".gpkg")
+sf::st_write(clc_polygon, clc2_gpkg, layer = "clc_polygon", delete_dsn = TRUE, quiet = TRUE)
+```
+
+
+# Data Storage in PostGIS
+
+This module facilitates the storage of geospatial data in a PostGIS database, offering optimized tools for handling both raster and vector data. The functions can be divided into two categories: layer storage and style management. The functions included are as follows:
+
+- Layer storage:
+  - `store_layers()`: Stores vector layers with geometries from GeoPackage or `sf` objects to PostGIS.
+  - `store_raster()`: Stores raster datasets to PostGIS.
+  - `store_bands()`: Stores individual raster bands in PostGIS for advanced analysis.
+- Style management:
+  - `copy_styles()`: Copies styles between layers in GeoPackages and PostGIS.
+  - `get_layer_categories()`: Extracts style layer categories.
+
+---
+
+**Nota importante:** El código de los ejemplos de este apartado y del siguiente, lo ejecuto durante el desarrollo de este documento, pero después lo deshabilito ya que no puede tener dependencia de la base de datos PostGIS o el servidor de GeoServer que están instalados localmente en mi computador.
+
+```{r}
+evaluate <- TRUE
+```
+
+---
+
+## Layer storage
+
+A continuación almacenamos en una base de datos PostGIS:
+
+- Las bandas de satélite originales, `store_bands()` almacena cada banda en una tabla separada. Como ya se habían almacenado las bandas transformadas en el documento README, a estas se les añade un prefijo.
+
+- El DTM que hemos generado, lo almacenamos mediante la función `store_raster()`, que almacena todas las bandas en la misma tabla, aunque el DTM tiene una sola banda.
+
+- Todas las capas del GeoPackage original y la nueva capa de CLC generada, mediante la función store_layers().
+
+```{r postgis, eval=evaluate}
+conn <- DBI::dbConnect(
+  RPostgres::Postgres(),
+  dbname = "sigugr",
+  host = "localhost",
+  user = "postgres",
+  password = "postgres"
+)
+
+tables1 <- store_bands(sat_tif, conn, prefix = 'original_')
+
+tables2 <- store_raster(mdt_tif, conn, table_name = 'mdt')
+
+tables3 <- store_layers(sigugr_gpkg, layers = NULL, conn)
+
+tables4 <- store_layers(clc2_gpkg, layers = NULL, conn)
+```
+
+
+## Style management
+
+
+# Data Publication on GeoServer
+
+This module focuses on publishing geospatial data to GeoServer. It is built around the `geoserver` class defined in the package, with its functions implemented as methods of this class.
+
+- `geoserver()`: Manages GeoServer connection objects using an S3 class.
+- `register_datastore_postgis()`: Registers PostGIS databases as GeoServer datastores.
+- `publish_layer()`: Publishes vector layers to GeoServer.
+- `publish_layer_set()`: Publishes a set of vector layers to GeoServer.
+- `publish_raster()`: Publishes raster datasets to GeoServer.
+- `publish_bands()`: Publishes individual raster bands as separate layers in GeoServer.
 
 
 # Conclusions
 
-This package provides a versatile and efficient framework for geospatial data management, covering the entire lifecycle of data from processing to publication. By leveraging widely-used R libraries like **`sf`** and **`terra`**, and integrating with powerful server platforms such as PostGIS and GeoServer, the package enables users to:
+This package provides a versatile and efficient framework for geospatial data management, covering the entire lifecycle of data from processing to publication. By leveraging widely-used R libraries like `sf` and `terra`, and integrating with powerful server platforms such as PostGIS and GeoServer, the package enables users to:
 
 - Seamlessly transform raster and vector datasets to suit various analytical and cartographic needs.
 - Store geospatial data persistently in PostGIS for efficient querying and analysis.

@@ -25,7 +25,7 @@
 #' gpkg_file <- "example.gpkg"
 #' layers <- NULL
 #' store_layers(
-#'   gpkg_file, layers, conn, schema = "my_schema", prefix = "pre_", postfix = "_post"
+#'   gpkg_file, layers, conn, prefix = "pre_", postfix = "_post"
 #' )
 #' DBI::dbDisconnect(conn)
 #' }
@@ -47,12 +47,19 @@ store_layers <- function(gpkg,
   layers_info <- sf::st_layers(gpkg)
   geom_layers <- layers_info$name[layers_info$geomtype != ""]
   if (is.null(layers)) {
-    layers <- geom_layers
+      layers <- geom_layers
   } else {
     layers <- intersect(layers, geom_layers)
   }
 
-  if (is.na(layers) | length(layers) == 0) {
+
+  if (length(layers) == 1) { # length(NA) is 1
+    if (is.na(layers)){
+      layers <- NULL
+    }
+  }
+
+  if (length(layers) == 0) { # length(NULL) is 0
     stop("No layers with valid geometries found in the GeoPackage.")
   }
 
@@ -62,7 +69,7 @@ store_layers <- function(gpkg,
     if (snake_case_fields) {
       geom_colum <- snakecase::to_snake_case(geom_colum)
     }
-    sf::st_set_geometry(layer, geom_colum)
+    layer <- sf::st_set_geometry(layer, geom_colum)
 
     # Optionally convert field names to Snake Case
     if (snake_case_fields) {
@@ -71,12 +78,16 @@ store_layers <- function(gpkg,
 
     table_name <- paste0(prefix, layer_name, postfix)
     table_name <- snakecase::to_snake_case(table_name)
+    if (schema != 'public') {
+      table_name <- paste0(schema, ".", table_name)
+    }
+
     tables <- c(tables, table_name)
 
     sf::st_write(layer,
                  conn,
-                 table = paste0(schema, ".", table_name),
-                 overwrite = TRUE)
+                 layer = table_name,
+                 delete_layer = TRUE)
   }
 
   invisible(tables)

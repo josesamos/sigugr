@@ -38,11 +38,11 @@ pak::pak("josesamos/sigugr")
 ## Example
 
 The satellite bands for a specific area were downloaded from
-[GloVis](https://glovis.usgs.gov/app?fullscreen=0) (USGS Global
-Visualization Viewer). They were integrated and initially transformed
+[*GloVis*](https://glovis.usgs.gov/app?fullscreen=0) (*USGS Global
+Visualization Viewer*). They were integrated and initially transformed
 using the [`satres`](https://CRAN.R-project.org/package=satres) package.
 To reduce their file size and enable inclusion here, their resolution
-was adjusted using the `aggregate_rasters` function provided by this
+was adjusted using the `aggregate_rasters()` function provided by this
 package.
 
 Figure 1 below shows the original satellite bands that we started with.
@@ -65,9 +65,9 @@ Figure 1: Original satellite bands.
 </div>
 
 We are interested only in the area defined by a polygon representing a
-municipality in the region. Using the `clip_raster` function, we extract
-the area of interest. We can either preserve the original CRS of the
-bands or reproject them to the CRS of the clipping polygon, which is
+municipality in the region. Using the `clip_raster()` function, we
+extract the area of interest. We can either preserve the original CRS of
+the bands or reproject them to the CRS of the clipping polygon, which is
 controlled by the `keep_crs` parameter.
 
 The obtained result is shown in Figure 2.
@@ -98,7 +98,7 @@ sat_file <- tempfile(fileext = ".tif")
 terra::writeRaster(sat2, sat_file, filetype = "GTiff", overwrite = TRUE)
 ```
 
-We store the result in a PostGIS database using the `store_raster`
+We store the result in a PostGIS database using the `store_raster()`
 function. The database must have the `postgis` and `postgis_raster`
 extensions enabled.
 
@@ -107,8 +107,8 @@ conn <- DBI::dbConnect(
   RPostgres::Postgres(),
   dbname = "sigugr",
   host = "localhost",
-  user = "user",
-  password = "password"
+  user = "postgres",
+  password = "postgres"
 )
 
 tables <- store_bands(sat_file, conn)
@@ -130,7 +130,7 @@ Figure 3: Accessing PostGIS from QGIS.
 
 To publish the raster bands in GeoServer, we must use the version stored
 in the file, as GeoServer does not support PostGIS as a source for
-raster data. We publish them using the `publish_raster` function.
+raster data. We publish them using the `publish_raster()` function.
 
 ``` r
 gso <- geoserver(

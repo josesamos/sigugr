@@ -34,6 +34,9 @@ clip_layer <- function(vector, polygon) {
   if (sf::st_crs(vector) != crs_polygon) {
     res <- sf::st_transform(res, crs_polygon)
   }
+  if (all(sf::st_geometry_type(res) %in% c("POLYGON", "MULTIPOLYGON"))) {
+    res <- sf::st_cast(res, "MULTIPOLYGON")
+  }
   res
 }
 

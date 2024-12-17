@@ -62,7 +62,7 @@ store_bands <- function(raster, conn, schema = "public", prefix = NULL, postfix 
 
     table_name <- snakecase::to_snake_case(band_name)
     tables <- c(tables, table_name)
-    rpostgis::pgWriteRast(conn, c(schema, table_name), raster = band)
+    rpostgis::pgWriteRast(conn, c(schema, table_name), raster = band, overwrite = TRUE)
   }
 
   invisible(tables)

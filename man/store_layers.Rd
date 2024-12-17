@@ -48,7 +48,7 @@ conn <- DBI::dbConnect(RPostgres::Postgres(), dbname = "mydb")
 gpkg_file <- "example.gpkg"
 layers <- NULL
 store_layers(
-  gpkg_file, layers, conn, schema = "my_schema", prefix = "pre_", postfix = "_post"
+  gpkg_file, layers, conn, prefix = "pre_", postfix = "_post"
 )
 DBI::dbDisconnect(conn)
 }

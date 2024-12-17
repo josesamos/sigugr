@@ -52,7 +52,7 @@ store_raster <- function(raster, conn, schema = "public", table_name = NULL) {
   sr <- terra::rast(raster)
 
   table_name <- snakecase::to_snake_case(table_name)
-  rpostgis::pgWriteRast(conn, c(schema, table_name), raster = sr)
+  rpostgis::pgWriteRast(conn, c(schema, table_name), raster = sr, overwrite = TRUE)
 
   invisible(table_name)
 }

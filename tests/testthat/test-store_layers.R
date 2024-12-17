@@ -17,7 +17,7 @@ test_that("store_layers modifies field names to Snake Case if specified", {
   result <- store_layers(
     gpkg = temp_gpkg,
     conn = "mock_connection",
-    schema = "test_schema",
+    schema = "public",
     prefix = "pre_",
     postfix = "_post",
     geom_colum = "geometry",
@@ -51,7 +51,7 @@ test_that("store_layers leaves field names unchanged if snake_case_fields is FAL
   result <- store_layers(
     gpkg = temp_gpkg,
     conn = "mock_connection",
-    schema = "test_schema",
+    schema = "public",
     prefix = "pre_",
     postfix = "_post",
     geom_colum = "geometry",
