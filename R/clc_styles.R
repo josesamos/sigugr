@@ -23,12 +23,6 @@
 #'
 #' @family style functions
 #'
-#' @details
-#' - If `from_layer` is not provided, the function attempts to use the first layer with a defined style
-#'     in the source.
-#' - If `to_layers` is not provided, the style is copied to all layers in the destination.
-#' - When the destination is a PostGIS database, both the `database` and `schema` parameters must be specified.
-#'
 #' @examples
 #' \dontrun{
 #' # Ex1
@@ -57,7 +51,6 @@
 #' )
 #'
 #' DBI::dbDisconnect(conn)
-#'
 #' }
 #' @export
 copy_styles <- function(from, from_layer = NULL, to, database = NULL, schema = 'public', to_layers = NULL) {

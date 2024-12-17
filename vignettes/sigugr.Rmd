@@ -179,7 +179,7 @@ This module facilitates the storage of geospatial data in a PostGIS database, of
 
 ---
 
-**Nota importante:** El código de los ejemplos de este apartado y del siguiente, lo ejecuto durante el desarrollo de este documento, pero después lo deshabilito ya que no puede tener dependencia de la base de datos PostGIS o el servidor de GeoServer que están instalados localmente en mi computador.
+**Important Note:** The code from the examples in this section and the next was executed during the development of this document. However, it has been disabled afterward to avoid dependencies on the PostGIS database or the GeoServer, which are installed locally on my computer. 
 
 ```{r}
 evaluate <- TRUE
@@ -189,13 +189,14 @@ evaluate <- TRUE
 
 ## Layer storage
 
-A continuación almacenamos en una base de datos PostGIS:
+Below, we store the following data into a PostGIS database:
 
-- Las bandas de satélite originales, `store_bands()` almacena cada banda en una tabla separada. Como ya se habían almacenado las bandas transformadas en el documento README, a estas se les añade un prefijo.
+- The original satellite bands: `store_bands()` stores each band in a separate table. Since the transformed bands had already been stored in the README document, a prefix is added to these.
 
-- El DTM que hemos generado, lo almacenamos mediante la función `store_raster()`, que almacena todas las bandas en la misma tabla, aunque el DTM tiene una sola banda.
+- The generated DTM is stored using the `store_raster()` function, which writes all bands to the same table. However, the DTM consists of a single band.
 
-- Todas las capas del GeoPackage original y la nueva capa de CLC generada, mediante la función store_layers().
+- All layers from the original GeoPackage and the newly generated CLC layer, using the `store_layers()` function. 
+
 
 ```{r postgis, eval=evaluate}
 conn <- DBI::dbConnect(
@@ -218,6 +219,19 @@ tables4 <- store_layers(clc2_gpkg, layers = NULL, conn)
 
 ## Style management
 
+The `clc_polygon` layer stored in the `clc2_gpkg` file has been copied to the database. However, the style of the original layer has not been transferred. We can copy the style using the `copy_styles()` function, as demonstrated below. 
+
+```{r styles, eval=evaluate}
+copy_styles(from = clc_gpkg, to = conn, database = "sigugr", to_layers = "clc_polygon")
+```
+
+The result, including the layers available in the database and the `clc_polygon` layer with its styles, can be viewed in QGIS, as shown in the following figure.
+
+```{r, echo=FALSE, fig.width=10, fig.height=7, dpi=300, out.width="100%", fig.align='center', fig.cap ="Accessing PostGIS from QGIS."}
+knitr::include_graphics("figures/qgis-clc.png")
+```
+
+Additionally, the `get_layer_categories()` function can be used to retrieve the definitions for each style code. This result can be applied to display raster bands derived from vector layers using the same style as the original layers.
 
 # Data Publication on GeoServer
 
@@ -229,6 +243,44 @@ This module focuses on publishing geospatial data to GeoServer. It is built arou
 - `publish_layer_set()`: Publishes a set of vector layers to GeoServer.
 - `publish_raster()`: Publishes raster datasets to GeoServer.
 - `publish_bands()`: Publishes individual raster bands as separate layers in GeoServer.
+
+The following demonstrates how to publish all vector layers from the database. First, the `geoserver()` function is used to create an object with the connection parameters and workspace. Next, the PostGIS database is registered as a datastore using the `register_datastore_postgis()` function. Finally, layers can be published individually with the `publish_layer()` function or in bulk using the `publish_layer_set()` function, which connects to the database to retrieve the available layer names.
+
+
+```{r geoserver, eval=evaluate}
+gso <- geoserver(
+  url = "http://localhost:8080/geoserver",
+  user = "admin",
+  password = "geoserver",
+  workspace = "sigugr"
+)
+
+gso <- gso |>
+  register_datastore_postgis(
+    "sigugr-db",
+    db_name = 'sigugr',
+    host = 'localhost',
+    port = 5432,
+    db_user = 'postgres',
+    db_password = 'postgres',
+    schema = "public"
+  )
+
+gso |>
+  publish_layer_set(conn)
+```
+
+
+On the other hand, rasters stored in files can also be published, as GeoServer does not support using PostGIS as a datastore for rasters. For rasters, it is possible to differentiate between publishing the entire raster with all bands together using the `publish_raster()` function or publishing each band individually using `publish_bands()`. In the latter case, a prefix is added to distinguish these bands from those already published in the README document.
+
+
+```{r geoserver2, eval=evaluate}
+gso |>
+  publish_raster(mdt_tif, layer = 'mdt')
+
+gso |>
+  publish_bands(sat_tif, prefix = 'original_')
+```
 
 
 # Conclusions
