@@ -63,17 +63,13 @@
 
 <p>The workflow for geographic data typically involves:</p>
 <ul>
-<li>
-<strong>Data acquisition</strong>: Many datasets are sourced from web downloads.<br>
+<li>Data acquisition: Many datasets are sourced from web downloads.<br>
 </li>
-<li>
-<strong>Data transformation</strong>: This includes tasks such as raster composition, resolution adjustments, clipping, reprojection, and style management.<br>
+<li>Data transformation: This includes tasks such as raster composition, resolution adjustments, clipping, reprojection, and style management.<br>
 </li>
-<li>
-<strong>Data storage</strong>: Storing the processed data in databases, such as PostGIS.<br>
+<li>Data storage: Storing the processed data in databases, such as PostGIS.<br>
 </li>
-<li>
-<strong>Data publication</strong>: Making the data accessible via platforms like GeoServer.</li>
+<li>Data publication: Making the data accessible via platforms like GeoServer.</li>
 </ul>
 <p>The goal of the <code>sigugr</code> package is to provide a comprehensive set of functions that simplify the processes of transforming, storing, and publishing geographic data.</p>
 <div class="section level2">
@@ -88,7 +84,7 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>The satellite bands for a specific area were downloaded from <a href="https://glovis.usgs.gov/app?fullscreen=0" class="external-link">GloVis</a> (USGS Global Visualization Viewer). They were integrated and initially transformed using the <a href="https://CRAN.R-project.org/package=satres" class="external-link"><code>satres</code></a> package. To reduce their file size and enable inclusion here, their resolution was adjusted using the <code>aggregate_rasters</code> function provided by this package.</p>
-<p>Figure 1 below shows the original satellite bands.</p>
+<p>Figure 1 below shows the original satellite bands that we started with.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/sigugr/">sigugr</a></span><span class="op">)</span></span>
 <span></span>
@@ -128,19 +124,17 @@ Figure 2: Satellite bands cut by a polygon.
 <span>  password <span class="op">=</span> <span class="st">"password"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/store_bands.html">store_bands</a></span><span class="op">(</span><span class="va">sat_file</span>, <span class="va">conn</span><span class="op">)</span></span>
+<span><span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/store_bands.html">store_bands</a></span><span class="op">(</span><span class="va">sat_file</span>, <span class="va">conn</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></span></code></pre></div>
 <p>The following Figure 3 shows the access from QGIS to one of the tables included in the database.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">include_graphics</a></span><span class="op">(</span><span class="st">"man/figures/qgis-postgis.png"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="reference/figures/qgis-postgis.png" alt="Figure 3: Accessing PostGIS from QGIS." width="100%"><p class="caption">
 Figure 3: Accessing PostGIS from QGIS.
 </p>
 </div>
 <p>To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the <code>publish_raster</code> function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/geoserver.html">geoserver</a></span><span class="op">(</span></span>
 <span>  url <span class="op">=</span> <span class="st">"http://localhost:8080/geoserver"</span>,</span>
 <span>  user <span class="op">=</span> <span class="st">"admin"</span>,</span>
@@ -151,13 +145,22 @@ Figure 3: Accessing PostGIS from QGIS.
 <span><span class="va">gso</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/publish_bands.html">publish_bands</a></span><span class="op">(</span><span class="va">sat_file</span><span class="op">)</span></span></code></pre></div>
 <p>The result can also be viewed from QGIS by accessing the GeoServer instance via WMS, as shown in Figure 4.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">include_graphics</a></span><span class="op">(</span><span class="st">"man/figures/qgis-geoserver.png"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="reference/figures/qgis-geoserver.png" alt="Figure 4: Accessing GeoServer from QGIS." width="100%"><p class="caption">
 Figure 4: Accessing GeoServer from QGIS.
 </p>
 </div>
+<p>Except for the functions used to connect to PostGIS and GeoServer, as well as those for accessing layers in files, the following function calls have been used to clip and reproject the satellite bands, store them in PostGIS, and publish them in GeoServer:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Clip and reproject</span></span>
+<span><span class="va">sat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clip_raster.html">clip_raster</a></span><span class="op">(</span><span class="va">sat</span>, <span class="va">polygon</span>, keep_crs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Store in PostGIS</span></span>
+<span><span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/store_bands.html">store_bands</a></span><span class="op">(</span><span class="va">sat_file</span>, <span class="va">conn</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Publish in GeoServer</span></span>
+<span><span class="va">gso</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/publish_bands.html">publish_bands</a></span><span class="op">(</span><span class="va">sat_file</span><span class="op">)</span></span></code></pre></div>
 <p>Using data obtained from the web, we can easily transform, store, and publish it using the functions implemented in the package, as demonstrated in this example.</p>
 </div>
 </div>
