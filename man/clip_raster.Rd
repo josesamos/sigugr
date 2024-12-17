@@ -18,8 +18,8 @@ If `FALSE`, transforms the raster to the polygon CRS. Default is `TRUE`.}
 A `terra` raster clipped to the extent of the polygon.
 }
 \description{
-This function clips a raster using a polygon, preserving the coordinate
-reference system (CRS) of the raster.
+Clips a raster using a polygon, preserving the coordinate reference system (CRS)
+of the raster.
 }
 \examples{
 source_gpkg <- system.file("extdata", "sigugr.gpkg", package = "sigugr")

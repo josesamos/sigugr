@@ -16,9 +16,8 @@ An `sf` object containing the features of the input `vector` that intersect with
 The output will be in the CRS of the `polygon`, and it will retain all attributes of the input `vector`.
 }
 \description{
-This function clips a vector layer (e.g., points, lines, polygons) using a polygon layer.
-It handles CRS (Coordinate Reference System) transformations automatically if necessary,
-ensuring the output is in the same CRS as the input polygon.
+Clips a vector layer using a polygon layer. It handles CRS transformations automatically
+if necessary, ensuring the output is in the same CRS as the input polygon.
 }
 \examples{
 gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")

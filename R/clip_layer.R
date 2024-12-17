@@ -1,8 +1,7 @@
 #' Clip a Vector Layer with a Polygon
 #'
-#' This function clips a vector layer (e.g., points, lines, polygons) using a polygon layer.
-#' It handles CRS (Coordinate Reference System) transformations automatically if necessary,
-#' ensuring the output is in the same CRS as the input polygon.
+#' Clips a vector layer using a polygon layer. It handles CRS transformations automatically
+#' if necessary, ensuring the output is in the same CRS as the input polygon.
 #'
 #' @param vector An `sf` object representing the vector layer to be clipped.
 #' @param polygon An `sf` object representing the polygon layer used for clipping.
@@ -41,9 +40,9 @@ clip_layer <- function(vector, polygon) {
 
 #' Safe Clip a Multipolygon Vector Layer
 #'
-#' This function clips a `MULTIPOLYGON` vector layer using a polygon layer, handling specific
+#' Clips a `MULTIPOLYGON` vector layer using a polygon layer, handling specific
 #' issues that might arise with geometries encoded incorrectly or containing unknown WKB types.
-#' It serves as a fallback when the `clip_layer()` function fails due to errors like
+#' It serves as a fallback when the `clip_layer` function fails due to errors like
 #' `ParseException: Unknown WKB type 12`, which is associated with *MULTIPOLYGON* types.
 #'
 #' The function ensures that the input layer is correctly encoded as `MULTIPOLYGON` and

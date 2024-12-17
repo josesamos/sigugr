@@ -21,7 +21,7 @@ get_nexus <- function(name) {
 
 #' List Raster Files in a Directory
 #'
-#' This function scans a directory and recursively lists all raster files
+#' Scans a directory and recursively lists all raster files
 #' with extensions `.tif` or `.jp2`. The search is case-insensitive.
 #'
 #' @param dir A character string specifying the path to the directory to search.
@@ -79,7 +79,7 @@ get_projected_crs <- function(layer) {
 
 #' Name Raster Bands with Prefix and Postfix
 #'
-#' This function assigns names to the bands of a `SpatRaster` object, optionally
+#' Assigns names to the bands of a `SpatRaster` object, optionally
 #' adding a prefix and/or postfix to the names. It validates that band indices are
 #' within the valid range and ensures that band names are unique.
 #'

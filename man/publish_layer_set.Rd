@@ -25,8 +25,8 @@ An integer:
 }
 }
 \description{
-Publishes a vector layer set to GeoServer using the REST API. The layer source
-must have previously been defined as a GeoSever datastore.
+Publishes a vector layer set to GeoServer. The layer source must have previously
+been defined as a GeoSever datastore.
 }
 \details{
 Iterates over a set of layers in a source database, checking whether each layer

@@ -26,8 +26,7 @@ An integer:
 }
 }
 \description{
-This function publishes a GeoTIFF raster file to a workspace and data store on a
-GeoServer instance.
+Publishes a GeoTIFF raster file to a workspace and data store on a GeoServer instance.
 }
 \examples{
 \dontrun{

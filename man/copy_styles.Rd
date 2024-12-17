@@ -38,10 +38,9 @@ will be applied. If not provided, the style will be applied to all layers in the
 The updated `layer_styles` table, returned invisibly.
 }
 \description{
-This function copies layer styles from a source (GeoPackage or PostGIS database)
-to a destination (GeoPackage or PostGIS database). The source and destination
-can be specified flexibly, and the function supports copying styles to multiple
-layers in the destination.
+Copies layer styles from a source (GeoPackage or PostGIS database) to a destination
+(GeoPackage or PostGIS database). The source and destination can be specified flexibly,
+and the function supports copying styles to multiple layers in the destination.
 }
 \details{
 - If `from_layer` is not provided, the function attempts to use the first layer with a defined style

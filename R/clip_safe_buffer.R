@@ -1,10 +1,9 @@
 #' Create a Safe Buffer Around a Spatial Layer
 #'
-#' This function generates a buffer around all geometries in a spatial layer.
-#' If the layer's coordinate reference system (CRS) is not projected, it will
-#' be reprojected to an appropriate projected CRS before calculating the buffer.
-#' After the buffer is applied, the geometries are optionally reprojected back
-#' to the original CRS.
+#' Generates a buffer around all geometries in a spatial layer. If the layer's
+#' coordinate reference system (CRS) is not projected, it will be reprojected to
+#' an appropriate projected CRS before calculating the buffer. After the buffer
+#' is applied, the geometries are optionally reprojected back to the original CRS.
 #'
 #' @param layer An `sf` object representing the spatial layer to be buffered.
 #' @param distance A numeric value specifying the buffer distance. The distance

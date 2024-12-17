@@ -48,8 +48,7 @@ register_datastore_postgis(
 An object of class `geoserver` or NULL if an error occurred.
 }
 \description{
-This function registers a PostGIS database as a `datastore` in a specified GeoServer
-workspace using the REST API.
+Registers a PostGIS database as a `datastore` in a specified GeoServer workspace.
 }
 \details{
 If the `datastore` has already been registered previously, there is no need to specify the

@@ -1,6 +1,6 @@
 #' Generate a Bounding Box as an sf Object
 #'
-#' This function takes an `sf` object or a `terra::SpatRaster` as input and returns a new `sf` object
+#' Takes an `sf` object or a `terra::SpatRaster` as input and returns a new `sf` object
 #' representing the bounding box (minimum bounding rectangle) of the input layer.
 #'
 #' @param layer An `sf` object or a `terra::SpatRaster` object.

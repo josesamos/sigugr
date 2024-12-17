@@ -30,8 +30,8 @@ The function retrieves the style definitions from the `layer_styles` table in
 the provided GeoPackage or PostGIS database. It filters the categories to include
 only those whose IDs match the unique values present in the raster.
 
-This function is useful for associating raster values with their corresponding
-descriptions and colors, typically for visualization or analysis tasks.
+It is useful for associating raster values with their corresponding descriptions
+and colors, typically for visualization or analysis tasks.
 }
 \examples{
 \dontrun{

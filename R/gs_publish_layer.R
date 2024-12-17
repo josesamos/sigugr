@@ -1,7 +1,8 @@
 
 #' Publish a Vector Layer to GeoServer
 #'
-#' Publishes a vector layer to GeoServer using the REST API.
+#' Publishes a vector layer to GeoServer. The layer source must have previously
+#' been defined as a GeoSever datastore.
 #'
 #' Prints an appropriate message indicating success or failure.
 #'

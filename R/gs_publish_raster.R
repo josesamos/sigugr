@@ -1,7 +1,6 @@
 #' Publish a Raster to GeoServer
 #'
-#' This function publishes a GeoTIFF raster file to a workspace and data store on a
-#' GeoServer instance.
+#' Publishes a GeoTIFF raster file to a workspace and data store on a GeoServer instance.
 #'
 #' @param gso An object of class `geoserver` containing GeoServer connection details.
 #' @param raster A character string specifying the file path to the GeoTIFF raster file

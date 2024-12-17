@@ -20,6 +20,26 @@ library(sigugr)
 
 # Introduction
 
+The geographic data workflow typically involves the following stages:
+
+1. **Data Acquisition:** Obtaining geospatial data, often downloaded from the web or other external sources.
+
+2. **Data Transformation:** Processing and adapting the data, including tasks such as:  
+   - Composing raster datasets  
+   - Adjusting spatial resolution  
+   - Cropping datasets to specific areas  
+   - Changing the Coordinate Reference System (CRS)  
+   - Applying styles for visualization  
+
+3. **Data Storage:** Storing processed data in spatial databases such as PostGIS.
+
+4. **Data Publication:** Publishing the data through geospatial servers like GeoServer for broader access and usage.
+
+The `sigugr` package aims to provide a comprehensive set of functions that simplify the transformation, storage, and publication of geospatial data. It streamlines complex geospatial workflows, making data management more efficient and accessible for spatial analysts and developers.
+
+
+
+
 Geospatial data is at the heart of modern applications, enabling critical analyses, decision-making, and visualizations across various domains, including environmental monitoring, urban planning, and disaster management. Handling geospatial data efficiently involves multiple steps: transforming it to match analysis requirements, storing it in optimized spatial databases, and publishing it for sharing or integration with other systems. This package offers a comprehensive solution to streamline the transformation, storage, and publication of raster and vector geospatial data, with additional capabilities for managing layer styles in GeoServer and PostGIS.
 
 Built upon the powerful **`sf`** and **`terra`** R packages, this toolkit bridges the gap between local geospatial data processing and server-based geographic information system (GIS) platforms like PostGIS and GeoServer. The primary aim is to simplify workflows for users dealing with diverse geospatial data needs, allowing seamless integration of data processing, storage, and publication in R.

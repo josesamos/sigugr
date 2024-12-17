@@ -1,7 +1,6 @@
 #' Register a PostGIS Database as a DataStore in GeoServer
 #'
-#' This function registers a PostGIS database as a `datastore` in a specified GeoServer
-#' workspace using the REST API.
+#' Registers a PostGIS database as a `datastore` in a specified GeoServer workspace.
 #'
 #' If the `datastore` has already been registered previously, there is no need to specify the
 #' database connection. For subsequent operations, that `datastore` will be used.
@@ -82,7 +81,7 @@ register_datastore_postgis.geoserver <- function(gso,
 
 #' Register a Datastore in GeoServer
 #'
-#' This function registers a datastore (such as PostGIS or GeoPackage) in GeoServer.
+#' Registers a datastore (such as PostGIS or GeoPackage) in GeoServer.
 #' It first checks if the datastore already exists and, if not, registers it using
 #' the provided parameters.
 #'

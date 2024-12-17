@@ -13,7 +13,7 @@ generate_bbox(layer)
 An `sf` object representing the bounding box of the input layer.
 }
 \description{
-This function takes an `sf` object or a `terra::SpatRaster` as input and returns a new `sf` object
+Takes an `sf` object or a `terra::SpatRaster` as input and returns a new `sf` object
 representing the bounding box (minimum bounding rectangle) of the input layer.
 }
 \examples{

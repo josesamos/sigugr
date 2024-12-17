@@ -1,7 +1,7 @@
 #' Publish a Vector Layer Set to GeoServer
 #'
-#' Publishes a vector layer set to GeoServer using the REST API. The layer source
-#' must have previously been defined as a GeoSever datastore.
+#' Publishes a vector layer set to GeoServer. The layer source must have previously
+#' been defined as a GeoSever datastore.
 #'
 #' Iterates over a set of layers in a source database, checking whether each layer
 #' contains vector geometry. If the layer meets the criteria, it is published. If the

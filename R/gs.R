@@ -44,8 +44,7 @@ geoserver <- function(url, user, password, workspace) {
 
 #' Check and Create a Workspace in GeoServer
 #'
-#' This function checks if a workspace exists in GeoServer using its REST API.
-#' If the workspace does not exist, it creates it.
+#' Checks if a workspace exists in GeoServer. If the workspace does not exist, it creates it.
 #'
 #' @keywords internal
 #' @noRd

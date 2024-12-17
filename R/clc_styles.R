@@ -1,9 +1,8 @@
 #' Copy Styles from a Source to a Destination
 #'
-#' This function copies layer styles from a source (GeoPackage or PostGIS database)
-#' to a destination (GeoPackage or PostGIS database). The source and destination
-#' can be specified flexibly, and the function supports copying styles to multiple
-#' layers in the destination.
+#' Copies layer styles from a source (GeoPackage or PostGIS database) to a destination
+#' (GeoPackage or PostGIS database). The source and destination can be specified flexibly,
+#' and the function supports copying styles to multiple layers in the destination.
 #'
 #' @param from A data source for the input style. This can be:
 #'   - A string representing the path to a GeoPackage file.
@@ -178,8 +177,8 @@ copy_styles_layer_names <- function(from, to, layers, database, schema = 'public
 #' the provided GeoPackage or PostGIS database. It filters the categories to include
 #' only those whose IDs match the unique values present in the raster.
 #'
-#' This function is useful for associating raster values with their corresponding
-#' descriptions and colors, typically for visualization or analysis tasks.
+#' It is useful for associating raster values with their corresponding descriptions
+#' and colors, typically for visualization or analysis tasks.
 #'
 #' @examples
 #' \dontrun{

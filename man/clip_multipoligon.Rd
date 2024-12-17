@@ -15,9 +15,9 @@ clip_multipoligon(vector, polygon)
 A `sf` vector layer with the clipped geometries.
 }
 \description{
-This function clips a `MULTIPOLYGON` vector layer using a polygon layer, handling specific
+Clips a `MULTIPOLYGON` vector layer using a polygon layer, handling specific
 issues that might arise with geometries encoded incorrectly or containing unknown WKB types.
-It serves as a fallback when the `clip_layer()` function fails due to errors like
+It serves as a fallback when the `clip_layer` function fails due to errors like
 `ParseException: Unknown WKB type 12`, which is associated with *MULTIPOLYGON* types.
 }
 \details{

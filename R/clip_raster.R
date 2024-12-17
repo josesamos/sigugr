@@ -1,7 +1,7 @@
 #' Clip a raster based on a polygon
 #'
-#' This function clips a raster using a polygon, preserving the coordinate
-#' reference system (CRS) of the raster.
+#' Clips a raster using a polygon, preserving the coordinate reference system (CRS)
+#' of the raster.
 #'
 #' @param raster A `terra` raster to be clipped.
 #' @param polygon A `sf` polygon layer used for clipping.
