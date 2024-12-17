@@ -44,7 +44,7 @@ are filtered to include only those present in the raster values.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_layer_categories</span><span class="op">(</span><span class="va">from</span>, <span class="va">r_clc</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_layer_categories</span><span class="op">(</span><span class="va">from</span>, r_clc <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,7 +58,8 @@ are filtered to include only those present in the raster values.</p>
 
 
 <dt id="arg-r-clc">r_clc<a class="anchor" aria-label="anchor" href="#arg-r-clc"></a></dt>
-<dd><p>A `terra` raster object containing the raster values to filter the categories.</p></dd>
+<dd><p>A `terra` raster object containing the raster values to filter the categories. If NULL,
+returns all categories.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -78,9 +79,8 @@ descriptions and colors, typically for visualization or analysis tasks.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other styles functions:
-<code><a href="copy_styles_layer.html">copy_styles_layer</a>()</code>,
-<code><a href="copy_styles_layer_names.html">copy_styles_layer_names</a>()</code></p></div>
+    <div class="dont-index"><p>Other style functions:
+<code><a href="copy_styles.html">copy_styles</a>()</code></p></div>
     </div>
 
     <div class="section level2">

@@ -41,10 +41,10 @@ in a specified workspace on a GeoServer instance.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">publish_bands</span><span class="op">(</span><span class="va">gso</span>, <span class="va">raster</span>, bands <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">publish_bands</span><span class="op">(</span><span class="va">gso</span>, <span class="va">raster</span>, <span class="va">prefix</span>, <span class="va">postfix</span>, <span class="va">bands</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'geoserver'</span></span>
-<span><span class="fu">publish_bands</span><span class="op">(</span><span class="va">gso</span>, <span class="va">raster</span>, bands <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">publish_bands</span><span class="op">(</span><span class="va">gso</span>, <span class="va">raster</span>, prefix <span class="op">=</span> <span class="cn">NULL</span>, postfix <span class="op">=</span> <span class="cn">NULL</span>, bands <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,6 +58,14 @@ in a specified workspace on a GeoServer instance.</p>
 <dt id="arg-raster">raster<a class="anchor" aria-label="anchor" href="#arg-raster"></a></dt>
 <dd><p>A character string specifying the file path to the GeoTIFF raster file
 to be uploaded.</p></dd>
+
+
+<dt id="arg-prefix">prefix<a class="anchor" aria-label="anchor" href="#arg-prefix"></a></dt>
+<dd><p>A string to prepend to each layer name. Default is `NULL`.</p></dd>
+
+
+<dt id="arg-postfix">postfix<a class="anchor" aria-label="anchor" href="#arg-postfix"></a></dt>
+<dd><p>A string to append to each layer name. Default is `NULL`.</p></dd>
 
 
 <dt id="arg-bands">bands<a class="anchor" aria-label="anchor" href="#arg-bands"></a></dt>
