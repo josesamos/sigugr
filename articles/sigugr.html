@@ -69,6 +69,36 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
+<p>The geographic data workflow typically involves the following
+stages:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Data Acquisition:</strong> Obtaining geospatial data,
+often downloaded from the web or other external sources.</p></li>
+<li>
+<p><strong>Data Transformation:</strong> Processing and adapting the
+data, including tasks such as:</p>
+<ul>
+<li>Composing raster datasets<br>
+</li>
+<li>Adjusting spatial resolution<br>
+</li>
+<li>Cropping datasets to specific areas<br>
+</li>
+<li>Changing the Coordinate Reference System (CRS)<br>
+</li>
+<li>Applying styles for visualization</li>
+</ul>
+</li>
+<li><p><strong>Data Storage:</strong> Storing processed data in spatial
+databases such as PostGIS.</p></li>
+<li><p><strong>Data Publication:</strong> Publishing the data through
+geospatial servers like GeoServer for broader access and usage.</p></li>
+</ol>
+<p>The <code>sigugr</code> package aims to provide a comprehensive set
+of functions that simplify the transformation, storage, and publication
+of geospatial data. It streamlines complex geospatial workflows, making
+data management more efficient and accessible for spatial analysts and
+developers.</p>
 <p>Geospatial data is at the heart of modern applications, enabling
 critical analyses, decision-making, and visualizations across various
 domains, including environmental monitoring, urban planning, and
