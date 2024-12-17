@@ -12,13 +12,13 @@ coverage](https://codecov.io/gh/josesamos/sigugr/graph/badge.svg)](https://app.c
 
 The workflow for geographic data typically involves:
 
-- **Data acquisition**: Many datasets are sourced from web downloads.  
-- **Data transformation**: This includes tasks such as raster
-  composition, resolution adjustments, clipping, reprojection, and style
+- Data acquisition: Many datasets are sourced from web downloads.  
+- Data transformation: This includes tasks such as raster composition,
+  resolution adjustments, clipping, reprojection, and style
   management.  
-- **Data storage**: Storing the processed data in databases, such as
+- Data storage: Storing the processed data in databases, such as
   PostGIS.  
-- **Data publication**: Making the data accessible via platforms like
+- Data publication: Making the data accessible via platforms like
   GeoServer.
 
 The goal of the `sigugr` package is to provide a comprehensive set of
@@ -45,7 +45,7 @@ To reduce their file size and enable inclusion here, their resolution
 was adjusted using the `aggregate_rasters` function provided by this
 package.
 
-Figure 1 below shows the original satellite bands.
+Figure 1 below shows the original satellite bands that we started with.
 
 ``` r
 library(sigugr)
@@ -111,17 +111,13 @@ conn <- DBI::dbConnect(
   password = "password"
 )
 
-table <- store_bands(sat_file, conn)
+tables <- store_bands(sat_file, conn)
 
 DBI::dbDisconnect(conn)
 ```
 
 The following Figure 3 shows the access from QGIS to one of the tables
 included in the database.
-
-``` r
-knitr::include_graphics("man/figures/qgis-postgis.png")
-```
 
 <div class="figure" style="text-align: center">
 
@@ -151,10 +147,6 @@ gso |>
 The result can also be viewed from QGIS by accessing the GeoServer
 instance via WMS, as shown in Figure 4.
 
-``` r
-knitr::include_graphics("man/figures/qgis-geoserver.png")
-```
-
 <div class="figure" style="text-align: center">
 
 <img src="man/figures/qgis-geoserver.png" alt="Figure 4: Accessing GeoServer from QGIS." width="100%" />
@@ -163,6 +155,23 @@ Figure 4: Accessing GeoServer from QGIS.
 </p>
 
 </div>
+
+Except for the functions used to connect to PostGIS and GeoServer, as
+well as those for accessing layers in files, the following function
+calls have been used to clip and reproject the satellite bands, store
+them in PostGIS, and publish them in GeoServer:
+
+``` r
+# Clip and reproject
+sat2 <- clip_raster(sat, polygon, keep_crs = FALSE)
+
+# Store in PostGIS
+tables <- store_bands(sat_file, conn)
+
+# Publish in GeoServer
+gso |>
+  publish_bands(sat_file)
+```
 
 Using data obtained from the web, we can easily transform, store, and
 publish it using the functions implemented in the package, as
