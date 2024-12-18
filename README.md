@@ -27,8 +27,14 @@ publishing geographic data.
 
 ## Installation
 
-You can install the development version of sigugr from
-[GitHub](https://github.com/) with:
+You can install the released version of `sigugr` from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("sigugr")
+```
+
+And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")

@@ -7,11 +7,11 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-4457-3439")),
     person("Universidad de Granada", role = "cph")
   )
-Description: Streamlines geographic data transformation, storage and
-    publication, simplifying data preparation and enhancing
-    interoperability across formats and platforms.
+Description: Streamlines geographic data transformation, storage and publication, 
+    simplifying data preparation and enhancing interoperability across formats and 
+    platforms.
 License: MIT + file LICENSE
-URL: https://josesamos.github.io/sigugr/
+URL: https://josesamos.github.io/sigugr/, https://github.com/josesamos/sigugr
 Depends: 
     R (>= 2.10)
 Imports: 
@@ -38,3 +38,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 RoxygenNote: 7.3.2
+BugReports: https://github.com/josesamos/sigugr/issues

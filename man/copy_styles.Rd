@@ -42,12 +42,6 @@ Copies layer styles from a source (GeoPackage or PostGIS database) to a destinat
 (GeoPackage or PostGIS database). The source and destination can be specified flexibly,
 and the function supports copying styles to multiple layers in the destination.
 }
-\details{
-- If `from_layer` is not provided, the function attempts to use the first layer with a defined style
-    in the source.
-- If `to_layers` is not provided, the style is copied to all layers in the destination.
-- When the destination is a PostGIS database, both the `database` and `schema` parameters must be specified.
-}
 \examples{
 \dontrun{
 # Ex1
@@ -76,7 +70,6 @@ copy_styles(
 )
 
 DBI::dbDisconnect(conn)
-
 }
 }
 \seealso{
