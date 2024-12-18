@@ -1,3 +1,3 @@
-# sigugr 0.1.0
+# sigugr 1.0.0
 
 * Initial functionality.

@@ -1,7 +1,7 @@
 Type: Package
 Package: sigugr
 Title: Workflow for Geographic Data
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person("Jose", "Samos", , "jsamos@ugr.es", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4457-3439")),
