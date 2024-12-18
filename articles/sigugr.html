@@ -64,207 +64,454 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/sigugr/">sigugr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The geographic data workflow typically involves the following
-stages:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Data Acquisition:</strong> Obtaining geospatial data,
-often downloaded from the web or other external sources.</p></li>
-<li>
-<p><strong>Data Transformation:</strong> Processing and adapting the
-data, including tasks such as:</p>
-<ul>
-<li>Composing raster datasets<br>
-</li>
-<li>Adjusting spatial resolution<br>
-</li>
-<li>Cropping datasets to specific areas<br>
-</li>
-<li>Changing the Coordinate Reference System (CRS)<br>
-</li>
-<li>Applying styles for visualization</li>
-</ul>
-</li>
-<li><p><strong>Data Storage:</strong> Storing processed data in spatial
-databases such as PostGIS.</p></li>
-<li><p><strong>Data Publication:</strong> Publishing the data through
-geospatial servers like GeoServer for broader access and usage.</p></li>
-</ol>
-<p>The <code>sigugr</code> package aims to provide a comprehensive set
-of functions that simplify the transformation, storage, and publication
-of geospatial data. It streamlines complex geospatial workflows, making
-data management more efficient and accessible for spatial analysts and
-developers.</p>
-<p>Geospatial data is at the heart of modern applications, enabling
-critical analyses, decision-making, and visualizations across various
-domains, including environmental monitoring, urban planning, and
-disaster management. Handling geospatial data efficiently involves
-multiple steps: transforming it to match analysis requirements, storing
-it in optimized spatial databases, and publishing it for sharing or
-integration with other systems. This package offers a comprehensive
-solution to streamline the transformation, storage, and publication of
-raster and vector geospatial data, with additional capabilities for
-managing layer styles in GeoServer and PostGIS.</p>
-<p>Built upon the powerful <strong><code>sf</code></strong> and
-<strong><code>terra</code></strong> R packages, this toolkit bridges the
-gap between local geospatial data processing and server-based geographic
-information system (GIS) platforms like PostGIS and GeoServer. The
-primary aim is to simplify workflows for users dealing with diverse
-geospatial data needs, allowing seamless integration of data processing,
-storage, and publication in R.</p>
+<p>Handling geographic data efficiently involves multiple steps:
+transforming it to match analysis requirements, storing it in optimized
+spatial databases, and publishing it for sharing or integration with
+other systems. This package offers a comprehensive solution to
+streamline the transformation, storage, and publication of raster and
+vector geographic data.</p>
+<p>Built upon the powerful <code>sf</code> and <code>terra</code> R
+packages, this toolkit bridges the gap between local geographic data
+processing and server-based geographic information platforms like
+PostGIS and GeoServer. The primary aim is to simplify workflows for
+users dealing with diverse geographic data needs, allowing seamless
+transformation and integration of data processing, storage, and
+publication in R.</p>
+<p>In this document, the datasets included in the package, as well as
+other datasets used within it, are presented first. Next, a section is
+dedicated to each group of functions: transformation, storage, and
+publication; each section illustrates the functions with examples. The
+document concludes by summarizing the functionalities and highlighting
+their advantages.</p>
 </div>
 <div class="section level2">
-<h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+<h2 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a>
 </h2>
-<p>Geospatial data management often involves disparate tools and
-platforms, requiring significant manual effort and technical expertise
-to achieve end-to-end workflows. Users typically encounter challenges
-such as:</p>
-<ol style="list-style-type: decimal">
-<li>Efficiently transforming raster and vector datasets to fit
-analytical or cartographic requirements.</li>
-<li>Persistently storing geospatial data in robust, queryable spatial
-databases like PostGIS.</li>
-<li>Publishing geospatial layers and their associated styles to server
-environments, such as GeoServer, for visualization and sharing.</li>
-<li>Managing geospatial data with consistency, especially across
-platforms requiring adherence to specific data formats and schema.</li>
-</ol>
-<p>This package was developed to address these challenges by providing a
-cohesive set of functions that unify the processing, storage, and
-publication of geospatial data. It enables users to focus on analysis
-and decision-making rather than the intricacies of data management and
-integration.</p>
-</div>
-<div class="section level2">
-<h2 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a>
-</h2>
-<p>The package is divided into three primary modules based on
-functionality:</p>
+<p>The package includes and uses the following datasets to support the
+workflows.</p>
 <div class="section level3">
-<h3 id="geospatial-data-transformation">
-<strong>Geospatial Data Transformation</strong><a class="anchor" aria-label="anchor" href="#geospatial-data-transformation"></a>
+<h3 id="sigugr-gpkg">
+<code>sigugr.gpkg</code><a class="anchor" aria-label="anchor" href="#sigugr-gpkg"></a>
 </h3>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/sigugr/">sigugr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sigugr_gpkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sigugr.gpkg"</span>, package <span class="op">=</span> <span class="st">"sigugr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">sigugr_gpkg</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Driver: GPKG </span></span>
+<span><span class="co">#&gt; Available layers:</span></span>
+<span><span class="co">#&gt;   layer_name     geometry_type features fields              crs_name</span></span>
+<span><span class="co">#&gt; 1      block           Polygon      104      1 ETRS89 / UTM zone 30N</span></span>
+<span><span class="co">#&gt; 2        poi             Point      121      4 ETRS89 / UTM zone 30N</span></span>
+<span><span class="co">#&gt; 3      hydro Multi Line String       11      4 ETRS89 / UTM zone 30N</span></span>
+<span><span class="co">#&gt; 4   lanjaron     Multi Polygon        1      4 ETRS89 / UTM zone 30N</span></span></code></pre></div>
+<ul>
+<li><p><code>lanjaron</code>: A polygonal vector layer representing the
+boundaries of the municipality of Lanjarón, located in Granada, Spain.
+This data was sourced from the <a href="https://www.juntadeandalucia.es/institutodeestadisticaycartografia/dega/datos-espaciales-de-referencia-de-andalucia-dera" class="external-link"><em>DERA
+(Datos Espaciales de Referencia de Andalucía)</em></a>.<br></p></li>
+<li><p><code>hydro</code>: A multilines layer, also obtained from
+<em>DERA</em>, representing the hydrographic network for the
+municipality of Lanjarón.</p></li>
+<li><p><code>poi</code>: A points layer representing points of interest,
+sourced from <a href="https://www.openstreetmap.org/" class="external-link"><em>OpenStreetMap</em></a> and
+clipped to the specified municipality.</p></li>
+<li><p><code>block</code>: A polygon layer representing the building
+blocks of the considered municipality. The data was sourced from the <a href="https://www.cnig.es/" class="external-link"><em>CNIG (Centro Nacional de Información
+Geográfica)</em></a>.</p></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="sat-tif">
+<code>sat.tif</code><a class="anchor" aria-label="anchor" href="#sat-tif"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sat_tif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sat.tif"</span>, package <span class="op">=</span> <span class="st">"sigugr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sat</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">sat_tif</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sat</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; - B2</span></span>
+<span><span class="co">#&gt; - B3</span></span>
+<span><span class="co">#&gt; - B4</span></span>
+<span><span class="co">#&gt; - B5</span></span>
+<span><span class="co">#&gt; - B6</span></span>
+<span><span class="co">#&gt; - B7</span></span></code></pre></div>
+<p>Satellite bands for the Lanjarón area, downloaded from <a href="https://glovis.usgs.gov/app?fullscreen=0" class="external-link"><em>GloVis</em></a>
+(<em>USGS Global Visualization Viewer</em>) for <em>Landsat-8</em>.
+These bands were integrated and initially processed using the <a href="https://CRAN.R-project.org/package=satres" class="external-link"><code>satres</code></a>
+package. They have been resampled to a coarser resolution to be included
+in this package. These are the bands displayed as the result of the
+previous code snippet.</p>
+</div>
+<div class="section level3">
+<h3 id="mdt">
+<code>mdt</code><a class="anchor" aria-label="anchor" href="#mdt"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdt_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mdt"</span>, package <span class="op">=</span> <span class="st">"sigugr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">mdt_dir</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; - MDT25-ETRS89-H30-1026-4-COB2.TIF</span></span>
+<span><span class="co">#&gt; - MDT25-ETRS89-H30-1027-3-COB2.TIF</span></span>
+<span><span class="co">#&gt; - MDT25-ETRS89-H30-1041-2-COB2.TIF</span></span>
+<span><span class="co">#&gt; - MDT25-ETRS89-H30-1041-4-COB2.TIF</span></span>
+<span><span class="co">#&gt; - MDT25-ETRS89-H30-1042-1-COB2.TIF</span></span>
+<span><span class="co">#&gt; - MDT25-ETRS89-H30-1042-3-COB2.TIF</span></span></code></pre></div>
+<p>A set of Digital Terrain Model (DTM) files corresponding to the
+sheets of the <em>National Topographic Map</em> of Spain for the
+Lanjarón area, obtained from the <em>CNIG</em>. These files have also
+been resampled to a coarser resolution to reduce storage
+requirements.</p>
+</div>
+<div class="section level3">
+<h3 id="clc-gpkg">
+<code>clc.gpkg</code><a class="anchor" aria-label="anchor" href="#clc-gpkg"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clc_gpkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"clc.gpkg"</span>, package <span class="op">=</span> <span class="st">"clc"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">clc_gpkg</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Driver: GPKG </span></span>
+<span><span class="co">#&gt; Available layers:</span></span>
+<span><span class="co">#&gt;     layer_name geometry_type features fields              crs_name</span></span>
+<span><span class="co">#&gt; 1          clc Multi Polygon      136      2 ETRS89 / UTM zone 30N</span></span>
+<span><span class="co">#&gt; 2     lanjaron Multi Polygon        1      4 ETRS89 / UTM zone 30N</span></span>
+<span><span class="co">#&gt; 3 layer_styles            NA        1     12                  &lt;NA&gt;</span></span></code></pre></div>
+<p>This GeoPackage is included in the <a href="https://cran.r-project.org/package=clc" class="external-link"><code>clc</code></a>
+package. We will use the <code>clc</code> layer: a fragment of CLC data
+for the Lanjarón area, stored in vector format. This layer includes the
+associated style definitions, which are embedded within the same
+GeoPackage (<code>layer_styles</code> table.). The data was sourced from
+the <em>CNIG</em>.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="data-transformation">Data Transformation<a class="anchor" aria-label="anchor" href="#data-transformation"></a>
+</h2>
 <p>This module provides tools for preparing and manipulating raster and
-vector data to meet specific requirements:</p>
+vector data to meet specific requirements. It includes the following
+functions, that can be grouped into two categories: clipping and other
+transformations.</p>
+<ul>
+<li>Clipping:
 <ul>
 <li>
-<strong><code><a href="../reference/aggregate_rasters.html">aggregate_rasters()</a></code></strong>: Aggregates
-multiple raster files within a folder.</li>
+<code><a href="../reference/generate_bbox.html">generate_bbox()</a></code>: Creates a bounding box as an
+<code>sf</code> object.</li>
 <li>
-<strong><code><a href="../reference/compose_raster.html">compose_raster()</a></code></strong>: Composes a single
-raster layer from multiple raster files.</li>
+<code><a href="../reference/clip_raster.html">clip_raster()</a></code>: Clips raster layers based on polygon
+geometries.</li>
 <li>
-<strong><code><a href="../reference/generate_bbox.html">generate_bbox()</a></code></strong>: Creates a bounding
-box as an <strong><code>sf</code></strong> object.</li>
+<code><a href="../reference/clip_layer.html">clip_layer()</a></code>: Clips a vector layer using a polygon
+mask.</li>
 <li>
-<strong><code><a href="../reference/clip_raster.html">clip_raster()</a></code></strong>: Clips raster layers
-based on polygon geometries.</li>
-<li>
-<strong><code><a href="../reference/clip_layer.html">clip_layer()</a></code></strong>: Clips a vector layer
-using a polygon mask.</li>
-<li>
-<strong><code><a href="../reference/clip_multipoligon.html">clip_multipoligon()</a></code></strong>: Clips
-multipolygon vector layers with safeguards against common errors.</li>
+<code><a href="../reference/clip_multipoligon.html">clip_multipoligon()</a></code>: Clips multipolygon vector layers
+with safeguards against common errors.</li>
 </ul>
+</li>
+<li>Other transformations:
+<ul>
+<li>
+<code><a href="../reference/aggregate_rasters.html">aggregate_rasters()</a></code>: Aggregates multiple raster files
+within a folder.</li>
+<li>
+<code><a href="../reference/compose_raster.html">compose_raster()</a></code>: Composes a single raster layer from
+multiple raster files.</li>
+</ul>
+</li>
+</ul>
+<div class="section level3">
+<h3 id="other-transformations">Other transformations<a class="anchor" aria-label="anchor" href="#other-transformations"></a>
+</h3>
+<p>We have the set of files that comprise the DTM of the area. The
+resolution has already been modified once, and we will change it again
+as shown below.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">temp_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aggregate_rasters.html">aggregate_rasters</a></span><span class="op">(</span><span class="va">mdt_dir</span>, <span class="va">temp_dir</span>, factor <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<p>The resulting files will be merged into a raster, which is also
+displayed below.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">r_mdt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compose_raster.html">compose_raster</a></span><span class="op">(</span><span class="va">temp_dir</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r_mdt</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="sigugr_files/figure-html/compose-1.png" alt="The aggregated and composed raster." width="80%"><p class="caption">
+The aggregated and composed raster.
+</p>
+</div>
+<p>We will continue working with the DTM stored in the package, once it
+has been composed. When displayed in the following section, the
+difference in resolution compared to the previous image will be
+noticeable.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compose_raster.html">compose_raster</a></span><span class="op">(</span><span class="va">mdt_dir</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="geospatial-data-storage-in-postgis">
-<strong>Geospatial Data Storage in PostGIS</strong><a class="anchor" aria-label="anchor" href="#geospatial-data-storage-in-postgis"></a>
+<h3 id="clipping">Clipping<a class="anchor" aria-label="anchor" href="#clipping"></a>
 </h3>
-<p>This module facilitates the storage of geospatial data in a PostGIS
-database, providing optimized tools for working with both raster and
-vector data:</p>
+<p>One common operation we frequently perform is clipping various layers
+using a polygon. However, in some cases, we clip them using the minimum
+enclosing bounding box instead. The function
+<code><a href="../reference/generate_bbox.html">generate_bbox()</a></code> can be used to obtain this bounding
+box.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">polygon</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">sigugr_gpkg</span>, layer <span class="op">=</span> <span class="st">"lanjaron"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_bbox.html">generate_bbox</a></span><span class="op">(</span><span class="va">polygon</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bbox</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">polygon</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="sigugr_files/figure-html/bbox-1.png" alt="Polygon and bounding box." width="80%"><p class="caption">
+Polygon and bounding box.
+</p>
+</div>
+<p>We will crop the DTM using the bounding box and then display the
+result.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdt_bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clip_raster.html">clip_raster</a></span><span class="op">(</span><span class="va">mdt</span>, <span class="va">bbox</span>, keep_crs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mdt_bbox</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="sigugr_files/figure-html/clip-1.png" alt="Clipped DTM." width="80%"><p class="caption">
+Clipped DTM.
+</p>
+</div>
+<p>In this case, both layers share the same CRS, but the
+<code>keep_crs</code> parameter allows us to specify whether the
+resulting raster retains the CRS of the original raster or is
+reprojected to the CRS of the clipping polygon.</p>
+<p>If it becomes necessary to change the raster’s CRS, an algorithm is
+applied to minimize the area being reprojected and to prevent
+distortions in the result.</p>
+<p>To clip a vector layer, we will use the <code>clc</code> layer as
+shown below. The <code><a href="../reference/clip_layer.html">clip_layer()</a></code> function produces a layer
+with the CRS of the clipping polygon.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clc</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">clc_gpkg</span>, layer <span class="op">=</span> <span class="st">"clc"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">clc_polygon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clip_layer.html">clip_layer</a></span><span class="op">(</span><span class="va">clc</span>, <span class="va">polygon</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">clc_polygon</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="sigugr_files/figure-html/clip-clc-1.png" alt="Clipped CLC layer." width="80%"><p class="caption">
+Clipped CLC layer.
+</p>
+</div>
+<p>Clipping functions sometimes encounter issues with multipolygon
+geometries; these have been addressed with the
+<code>clip_multipolygon()</code> function, which performs the same
+operation as <code><a href="../reference/clip_layer.html">clip_layer()</a></code> but uses more computationally
+expensive operations to mitigate the aforementioned issues.</p>
+<p>To store in databases or publish the layers, they must be saved as
+files. Therefore, we will save the generated layers for later use.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mdt_tif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span></span>
+<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">mdt_bbox</span>, <span class="va">mdt_tif</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">clc2_gpkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".gpkg"</span><span class="op">)</span></span>
+<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">st_write</a></span><span class="op">(</span><span class="va">clc_polygon</span>, <span class="va">clc2_gpkg</span>, layer <span class="op">=</span> <span class="st">"clc_polygon"</span>, delete_dsn <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="data-storage-in-postgis">Data Storage in PostGIS<a class="anchor" aria-label="anchor" href="#data-storage-in-postgis"></a>
+</h2>
+<p>This module facilitates the storage of geographic data in a PostGIS
+database, offering optimized tools for handling both raster and vector
+data. The functions can be divided into two categories: layer storage
+and style management. The functions included are as follows:</p>
+<ul>
+<li>Layer storage:
 <ul>
 <li>
-<strong><code><a href="../reference/store_layers.html">store_layers()</a></code></strong>: Stores vector layers
-with geometries from GeoPackage or <strong><code>sf</code></strong>
-objects to PostGIS.</li>
+<code><a href="../reference/store_layers.html">store_layers()</a></code>: Stores vector layers with geometries
+from GeoPackage or <code>sf</code> objects to PostGIS.</li>
 <li>
-<strong><code><a href="../reference/store_raster.html">store_raster()</a></code></strong>: Stores raster datasets
-to PostGIS.</li>
+<code><a href="../reference/store_raster.html">store_raster()</a></code>: Stores raster datasets to PostGIS.</li>
 <li>
-<strong><code><a href="../reference/store_bands.html">store_bands()</a></code></strong>: Stores individual
-raster bands in PostGIS for advanced analysis.</li>
+<code><a href="../reference/store_bands.html">store_bands()</a></code>: Stores individual raster bands in
+PostGIS for advanced analysis.</li>
 </ul>
+</li>
+<li>Style management:
+<ul>
+<li>
+<code><a href="../reference/copy_styles.html">copy_styles()</a></code>: Copies styles between layers in
+GeoPackages and PostGIS.</li>
+<li>
+<code><a href="../reference/get_layer_categories.html">get_layer_categories()</a></code>: Extracts style layer
+categories.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>Important Note:</strong> The code from the examples in this
+section and the next was executed during the development of this
+document. However, it has been disabled afterward to avoid dependencies
+on the PostGIS database or the GeoServer, which are installed locally on
+my computer.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">evaluate</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></code></pre></div>
+<hr>
+<div class="section level3">
+<h3 id="layer-storage">Layer storage<a class="anchor" aria-label="anchor" href="#layer-storage"></a>
+</h3>
+<p>Below, we store the following data into a PostGIS database:</p>
+<ul>
+<li><p>The original satellite bands: <code><a href="../reference/store_bands.html">store_bands()</a></code> stores
+each band in a separate table. Since the transformed bands had already
+been stored in the README document, a prefix is added to these.</p></li>
+<li><p>The generated DTM is stored using the <code><a href="../reference/store_raster.html">store_raster()</a></code>
+function, which writes all bands to the same table. However, the DTM
+consists of a single band.</p></li>
+<li><p>All layers from the original GeoPackage and the newly generated
+CLC layer, using the <code><a href="../reference/store_layers.html">store_layers()</a></code> function.</p></li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span></span>
+<span>  <span class="fu">RPostgres</span><span class="fu">::</span><span class="fu"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html" class="external-link">Postgres</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  dbname <span class="op">=</span> <span class="st">"sigugr"</span>,</span>
+<span>  host <span class="op">=</span> <span class="st">"localhost"</span>,</span>
+<span>  user <span class="op">=</span> <span class="st">"postgres"</span>,</span>
+<span>  password <span class="op">=</span> <span class="st">"postgres"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tables1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_bands.html">store_bands</a></span><span class="op">(</span><span class="va">sat_tif</span>, <span class="va">conn</span>, prefix <span class="op">=</span> <span class="st">'original_'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tables2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_raster.html">store_raster</a></span><span class="op">(</span><span class="va">mdt_tif</span>, <span class="va">conn</span>, table_name <span class="op">=</span> <span class="st">'mdt'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tables3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_layers.html">store_layers</a></span><span class="op">(</span><span class="va">sigugr_gpkg</span>, layers <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">conn</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tables4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_layers.html">store_layers</a></span><span class="op">(</span><span class="va">clc2_gpkg</span>, layers <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">conn</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="geospatial-data-publication-on-geoserver">
-<strong>Geospatial Data Publication on GeoServer</strong><a class="anchor" aria-label="anchor" href="#geospatial-data-publication-on-geoserver"></a>
+<h3 id="style-management">Style management<a class="anchor" aria-label="anchor" href="#style-management"></a>
 </h3>
-<p>This module focuses on the publication of geospatial data to
-GeoServer, allowing integration with web applications or GIS
-platforms:</p>
-<ul>
-<li>
-<strong><code><a href="../reference/geoserver.html">geoserver()</a></code></strong>: Manages GeoServer
-connection objects using an S3 class.</li>
-<li>
-<strong><code><a href="../reference/register_datastore_postgis.html">register_datastore_postgis()</a></code></strong>:
-Registers PostGIS databases as GeoServer datastores.</li>
-<li>
-<strong><code><a href="../reference/publish_layer.html">publish_layer()</a></code></strong>: Publishes vector
-layers to GeoServer.</li>
-<li>
-<strong><code><a href="../reference/publish_layer_set.html">publish_layer_set()</a></code></strong>: Publishes a set
-of vector layers to GeoServer.</li>
-<li>
-<strong><code><a href="../reference/publish_raster.html">publish_raster()</a></code></strong>: Publishes raster
-datasets to GeoServer.</li>
-<li>
-<strong><code><a href="../reference/publish_bands.html">publish_bands()</a></code></strong>: Publishes individual
-raster bands as separate layers in GeoServer.</li>
-</ul>
+<p>The <code>clc_polygon</code> layer stored in the
+<code>clc2_gpkg</code> file has been copied to the database. However,
+the style of the original layer has not been transferred. We can copy
+the style using the <code><a href="../reference/copy_styles.html">copy_styles()</a></code> function, as demonstrated
+below.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/copy_styles.html">copy_styles</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">clc_gpkg</span>, to <span class="op">=</span> <span class="va">conn</span>, database <span class="op">=</span> <span class="st">"sigugr"</span>, to_layers <span class="op">=</span> <span class="st">"clc_polygon"</span><span class="op">)</span></span></code></pre></div>
+<p>The result, including the layers available in the database and the
+<code>clc_polygon</code> layer with its styles, can be viewed in QGIS,
+as shown in the following figure.</p>
+<div class="figure" style="text-align: center">
+<img src="figures%2Fqgis-clc.png" alt="Accessing PostGIS from QGIS." width="100%"><p class="caption">
+Accessing PostGIS from QGIS.
+</p>
 </div>
-<div class="section level3">
-<h3 id="style-management">
-<strong>Style Management</strong><a class="anchor" aria-label="anchor" href="#style-management"></a>
-</h3>
-<p>This module offers tools for managing layer styles in GeoServer,
-GeoPackages, and PostGIS:</p>
+<p>Additionally, the <code><a href="../reference/get_layer_categories.html">get_layer_categories()</a></code> function can be
+used to retrieve the definitions for each style code. This result can be
+applied to display raster bands derived from vector layers using the
+same style as the original layers.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="data-publication-on-geoserver">Data Publication on GeoServer<a class="anchor" aria-label="anchor" href="#data-publication-on-geoserver"></a>
+</h2>
+<p>This module focuses on publishing geographic data to GeoServer. It is
+built around the <code>geoserver</code> class defined in the package,
+with its functions implemented as methods of this class.</p>
 <ul>
 <li>
-<strong><code>copy_styles_layer()</code></strong>: Copies styles
-between layers in GeoServer.</li>
+<code><a href="../reference/geoserver.html">geoserver()</a></code>: Manages GeoServer connection objects using
+an S3 class.</li>
 <li>
-<strong><code>copy_styles_layer_names()</code></strong>: Transfers
-styles to specific layers stored in a PostGIS database.</li>
+<code><a href="../reference/register_datastore_postgis.html">register_datastore_postgis()</a></code>: Registers PostGIS
+databases as GeoServer datastores.</li>
 <li>
-<strong><code><a href="../reference/get_layer_categories.html">get_layer_categories()</a></code></strong>: Extracts layer
-categories based on raster pixel values.</li>
+<code><a href="../reference/publish_layer.html">publish_layer()</a></code>: Publishes vector layers to
+GeoServer.</li>
+<li>
+<code><a href="../reference/publish_layer_set.html">publish_layer_set()</a></code>: Publishes a set of vector layers
+to GeoServer.</li>
+<li>
+<code><a href="../reference/publish_raster.html">publish_raster()</a></code>: Publishes raster datasets to
+GeoServer.</li>
+<li>
+<code><a href="../reference/publish_bands.html">publish_bands()</a></code>: Publishes individual raster bands as
+separate layers in GeoServer.</li>
 </ul>
+<p>The following demonstrates how to publish all vector layers from the
+database. First, the <code><a href="../reference/geoserver.html">geoserver()</a></code> function is used to create
+an object with the connection parameters and workspace. Next, the
+PostGIS database is registered as a datastore using the
+<code><a href="../reference/register_datastore_postgis.html">register_datastore_postgis()</a></code> function. Finally, vector
+layers can be published individually with the
+<code><a href="../reference/publish_layer.html">publish_layer()</a></code> function or in bulk using the
+<code><a href="../reference/publish_layer_set.html">publish_layer_set()</a></code> function, which connects to the
+database to retrieve the available vector layer names.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geoserver.html">geoserver</a></span><span class="op">(</span></span>
+<span>  url <span class="op">=</span> <span class="st">"http://localhost:8080/geoserver"</span>,</span>
+<span>  user <span class="op">=</span> <span class="st">"admin"</span>,</span>
+<span>  password <span class="op">=</span> <span class="st">"geoserver"</span>,</span>
+<span>  workspace <span class="op">=</span> <span class="st">"sigugr"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="va">gso</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/register_datastore_postgis.html">register_datastore_postgis</a></span><span class="op">(</span></span>
+<span>    <span class="st">"sigugr-db"</span>,</span>
+<span>    db_name <span class="op">=</span> <span class="st">'sigugr'</span>,</span>
+<span>    host <span class="op">=</span> <span class="st">'localhost'</span>,</span>
+<span>    port <span class="op">=</span> <span class="fl">5432</span>,</span>
+<span>    db_user <span class="op">=</span> <span class="st">'postgres'</span>,</span>
+<span>    db_password <span class="op">=</span> <span class="st">'postgres'</span>,</span>
+<span>    schema <span class="op">=</span> <span class="st">"public"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">gso</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/publish_layer_set.html">publish_layer_set</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></span></code></pre></div>
+<p>On the other hand, rasters stored in files can also be published, as
+GeoServer does not support using PostGIS as a datastore for rasters. For
+rasters, it is possible to differentiate between publishing the entire
+raster with all bands together using the <code><a href="../reference/publish_raster.html">publish_raster()</a></code>
+function or publishing each band individually using
+<code><a href="../reference/publish_bands.html">publish_bands()</a></code>. In the latter case, a prefix is also added
+to distinguish these bands from those already published in the README
+document example.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gso</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/publish_raster.html">publish_raster</a></span><span class="op">(</span><span class="va">mdt_tif</span>, layer <span class="op">=</span> <span class="st">'mdt'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gso</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/publish_bands.html">publish_bands</a></span><span class="op">(</span><span class="va">sat_tif</span>, prefix <span class="op">=</span> <span class="st">'original_'</span><span class="op">)</span></span></code></pre></div>
+<p>As with PostGIS, GeoServer can be accessed via QGIS using WMS. The
+following figure shows the layers available on the server within the
+workspace defined in the connection, along with a display of one of the
+layers -specifically, the DTM generated earlier in this example.</p>
+<div class="figure" style="text-align: center">
+<img src="figures%2Fqgis-mdt.png" alt="Accessing GeoServer from QGIS." width="100%"><p class="caption">
+Accessing GeoServer from QGIS.
+</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="conclusions">Conclusions<a class="anchor" aria-label="anchor" href="#conclusions"></a>
 </h2>
-<p>This package provides a versatile and efficient framework for
-geospatial data management, covering the entire lifecycle of data from
-processing to publication. By leveraging widely-used R libraries like
-<strong><code>sf</code></strong> and
-<strong><code>terra</code></strong>, and integrating with powerful
-server platforms such as PostGIS and GeoServer, the package enables
-users to:</p>
+<p>This package provides a framework for geographic data management,
+covering the lifecycle of data from processing to publication. The
+package enables users to:</p>
 <ul>
 <li>Seamlessly transform raster and vector datasets to suit various
 analytical and cartographic needs.</li>
-<li>Store geospatial data persistently in PostGIS for efficient querying
+<li>Store geographic data persistently in PostGIS for efficient querying
 and analysis.</li>
-<li>Publish geospatial data to GeoServer for visualization, sharing, and
+<li>Publish geographic data to GeoServer for visualization, sharing, and
 integration with web GIS systems.</li>
-<li>Manage and transfer layer styles across different platforms to
-maintain consistency.</li>
 </ul>
-<p>With its intuitive interface and modular design, the package is
-suitable for researchers, data analysts, and GIS professionals,
-facilitating robust workflows that bridge local data processing and
-server-based geospatial systems. By streamlining these processes, it
-helps users focus on generating insights and creating value from
-geospatial data.</p>
+<p>The package is suitable for researchers, data analysts, and GIS
+professionals, facilitating robust workflows that bridge local data
+processing and server-based geospatial systems.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -83,7 +83,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>The satellite bands for a specific area were downloaded from <a href="https://glovis.usgs.gov/app?fullscreen=0" class="external-link">GloVis</a> (USGS Global Visualization Viewer). They were integrated and initially transformed using the <a href="https://CRAN.R-project.org/package=satres" class="external-link"><code>satres</code></a> package. To reduce their file size and enable inclusion here, their resolution was adjusted using the <code>aggregate_rasters</code> function provided by this package.</p>
+<p>The satellite bands for a specific area were downloaded from <a href="https://glovis.usgs.gov/app?fullscreen=0" class="external-link"><em>GloVis</em></a> (<em>USGS Global Visualization Viewer</em>). They were integrated and initially transformed using the <a href="https://CRAN.R-project.org/package=satres" class="external-link"><code>satres</code></a> package. To reduce their file size and enable inclusion here, their resolution was adjusted using the <code><a href="reference/aggregate_rasters.html">aggregate_rasters()</a></code> function provided by this package.</p>
 <p>Figure 1 below shows the original satellite bands that we started with.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/sigugr/">sigugr</a></span><span class="op">)</span></span>
@@ -96,7 +96,7 @@
 Figure 1: Original satellite bands.
 </p>
 </div>
-<p>We are interested only in the area defined by a polygon representing a municipality in the region. Using the <code>clip_raster</code> function, we extract the area of interest. We can either preserve the original CRS of the bands or reproject them to the CRS of the clipping polygon, which is controlled by the <code>keep_crs</code> parameter.</p>
+<p>We are interested only in the area defined by a polygon representing a municipality in the region. Using the <code><a href="reference/clip_raster.html">clip_raster()</a></code> function, we extract the area of interest. We can either preserve the original CRS of the bands or reproject them to the CRS of the clipping polygon, which is controlled by the <code>keep_crs</code> parameter.</p>
 <p>The obtained result is shown in Figure 2.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gpkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sigugr.gpkg"</span>, package <span class="op">=</span> <span class="st">"sigugr"</span><span class="op">)</span></span>
@@ -114,14 +114,14 @@ Figure 2: Satellite bands cut by a polygon.
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sat_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".tif"</span><span class="op">)</span></span>
 <span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">sat2</span>, <span class="va">sat_file</span>, filetype <span class="op">=</span> <span class="st">"GTiff"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>We store the result in a PostGIS database using the <code>store_raster</code> function. The database must have the <code>postgis</code> and <code>postgis_raster</code> extensions enabled.</p>
+<p>We store the result in a PostGIS database using the <code><a href="reference/store_raster.html">store_raster()</a></code> function. The database must have the <code>postgis</code> and <code>postgis_raster</code> extensions enabled.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span></span>
 <span>  <span class="fu">RPostgres</span><span class="fu">::</span><span class="fu"><a href="https://rpostgres.r-dbi.org/reference/Postgres.html" class="external-link">Postgres</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  dbname <span class="op">=</span> <span class="st">"sigugr"</span>,</span>
 <span>  host <span class="op">=</span> <span class="st">"localhost"</span>,</span>
-<span>  user <span class="op">=</span> <span class="st">"user"</span>,</span>
-<span>  password <span class="op">=</span> <span class="st">"password"</span></span>
+<span>  user <span class="op">=</span> <span class="st">"postgres"</span>,</span>
+<span>  password <span class="op">=</span> <span class="st">"postgres"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/store_bands.html">store_bands</a></span><span class="op">(</span><span class="va">sat_file</span>, <span class="va">conn</span><span class="op">)</span></span>
@@ -133,7 +133,7 @@ Figure 2: Satellite bands cut by a polygon.
 Figure 3: Accessing PostGIS from QGIS.
 </p>
 </div>
-<p>To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the <code>publish_raster</code> function.</p>
+<p>To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the <code><a href="reference/publish_raster.html">publish_raster()</a></code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/geoserver.html">geoserver</a></span><span class="op">(</span></span>
 <span>  url <span class="op">=</span> <span class="st">"http://localhost:8080/geoserver"</span>,</span>
