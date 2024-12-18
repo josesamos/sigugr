@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Handling geospatial data efficiently involves multiple steps: transforming it to match analysis requirements, storing it in optimized spatial databases, and publishing it for sharing or integration with other systems. This package offers a comprehensive solution to streamline the transformation, storage, and publication of raster and vector geospatial data.
+Handling geographic data efficiently involves multiple steps: transforming it to match analysis requirements, storing it in optimized spatial databases, and publishing it for sharing or integration with other systems. This package offers a comprehensive solution to streamline the transformation, storage, and publication of raster and vector geographic data.
 
-Built upon the powerful `sf` and `terra` R packages, this toolkit bridges the gap between local geospatial data processing and server-based geographic information platforms like PostGIS and GeoServer. The primary aim is to simplify workflows for users dealing with diverse geospatial data needs, allowing seamless transformation and integration of data processing, storage, and publication in R.
+Built upon the powerful `sf` and `terra` R packages, this toolkit bridges the gap between local geographic data processing and server-based geographic information platforms like PostGIS and GeoServer. The primary aim is to simplify workflows for users dealing with diverse geographic data needs, allowing seamless transformation and integration of data processing, storage, and publication in R.
 
-In this document, the datasets included in the package, as well as other datasets used within it, are presented first. Next, a section is dedicated to each group of functions: transformation, storage, and publication; each section illustrates the functions with examples. The document concludes with a summary of findings.
+In this document, the datasets included in the package, as well as other datasets used within it, are presented first. Next, a section is dedicated to each group of functions: transformation, storage, and publication; each section illustrates the functions with examples. The document concludes by summarizing the functionalities and highlighting their advantages.
 
 
 # Datasets
@@ -167,7 +167,7 @@ sf::st_write(clc_polygon, clc2_gpkg, layer = "clc_polygon", delete_dsn = TRUE, q
 
 # Data Storage in PostGIS
 
-This module facilitates the storage of geospatial data in a PostGIS database, offering optimized tools for handling both raster and vector data. The functions can be divided into two categories: layer storage and style management. The functions included are as follows:
+This module facilitates the storage of geographic data in a PostGIS database, offering optimized tools for handling both raster and vector data. The functions can be divided into two categories: layer storage and style management. The functions included are as follows:
 
 - Layer storage:
   - `store_layers()`: Stores vector layers with geometries from GeoPackage or `sf` objects to PostGIS.
@@ -182,7 +182,7 @@ This module facilitates the storage of geospatial data in a PostGIS database, of
 **Important Note:** The code from the examples in this section and the next was executed during the development of this document. However, it has been disabled afterward to avoid dependencies on the PostGIS database or the GeoServer, which are installed locally on my computer. 
 
 ```{r}
-evaluate <- TRUE
+evaluate <- FALSE
 ```
 
 ---
@@ -235,7 +235,7 @@ Additionally, the `get_layer_categories()` function can be used to retrieve the 
 
 # Data Publication on GeoServer
 
-This module focuses on publishing geospatial data to GeoServer. It is built around the `geoserver` class defined in the package, with its functions implemented as methods of this class.
+This module focuses on publishing geographic data to GeoServer. It is built around the `geoserver` class defined in the package, with its functions implemented as methods of this class.
 
 - `geoserver()`: Manages GeoServer connection objects using an S3 class.
 - `register_datastore_postgis()`: Registers PostGIS databases as GeoServer datastores.
@@ -244,7 +244,7 @@ This module focuses on publishing geospatial data to GeoServer. It is built arou
 - `publish_raster()`: Publishes raster datasets to GeoServer.
 - `publish_bands()`: Publishes individual raster bands as separate layers in GeoServer.
 
-The following demonstrates how to publish all vector layers from the database. First, the `geoserver()` function is used to create an object with the connection parameters and workspace. Next, the PostGIS database is registered as a datastore using the `register_datastore_postgis()` function. Finally, layers can be published individually with the `publish_layer()` function or in bulk using the `publish_layer_set()` function, which connects to the database to retrieve the available layer names.
+The following demonstrates how to publish all vector layers from the database. First, the `geoserver()` function is used to create an object with the connection parameters and workspace. Next, the PostGIS database is registered as a datastore using the `register_datastore_postgis()` function. Finally, vector layers can be published individually with the `publish_layer()` function or in bulk using the `publish_layer_set()` function, which connects to the database to retrieve the available vector layer names.
 
 
 ```{r geoserver, eval=evaluate}
@@ -271,7 +271,7 @@ gso |>
 ```
 
 
-On the other hand, rasters stored in files can also be published, as GeoServer does not support using PostGIS as a datastore for rasters. For rasters, it is possible to differentiate between publishing the entire raster with all bands together using the `publish_raster()` function or publishing each band individually using `publish_bands()`. In the latter case, a prefix is added to distinguish these bands from those already published in the README document.
+On the other hand, rasters stored in files can also be published, as GeoServer does not support using PostGIS as a datastore for rasters. For rasters, it is possible to differentiate between publishing the entire raster with all bands together using the `publish_raster()` function or publishing each band individually using `publish_bands()`. In the latter case, a prefix is also added to distinguish these bands from those already published in the README document example.
 
 
 ```{r geoserver2, eval=evaluate}
@@ -282,14 +282,19 @@ gso |>
   publish_bands(sat_tif, prefix = 'original_')
 ```
 
+As with PostGIS, GeoServer can be accessed via QGIS using WMS. The following figure shows the layers available on the server within the workspace defined in the connection, along with a display of one of the layers -specifically, the DTM generated earlier in this example.
+
+```{r, echo=FALSE, fig.width=10, fig.height=7, dpi=300, out.width="100%", fig.align='center', fig.cap ="Accessing GeoServer from QGIS."}
+knitr::include_graphics("figures/qgis-mdt.png")
+```
+
 
 # Conclusions
 
-This package provides a versatile and efficient framework for geospatial data management, covering the entire lifecycle of data from processing to publication. By leveraging widely-used R libraries like `sf` and `terra`, and integrating with powerful server platforms such as PostGIS and GeoServer, the package enables users to:
+This package provides a framework for geographic data management, covering the lifecycle of data from processing to publication. The package enables users to:
 
 - Seamlessly transform raster and vector datasets to suit various analytical and cartographic needs.
-- Store geospatial data persistently in PostGIS for efficient querying and analysis.
-- Publish geospatial data to GeoServer for visualization, sharing, and integration with web GIS systems.
-- Manage and transfer layer styles across different platforms to maintain consistency.
+- Store geographic data persistently in PostGIS for efficient querying and analysis.
+- Publish geographic data to GeoServer for visualization, sharing, and integration with web GIS systems.
 
-With its intuitive interface and modular design, the package is suitable for researchers, data analysts, and GIS professionals, facilitating robust workflows that bridge local data processing and server-based geospatial systems. By streamlining these processes, it helps users focus on generating insights and creating value from geospatial data.
+The package is suitable for researchers, data analysts, and GIS professionals, facilitating robust workflows that bridge local data processing and server-based geospatial systems. 
