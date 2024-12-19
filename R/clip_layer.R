@@ -34,8 +34,34 @@ clip_layer <- function(vector, polygon) {
   if (sf::st_crs(vector) != crs_polygon) {
     res <- sf::st_transform(res, crs_polygon)
   }
+  # Verify and transform geometries based on their type
   if (all(sf::st_geometry_type(res) %in% c("POLYGON", "MULTIPOLYGON"))) {
     res <- sf::st_cast(res, "MULTIPOLYGON")
+  } else if (all(sf::st_geometry_type(res) %in% c("LINESTRING", "MULTILINESTRING"))) {
+    res <- sf::st_cast(res, "MULTILINESTRING")
+  } else if (all(sf::st_geometry_type(res) %in% c("POINT", "MULTIPOINT"))) {
+    res <- sf::st_cast(res, "MULTIPOINT")
+  } else if (all(
+    sf::st_geometry_type(res) %in% c("LINESTRING", "MULTILINESTRING", "POINT", "MULTIPOINT")
+  )) {
+    # Keep only geometries that are LINESTRING or MULTILINESTRING
+    res <- res[sf::st_geometry_type(res) %in% c("LINESTRING", "MULTILINESTRING"), ]
+    res <- sf::st_cast(res, "MULTILINESTRING")
+  }  else if (all(
+    sf::st_geometry_type(res) %in% c(
+      "POLYGON",
+      "MULTIPOLYGON",
+      "LINESTRING",
+      "MULTILINESTRING",
+      "POINT",
+      "MULTIPOINT"
+    )
+  )) {
+    # Keep only geometries that are POLYGON or "MULTIPOLYGON
+    res <- res[sf::st_geometry_type(res) %in% c("POLYGON", "MULTIPOLYGON"), ]
+    res <- sf::st_cast(res, "MULTIPOLYGON")
+  } else {
+    stop("Unsupported or mixed geometry types: Please check the layer content.")
   }
   res
 }
