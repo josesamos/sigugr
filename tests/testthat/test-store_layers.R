@@ -13,7 +13,7 @@ test_that("store_layers modifies field names to Snake Case if specified", {
   # Stub sf::st_write to intercept calls
   mockery::stub(store_layers, "sf::st_write", mock_conn)
 
-  # Ejecutamos la función de prueba
+  # We execute the test function
   result <- store_layers(
     gpkg = temp_gpkg,
     conn = "mock_connection",
@@ -26,7 +26,7 @@ test_that("store_layers modifies field names to Snake Case if specified", {
 
   expect_equal(result, "pre_test_layer_post")
 
-  # Aseguramos que la llamada a sf::st_write se realizó correctamente
+  # We ensure that the call to sf::st_write was successful
   mockery::expect_called(mock_conn, 1)
 
 

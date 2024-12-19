@@ -6,12 +6,12 @@
 #' renaming the layer fields to follow the Snake Case convention.
 #'
 #' @param gpkg A string, the path to the GeoPackage file.
-#' @param layers A string vector, the name of the layers to transfer. If NULL,
-#'   all vector layers are transferred.
 #' @param conn A PostGIS database connection object created with [RPostgres::dbConnect()].
 #' @param schema A string, the schema in PostGIS where layers will be stored. Default is `"public"`.
 #' @param prefix A string, an optional prefix to add to the table names in PostGIS. Default is `NULL`.
 #' @param postfix A string, an optional postfix to add to the table names in PostGIS. Default is `NULL`.
+#' @param layers A string vector, the name of the layers to transfer. If NULL,
+#'   all vector layers are transferred.
 #' @param geom_colum A string, the name of the geometry column to set. Default is `"geom"`.
 #' @param snake_case_fields A logical, whether to convert field names to Snake Case. Default is `TRUE`.
 #'
@@ -23,20 +23,19 @@
 #' \dontrun{
 #' conn <- DBI::dbConnect(RPostgres::Postgres(), dbname = "mydb")
 #' gpkg_file <- "example.gpkg"
-#' layers <- NULL
 #' store_layers(
-#'   gpkg_file, layers, conn, prefix = "pre_", postfix = "_post"
+#'   gpkg_file, conn, prefix = "pre_", postfix = "_post"
 #' )
 #' DBI::dbDisconnect(conn)
 #' }
 #'
 #' @export
 store_layers <- function(gpkg,
-                         layers = NULL,
                          conn,
                          schema = "public",
                          prefix = NULL,
                          postfix = NULL,
+                         layers = NULL,
                          geom_colum = "geom",
                          snake_case_fields = TRUE) {
   if (!file.exists(gpkg)) {

@@ -211,9 +211,9 @@ tables1 <- store_bands(sat_tif, conn, prefix = 'original_')
 
 tables2 <- store_raster(mdt_tif, conn, table_name = 'mdt')
 
-tables3 <- store_layers(sigugr_gpkg, layers = NULL, conn)
+tables3 <- store_layers(sigugr_gpkg, conn)
 
-tables4 <- store_layers(clc2_gpkg, layers = NULL, conn)
+tables4 <- store_layers(clc2_gpkg, conn)
 ```
 
 
