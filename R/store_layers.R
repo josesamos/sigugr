@@ -21,11 +21,20 @@
 #'
 #' @examples
 #' \dontrun{
-#' conn <- DBI::dbConnect(RPostgres::Postgres(), dbname = "mydb")
-#' gpkg_file <- "example.gpkg"
-#' store_layers(
-#'   gpkg_file, conn, prefix = "pre_", postfix = "_post"
+#' source_gpkg <- system.file("extdata", "sigugr.gpkg", package = "sigugr")
+#'
+#' conn <- DBI::dbConnect(
+#'   RPostgres::Postgres(),
+#'   dbname = "mydb",
+#'   host = "localhost",
+#'   user = "user",
+#'   password = "password"
 #' )
+#'
+#' store_layers(
+#'   source_gpkg, conn, prefix = "pre_", postfix = "_post"
+#' )
+#'
 #' DBI::dbDisconnect(conn)
 #' }
 #'

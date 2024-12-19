@@ -67,7 +67,6 @@ source <- RPostgres::dbConnect(
 
 gso |>
   publish_layer_set(source)
-
 }
 }
 \seealso{

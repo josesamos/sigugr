@@ -41,7 +41,6 @@
 #'
 #' gso |>
 #'   publish_layer(layer = 'sigugr_layer')
-#'
 #' }
 #' @export
 publish_layer <- function(gso, layer, title)

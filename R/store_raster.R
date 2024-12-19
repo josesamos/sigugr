@@ -20,6 +20,8 @@
 #'
 #' @examples
 #' \dontrun{
+#' source_tif <- system.file("extdata", "mdt.tif", package = "clc")
+#'
 #' conn <- DBI::dbConnect(
 #'   RPostgres::Postgres(),
 #'   dbname = "mydb",
@@ -28,11 +30,7 @@
 #'   password = "password"
 #' )
 #'
-#' sr <- terra::rast(nrows = 10, ncols = 10, nlyrs = 3, vals = runif(300))
-#' sr_file <- tempfile(fileext = ".tif")
-#' terra::writeRaster(sr, sr_file, filetype = "GTiff", overwrite = TRUE)
-#'
-#' tables <- store_raster(sr_file, conn, schema = "geodata", table_name = "example_raster")
+#' tables <- store_raster(source_tif, conn, table_name = "mdt")
 #'
 #' DBI::dbDisconnect(conn)
 #' }

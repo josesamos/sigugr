@@ -34,12 +34,9 @@ It is useful for associating raster values with their corresponding descriptions
 and colors, typically for visualization or analysis tasks.
 }
 \examples{
-\dontrun{
 gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")
-r_clc <- terra::rast("clc_raster.tif")
 
-categories <- get_layer_categories(from = gpkg_path, r_clc = r_clc)
-}
+categories <- get_layer_categories(from = gpkg_path)
 }
 \seealso{
 Other style functions: 

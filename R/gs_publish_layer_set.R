@@ -54,7 +54,6 @@
 #'
 #' gso |>
 #'   publish_layer_set(source)
-#'
 #' }
 #' @export
 publish_layer_set <- function(gso, source, layers)

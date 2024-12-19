@@ -24,15 +24,18 @@
 #' @family style functions
 #'
 #' @examples
-#' \dontrun{
-#' # Ex1
-#' source_gpkg <- "source.gpkg"
-#' dest_gpkg <- "destination.gpkg"
+#' # Ex1:
+#' source_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
+#' layer_data <- sf::st_read(source_gpkg, layer = "clc", quiet = TRUE)
+#'
+#' dest_gpkg <- tempfile(fileext = ".gpkg")
+#' sf::st_write(layer_data, dest_gpkg, layer = "clc", quiet = TRUE)
 #'
 #' copy_styles(from = source_gpkg, to = dest_gpkg)
 #'
-#' # Ex2
-#' source_gpkg <- "source.gpkg"
+#' \dontrun{
+#' # Ex2:
+#' source_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
 #' conn <- DBI::dbConnect(
 #'   RPostgres::Postgres(),
 #'   dbname = "mydb",
@@ -40,14 +43,13 @@
 #'   user = "user",
 #'   password = "password"
 #' )
-#' layers_to_style <- c("layer1", "layer2")
 #'
 #' copy_styles(
 #'   from = source_gpkg,
 #'   to = conn,
 #'   database = "mydb",
 #'   schema = "public"
-#'   to_layers = layers_to_style,
+#'   to_layers = c("layer1", "layer2"),
 #' )
 #'
 #' DBI::dbDisconnect(conn)
@@ -79,12 +81,13 @@ copy_styles <- function(from, from_layer = NULL, to, database = NULL, schema = '
 #' destination GeoPackage.
 #'
 #' @examples
-#' \dontrun{
-#' source_gpkg <- "source.gpkg"
-#' dest_gpkg <- "destination.gpkg"
+#' source_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
+#' layer_data <- sf::st_read(source_gpkg, layer = "clc", quiet = TRUE)
+#'
+#' dest_gpkg <- tempfile(fileext = ".gpkg")
+#' sf::st_write(layer_data, dest_gpkg, layer = "clc", quiet = TRUE)
 #'
 #' copy_styles_layer(from = source_gpkg, to = dest_gpkg)
-#' }
 #' @keywords internal
 #' @noRd
 copy_styles_layer <- function(from, to) {
@@ -118,7 +121,8 @@ copy_styles_layer <- function(from, to) {
 #'
 #' @examples
 #' \dontrun{
-#' source_gpkg <- "source.gpkg"
+#' source_gpkg <- system.file("extdata", "clc.gpkg", package = "clc")
+#'
 #' conn <- DBI::dbConnect(
 #'   RPostgres::Postgres(),
 #'   dbname = "mydb",
@@ -127,12 +131,10 @@ copy_styles_layer <- function(from, to) {
 #'   password = "password"
 #' )
 #'
-#' layers_to_style <- c("layer1", "layer2")
-#'
 #' copy_styles_layer_names(
 #'   from = source_gpkg,
 #'   to = conn,
-#'   layers = layers_to_style,
+#'   layers = c("layer1", "layer2"),
 #'   database = "mydb",
 #'   schema = "public"
 #' )
@@ -174,12 +176,9 @@ copy_styles_layer_names <- function(from, to, layers, database, schema = 'public
 #' and colors, typically for visualization or analysis tasks.
 #'
 #' @examples
-#' \dontrun{
 #' gpkg_path <- system.file("extdata", "clc.gpkg", package = "clc")
-#' r_clc <- terra::rast("clc_raster.tif")
 #'
-#' categories <- get_layer_categories(from = gpkg_path, r_clc = r_clc)
-#' }
+#' categories <- get_layer_categories(from = gpkg_path)
 #' @export
 get_layer_categories <- function(from, r_clc = NULL) {
   style <- clc:::read_style_from_source(from)

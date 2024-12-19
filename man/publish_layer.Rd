@@ -53,7 +53,6 @@ gso <- gso |>
 
 gso |>
   publish_layer(layer = 'sigugr_layer')
-
 }
 }
 \seealso{
