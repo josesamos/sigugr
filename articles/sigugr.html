@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sigugr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -388,9 +388,9 @@ CLC layer, using the <code><a href="../reference/store_layers.html">store_layers
 <span></span>
 <span><span class="va">tables2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_raster.html">store_raster</a></span><span class="op">(</span><span class="va">mdt_tif</span>, <span class="va">conn</span>, table_name <span class="op">=</span> <span class="st">'mdt'</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tables3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_layers.html">store_layers</a></span><span class="op">(</span><span class="va">sigugr_gpkg</span>, layers <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">conn</span><span class="op">)</span></span>
+<span><span class="va">tables3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_layers.html">store_layers</a></span><span class="op">(</span><span class="va">sigugr_gpkg</span>, <span class="va">conn</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tables4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_layers.html">store_layers</a></span><span class="op">(</span><span class="va">clc2_gpkg</span>, layers <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">conn</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">tables4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/store_layers.html">store_layers</a></span><span class="op">(</span><span class="va">clc2_gpkg</span>, <span class="va">conn</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="style-management">Style management<a class="anchor" aria-label="anchor" href="#style-management"></a>
