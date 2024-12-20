@@ -137,7 +137,7 @@ Figure 2: Satellite bands cut by a polygon.
 Figure 3: Accessing PostGIS from QGIS.
 </p>
 </div>
-<p>To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the <code><a href="reference/publish_raster.html">publish_raster()</a></code> function.</p>
+<p>To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the <code><a href="reference/publish_bands.html">publish_bands()</a></code> function.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gso</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/geoserver.html">geoserver</a></span><span class="op">(</span></span>
 <span>  url <span class="op">=</span> <span class="st">"http://localhost:8080/geoserver"</span>,</span>
