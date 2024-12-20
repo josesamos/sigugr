@@ -67,7 +67,7 @@ copy_styles(
   from = source_gpkg,
   to = conn,
   database = "mydb",
-  schema = "public"
+  schema = "public",
   to_layers = c("layer1", "layer2"),
 )
 

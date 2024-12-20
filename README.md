@@ -136,7 +136,7 @@ Figure 3: Accessing PostGIS from QGIS.
 
 To publish the raster bands in GeoServer, we must use the version stored
 in the file, as GeoServer does not support PostGIS as a source for
-raster data. We publish them using the `publish_raster()` function.
+raster data. We publish them using the `publish_bands()` function.
 
 ``` r
 gso <- geoserver(

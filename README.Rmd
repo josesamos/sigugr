@@ -103,7 +103,7 @@ The following Figure 3 shows the access from QGIS to one of the tables included 
 knitr::include_graphics("man/figures/qgis-postgis.png")
 ```
 
-To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the `publish_raster()` function.
+To publish the raster bands in GeoServer, we must use the version stored in the file, as GeoServer does not support PostGIS as a source for raster data. We publish them using the `publish_bands()` function.
 
 ```{r geoserver, eval=FALSE}
 gso <- geoserver(
